@@ -1,0 +1,257 @@
+html {
+  font-size: 18px;
+  font-weight: 400;
+  box-sizing: border-box;
+  color: var(--text-base);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+  accent-color: var(--link-text-hover);
+}
+:focus-visible {
+  outline-color: var(--link-text-hover);
+}
+::marker {
+  color: var(--link-text-hover);
+}
+:is(::-webkit-calendar-picker-indicator, ::-webkit-clear-button, ::-webkit-inner-spin-button, ::-webkit-outer-spin-button) {
+  color: var(--link-text-hover);
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body,
+button,
+input,
+textarea,
+select,
+input[type="file"]::file-selector-button,
+.button {
+  font-family: var(--font-body);
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.75;
+}
+body {
+  background: var(--bg-body);
+  font-feature-settings: "liga" 1, "pnum" 1, "kern" 1;
+}
+article {
+  background: var(--bg-article);
+}
+
+/* Fluid Type ============ */
+/* https://css-tricks.com/simplified-fluid-typography/ */
+
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(18px + 2 * ((100vw - 320px) / 680));
+  }
+}
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+/* Typographic Scale (Minor Third) ============ */
+/* https://type-scale.com/ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.subtitle {
+  color: var(--text-heading);
+  margin: 3rem 0 1.38rem;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: inherit;
+}
+
+h1,
+.h1 {
+  margin-top: 0;
+  font-size: 2.488rem;
+}
+
+h2,
+.h2 {
+  font-size: 2.074rem;
+}
+
+h3,
+.h3,
+.subtitle {
+  font-size: 1.728rem;
+}
+
+h4,
+.h4,
+.query-header,
+.permalink .title {
+  font-size: 1.44rem;
+}
+
+h5,
+.h5,
+.lede {
+  font-size: 1.2rem;
+}
+
+small,
+.small {
+  font-size: 0.833rem;
+}
+
+/* Custom Components */
+.query-header {
+  font-family: var(--font-ui);
+  margin-top: 1rem;
+}
+.title {
+  color: var(--article-header-title);
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+}
+.subtitle {
+  font-family: var(--font-subheading);
+  margin-top: 0;
+  color: var(--article-header-subtitle);
+}
+.meta-style,
+.byline,
+.title-card-subject a,
+.search-options,
+.card-label,
+.search-sub {
+  font-size: 0.833em;
+  color: var(--text-caption);
+  font-family: var(--font-ui);
+  letter-spacing: 0.015em;
+}
+header,
+footer {
+  font-family: var(--font-ui);
+}
+.card-label,
+.title-card-subject a {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  color: var(--text-caption);
+}
+.title-card-subject a:hover,
+.title-card-subject a:focus {
+  color: var(--link-text-hover);
+}
+.metadata-label {
+  margin-bottom: 0;
+  font-size: 0.833em;
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.break,
+.url,
+.citation-url {
+  word-break: break-word;
+}
+
+/* Basics */
+a {
+  color: var(--link-text);
+  word-break: break-word;
+}
+a:hover,
+a:focus {
+  color: var(--link-text-hover);
+}
+a.readmore {
+  font-family: var(--font-ui);
+  font-variant: all-petite-caps;
+  font-size: 1rem;
+}
+audio,
+video,
+iframe {
+  width: 100%;
+}
+img,
+audio,
+video,
+iframe {
+  max-width: 100%;
+}
+
+figcaption,
+.caption {
+  line-height: 1.5em;
+  margin-bottom: 1rem;
+  letter-spacing: 0.015em;
+  font-size: 0.833em;
+  color: var(--text-caption);
+}
+
+blockquote {
+  display: block;
+  margin: 1em 0;
+  padding: 0 1em 0 2em;
+  border-left: 3px solid #ccc;
+  letter-spacing: 0.015em;
+}
+blockquote[cite]::after {
+  content: attr(cite);
+  font-size: 0.833em;
+  color: var(--text-caption);
+}
+
+strong,
+b {
+  font-weight: bold;
+}
+em,
+i,
+cite {
+  font-style: italic;
+}
+u,
+.underline {
+  text-decoration: underline;
+}
+strike,
+.strike {
+  text-decoration: line-through;
+}
+p {
+  margin-bottom: 1rem;
+  max-width: 37em;
+  letter-spacing: 0.015em;
+}
+/* Browse */
+.browse a.permalink {
+  text-decoration: none;
+}
+.browse a .subtitle {
+  font-size: 1rem;
+  margin: 0 0 0.15em;
+}
+.browse a .title {
+  margin: 0 0 0.15em;
+}
+.browse .byline a {
+  margin: 0 0 1em;
+  color: initial;
+  text-decoration: none;
+}
+.browse a.permalink:hover,
+.browse a.permalink:focus,
+.browse .byline a:hover,
+.browse .byline a:focus {
+  text-decoration: underline;
+  color: var(--text-base);
+}

@@ -1,0 +1,134 @@
+:root {
+  /* Font Stacks */
+  --font-1: "Bitter", serif;
+  --font-2: "Source Sans Pro", sans-serif;
+  --font-heading: var(--font-1);
+  --font-subheading: var(--font-1);
+  --font-body: var(--font-1);
+  --font-ui: var(--font-2);
+  --font-buttons: var(--font-2);
+
+  /* Color Blocks */
+  --dark-primary: #666;
+  --dark-secondary: #444;
+  --dark-tertiary: #333;
+  --dark-tertiary-subtle: #222;
+  --light-primary: #fff;
+  --light-primary-subtle: #fafafa;
+  --light-secondary: #eaeaea;
+  --light-tertiary: #d1d1d1;
+
+  /* Lines */
+  --deco-color: #ccc;
+  --deco-color-subtle: #cacaca;
+  --deco-border: 1px solid var(--deco-color);
+  --deco-frame: 10px solid #fff;
+
+  /* Content Backgrounds */
+  --bg-body: var(--light-primary);
+  --bg-article: var(--light-primary);
+
+  /* Text Colors */
+  --text-base: #000;
+  --text-base-on-dark: #fff;
+  --text-heading: #333;
+  --text-heading-on-dark: #fff;
+  --text-subheading: #444;
+  --text-subheading-on-dark: #eee;
+  --text-caption: #666;
+  --text-caption-on-dark: #ccc;
+
+  /* Links */
+  --link-text: #333;
+  --link-text-hover: #444;
+  --link-text-on-dark: #eee;
+  --link-text-on-dark-hover: #ccc;
+
+  /* Site Header */
+  --site-header-bg-color-1: #333;
+  --site-header-bg-color-2: #444;
+  --site-header-active-menu-bg: var(--site-header-bg-color-2);
+  --site-header-nav-color: var(--text-base-on-dark);
+  --site-header-bg: var(--site-header-bg-color-1);
+  --site-header-bg-menu: var(--site-header-bg-color-2);
+
+  /* Site Footer */
+  --site-footer-nav-color: var(--text-base-on-dark);
+  --site-footer-text: var(--text-base-on-dark);
+  --site-footer-bg-color: var(--site-header-bg-color-1);
+
+  /* Article Header */
+  --article-header-text-color: var(--text-base);
+  --article-header-title: var(--text-heading);
+  --article-header-subtitle: var(--text-subheading);
+  --article-header-byline: var(--text-base);
+  --article-header-bg-gradient: linear-gradient(
+    to top,
+    rgba(256, 256, 256, 1) 50%,
+    rgba(256, 256, 256, 0.95),
+    rgba(256, 256, 256, 0.9),
+    rgba(256, 256, 256, 0.75),
+    rgba(256, 256, 256, 0.5)
+  );
+
+  /* Box Shadows */
+  --shadow-general: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-general-hover: 1px 1px 7px rgba(0, 0, 0, 0.5);
+  --shadow-big: 0 0 7px rgba(0, 0, 0, 0.5);
+  --shadow-big-hover: 0 0 10px rgba(0, 0, 0, 0.5);
+  --shadow-button: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  --shadow-button-hover: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+  /* Forms */
+  --form-element-border-color: #d1d1d1;
+  --form-element-border-radius: 7px;
+  --form-textarea-border-radius: 7px 7px 0 7px;
+  --form-select-color: var(--text-base);
+
+  /* Separators */
+  --separator-gradient: linear-gradient(
+    to right,
+    var(--deco-color),
+    var(--deco-color-subtle)
+  );
+  --separator-line: 1px solid var(--deco-color);
+
+  /* Button */
+  --button-bg-color: #fff;
+  --button-text-color: #666;
+  --button-border-color: #ccc;
+  --button-bg-color-hover: #fff;
+  --button-text-color-hover: #000;
+  --button-border-color-hover: #000;
+
+  /* Button Primary */
+  --button-primary-bg-color: #666;
+  --button-primary-text-color: #fff;
+  --button-primary-border-color: #fafafa;
+  --button-primary-bg-color-hover: #000;
+  --button-primary-text-color-hover: #fff;
+  --button-primary-border-color-hover: #000;
+
+  /* Messages */
+  --message-success: #c8e6c9;
+  --message-success-dark: #00c853;
+  --message-error: #ffcdd2;
+  --message-error-dark: #d50000;
+  --message-warning: #fff9c4;
+  --message-warning-dark: #ffd600;
+
+  /* Social */
+  --facebook: #305891;
+  --twitter: #2ca8d2;
+  --instagram: #000;
+  --youtube: #de2826;
+  --pinterest: #c82828;
+  --reddit: #ff4501;
+  --tumblr: #36465d;
+  --wordpress: #0087be;
+  --tiktok: #fe2c55;
+  --snapchat: #fffc00;
+  --email: #0078d7;
+  --apple: #000;
+  --android: #54802d;
+}
