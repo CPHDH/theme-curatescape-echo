@@ -15,10 +15,10 @@ echo head(array('bodyclass' => 'update-account', 'title' => $pageTitle));
 ?>
 
 <article class="page show" id="content" role="main">
-	<h1><?php echo $pageTitle; ?></h1>
-	<div id='primary'>
-	<?php echo flash(); ?>
-	<?php echo $this->form; ?>
-	</div>
+    <h1><?php echo $pageTitle; ?></h1>
+    <div id='primary'>
+        <?php echo flash(); ?>
+        <?php echo $this->form; ?>
+    </div>
 </article>
 <?php echo foot(); ?>

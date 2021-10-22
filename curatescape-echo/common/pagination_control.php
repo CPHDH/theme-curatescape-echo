@@ -1,11 +1,11 @@
 <?php
 
-/* 
+/*
 ** 2 changes from the Omeka default:
-** Shortens "Next Page" text label to "Next"	
-** Shortens "Previous Page" text label to "Previous"	
+** Shortens "Next Page" text label to "Next"
+** Shortens "Previous Page" text label to "Previous"
 */
-	
+
 if ($this->pageCount > 1):
     $getParams = $_GET;
 ?>
