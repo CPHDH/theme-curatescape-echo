@@ -7,7 +7,7 @@ if ($tourTitle != '' && $tourTitle != '[Untitled]') {
     $tourTitle = '';
 }
 echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'content_class' => 'horizontal-nav', 'bodyid'=>'tours',
-   'bodyclass' => 'show tour', 'tour'=>$tour ));
+    'bodyclass' => 'show tour', 'tour'=>$tour ));
 ?>
 <div id="content" class="wide" role="main">
 
@@ -38,20 +38,21 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
             <div class="separator flush-top center"></div>
             <section id="tour-items" class="browse" aria-label="<?php echo __('%s Locations', rl_tour_label('singular'));?>">
                 <?php $i=1;
-            foreach ($tour->getItems() as $tourItem):
-                if ($tourItem->public || current_user()):
-                    set_current_record('item', $tourItem);
-                        $itemID=$tourItem->id;
-                        $url=url('/items/show/'.$itemID.'?tour='.tour('id').'&index='.($i-1).'');
-                        // Show the entire lede if it's not too short (<150) or too long (>400)
-                        if (($itemLede = strip_tags(rl_the_lede($tourItem))) && (strlen($itemLede) > 150 && strlen($itemLede) <= 400)) {
-                            $itemText = $itemLede.'<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a>';
-                        } elseif (($itemLede = strip_tags(rl_the_lede($tourItem))) && (strlen($itemLede) > 400)) {
-                            $itemText = snippet($itemLede, 0, 400, '&hellip;<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a>');
-                        } else {
-                            $itemText = snippet(rl_the_text($tourItem), 0, 300, '&hellip;<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a>');
-                        }
-                    ?>
+                foreach ($tour->getItems() as $tourItem):
+                     if ($tourItem->public || current_user()):
+                          set_current_record('item', $tourItem);
+                                $itemID=$tourItem->id;
+                                $url=url('/items/show/'.$itemID.'?tour='.tour('id').'&index='.($i-1).'');
+                                // Show the entire lede if it's not too short (<150) or too long (>400)
+                                if (($itemLede = strip_tags(rl_the_lede($tourItem))) && (strlen($itemLede) > 150 && strlen($itemLede) <= 400)) {
+                                    $itemText = $itemLede;
+                                } elseif (($itemLede = strip_tags(rl_the_lede($tourItem))) && (strlen($itemLede) > 400)) {
+                                    $itemText = snippet($itemLede, 0, 400, '&hellip;');
+                                } else {
+                                    $itemText = snippet(rl_the_text($tourItem), 0, 300, '&hellip;');
+                                }
+                                $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a> | <a data-index="'.$i.'" data-id="'.$itemID.'" class="readmore" href="javascript:void(0)">'.__('View on Map').'</a>';
+                          ?>
                 <article class="item-result tour">
                     <a class="tour-image single" style="background-image:url(<?php echo rl_get_first_image_src($tourItem, 'square_thumbnails');?>)" href="<?php echo $url;?>"></a>
                     <div class="separator thin flush-bottom flush-top"></div>
@@ -66,8 +67,8 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
                     </div>
                 </article>
                 <?php $i++; $item_image=null;
-                endif;
-            endforeach; ?>
+                     endif;
+                endforeach; ?>
             </section>
 
             <div class="separator center"></div>
@@ -84,7 +85,20 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
             <?php echo (get_theme_option('tour_comments') ==1) ? rl_display_comments() : null;?>
         </div>
 
-
+        <div id="tour-map-container" aria-label="<?php echo __('%s Map', rl_tour_label());?>"></div>
+        <div id="show-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo __('Show %s Map', rl_tour_label());?>">
+            <div id="show-map-inner"></div>
+        </div>
+        <script>
+        let modal = document.querySelector('#tour-map-container');
+        let showmap = document.querySelector('#show-map');
+        showmap.addEventListener("click", (el) => {
+            el.srcElement.classList.toggle('open');
+            el.srcElement.classList.remove('pulse');
+            modal.classList.toggle('open');
+            if (modal.classList.contains('open')) modal.focus();
+        });
+        </script>
     </article>
 </div> <!-- end content -->
 

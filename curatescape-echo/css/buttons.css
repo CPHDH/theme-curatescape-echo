@@ -22,6 +22,33 @@
   margin-left: -0.2em;
 }
 
+/* Animations */
+.pulse {
+  animation: pulse 1s 5;
+  animation-delay: 1s;
+}
+.pulse.shadow-big {
+  animation: pulse-shadow-big 1s 5;
+  animation-delay: 1s;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
+@keyframes pulse-shadow-big {
+  0% {
+    box-shadow: var(--shadow-big), 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: var(--shadow-big), 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
+
 /* Buttons */
 button,
 input[type="button"],

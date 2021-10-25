@@ -23,6 +23,7 @@
   --deco-color-subtle: #cacaca;
   --deco-border: 1px solid var(--deco-color);
   --deco-frame: 10px solid #fff;
+  --deco-frame-small: 3px solid #fff;
 
   /* Content Backgrounds */
   --bg-body: var(--light-primary);
