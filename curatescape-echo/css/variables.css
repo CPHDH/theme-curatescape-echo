@@ -18,6 +18,9 @@
   --light-secondary: #eaeaea;
   --light-tertiary: #d1d1d1;
 
+  /* Overlay */
+  --overlay: rgba(0, 0, 0, 0.65);
+
   /* Lines */
   --deco-color: #ccc;
   --deco-color-subtle: #cacaca;

@@ -51,7 +51,7 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
                                 } else {
                                     $itemText = snippet(rl_the_text($tourItem), 0, 300, '&hellip;');
                                 }
-                                $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a> | <a data-index="'.$i.'" data-id="'.$itemID.'" class="readmore" href="javascript:void(0)">'.__('View on Map').'</a>';
+                                $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a> | <a data-index="'.$i.'" data-id="'.$itemID.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';
                           ?>
                 <article class="item-result tour">
                     <a class="tour-image single" style="background-image:url(<?php echo rl_get_first_image_src($tourItem, 'square_thumbnails');?>)" href="<?php echo $url;?>"></a>
@@ -85,20 +85,8 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
             <?php echo (get_theme_option('tour_comments') ==1) ? rl_display_comments() : null;?>
         </div>
 
-        <div id="tour-map-container" aria-label="<?php echo __('%s Map', rl_tour_label());?>"></div>
-        <div id="show-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo __('Show %s Map', rl_tour_label());?>">
-            <div id="show-map-inner"></div>
-        </div>
-        <script>
-        let modal = document.querySelector('#tour-map-container');
-        let showmap = document.querySelector('#show-map');
-        showmap.addEventListener("click", (el) => {
-            el.srcElement.classList.toggle('open');
-            el.srcElement.classList.remove('pulse');
-            modal.classList.toggle('open');
-            if (modal.classList.contains('open')) modal.focus();
-        });
-        </script>
+        <?php echo multimap_markup(true, __('%s Map', rl_tour_label()), __('Show %s Map', rl_tour_label()));?>
+
     </article>
 </div> <!-- end content -->
 

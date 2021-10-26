@@ -4,17 +4,41 @@ const menu_btn = document.querySelector("header.primary #menu-button");
 const menu_container = document.querySelector("#header-menu-container");
 const body = document.querySelector("body");
 const map_container = document.querySelector("#curatescape-map-canvas");
+const multimap_button = document.querySelector("#show-multi-map");
 const main = document.querySelector("[role=main]");
 const secondary_nav_actives = document.querySelectorAll(
   ".secondary-nav li.active"
 );
-
-const closeMap = () => {
+// GLOBAL HELPERS
+const checkVisible = (elm, threshold, mode) => {
+  threshold = threshold || 0;
+  mode = mode || "visible";
+  var rect = elm.getBoundingClientRect();
+  var viewHeight = Math.max(
+    document.documentElement.clientHeight,
+    window.innerHeight
+  );
+  var above = rect.bottom - threshold < 0;
+  var below = rect.top - viewHeight + threshold >= 0;
+  return mode === "above" ? above : mode === "below" ? below : !above && !below;
+};
+const safeText = (value) => {
+  var d = document.createElement("div");
+  d.innerHTML = value;
+  return d.innerText;
+};
+// CLOSE FUNCTIONS
+const closeMapSingle = () => {
   if (map_container && map_container.classList.contains("fullscreen")) {
     let control_icon = document.querySelector(".leaflet-control-fullscreen a");
     if (control_icon) {
       control_icon.click();
     }
+  }
+};
+const closeMapMulti = () => {
+  if (multimap_button && multimap_button.classList.contains("open")) {
+    multimap_button.click();
   }
 };
 const closeSearch = () => {
@@ -46,7 +70,8 @@ document.onkeydown = (e) => {
   if (isEscape) {
     closeMenu();
     closeSearch();
-    closeMap();
+    closeMapSingle();
+    closeMapMulti();
   }
 };
 // SEARCH BUTTON

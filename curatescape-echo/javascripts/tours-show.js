@@ -1,0 +1,268 @@
+const overlay = document.querySelector("#multi-map-overlay");
+const container = document.querySelector("#multi-map-container");
+const showmap = document.querySelector("#show-multi-map");
+const showmap_with_marker = document.querySelectorAll(".showonmap");
+
+// OPEN/CLOSE FUNCTIONS
+const openMultiMap = (requested_id = null) => {
+  if (!showmap.classList.contains("open")) {
+    showmap.classList.remove("pulse");
+    showmap.classList.add("open");
+  }
+  if (!container.classList.contains("open")) {
+    container.classList.add("open");
+  }
+  if (!overlay.classList.contains("open")) {
+    overlay.classList.add("open");
+  }
+  loadMapMulti(requested_id);
+};
+
+const closeMultiMap = () => {
+  if (showmap.classList.contains("open")) {
+    showmap.classList.remove("open");
+  }
+  if (container.classList.contains("open")) {
+    container.classList.remove("open");
+  }
+  if (overlay.classList.contains("open")) {
+    overlay.classList.remove("open");
+  }
+};
+
+// LOAD MAP (MULTI)
+let mapped = 0;
+let map = null;
+let all_markers = new Array();
+var bounds = null;
+const loadMapMulti = (requested_id = null) => {
+  const url = window.location.href;
+  const urlpaths = new URL(url).pathname.split("/");
+  const tourid = urlpaths.pop() || urlpaths.pop();
+  const istour = url.indexOf("tours/show") > -1;
+  const isSecure = window.location.protocol == "https:" ? true : false;
+  const mapfigure = document.querySelector("figure#multi-map");
+  if (mapfigure && mapped == 0) {
+    const data = mapfigure.dataset;
+    loadCSS(data.leafletCss);
+    loadJS(data.leafletJs, () => {
+      loadJS(data.providers, () => {
+        loadJS(data.makiJs, () => {
+          mapped++;
+          map = L.map("curatescape-map-canvas", {
+            scrollWheelZoom: true,
+          });
+          map.setView([data.lat, data.lon], data.zoom);
+          // Get Tour Items & Add Markers
+          fetch(url + data.jsonSource)
+            .then((response) => response.json())
+            .then((tour) => {
+              if (tour.items.length) {
+                tour.items.forEach((item, i) => {
+                  let params =
+                    istour && tourid ? "?tour=" + tourid + "&index=" + i : "";
+                  let itemhref =
+                    data.rootUrl + "/items/show/" + item.id + params;
+                  // Info window
+                  let address = item.address
+                    ? item.address
+                    : item.latitude + "," + item.longitude;
+                  let image =
+                    '<a href="' +
+                    itemhref +
+                    '" class="curatescape-infowindow-image ' +
+                    "portrait" +
+                    '" style="background-image:url(' +
+                    item.fullsize +
+                    ');" title="' +
+                    item.title +
+                    '"></a>';
+                  let html =
+                    image +
+                    '<div class="curatescape-infowindow">' +
+                    '<div class="curatescape-infowindow-title">' +
+                    item.title +
+                    "</div>" +
+                    address.replace(/(<([^>]+)>)/gi, "") +
+                    "</div>";
+                  let color = data.color ? data.color : "#222222";
+                  let icon = (color, markerInner) => {
+                    return L.MakiMarkers.icon({
+                      icon: markerInner,
+                      color: color,
+                      size: "m",
+                      accessToken:
+                        "pk.eyJ1IjoiZWJlbGxlbXBpcmUiLCJhIjoiY2ludWdtOHprMTF3N3VnbHlzODYyNzh5cSJ9.w3AyewoHl8HpjEaOel52Eg",
+                    });
+                  };
+                  // Marker
+                  let marker = L.marker([item.latitude, item.longitude], {
+                    icon: icon(color, "circle"),
+                    title: safeText(item.title),
+                    alt: safeText(item.title),
+                    item_id: item.id.toString(),
+                  }).bindPopup(html);
+                  all_markers.push(marker);
+                  // Open requested marker...
+                  if (item.id == requested_id) {
+                    map.flyTo([item.latitude, item.longitude]);
+                    setTimeout(() => {
+                      marker.openPopup();
+                    }, 600);
+                  }
+                });
+              }
+              if (data.cluster) {
+                console.log("@todo: clustering");
+              }
+              // Add Group
+              var group = L.featureGroup(all_markers);
+              group.addTo(map);
+              // Bounds
+              bounds = group.getBounds();
+              map.fitBounds(bounds);
+            });
+
+          // Fit Bounds controls
+          var fitBoundsControl = L.control({ position: "topleft" });
+          fitBoundsControl.onAdd = (map) => {
+            var div = L.DomUtil.create(
+              "div",
+              "leaflet-control leaflet-control-fitbounds"
+            );
+            var a = L.DomUtil.create(
+              "a",
+              "leaflet-control-fitbounds-toggle",
+              div
+            );
+            a.setAttribute("role", "button");
+            a.setAttribute("tabindex", "0");
+            a.setAttribute("title", data.fitboundsLabel);
+            a.setAttribute("aria-label", data.fitboundsLabel);
+            a.addEventListener("click", (e) => {
+              e.preventDefault();
+              map.flyTo(bounds.getCenter(), map.getBoundsZoom(bounds));
+            });
+            return div;
+          };
+          fitBoundsControl.addTo(map);
+
+          // Geolocation controls
+          if (isSecure && navigator.geolocation) {
+            var geolocationControl = L.control({ position: "topleft" });
+            geolocationControl.onAdd = (map) => {
+              var div = L.DomUtil.create(
+                "div",
+                "leaflet-control leaflet-control-geolocation"
+              );
+              var a = L.DomUtil.create(
+                "a",
+                "leaflet-control-geolocation-toggle",
+                div
+              );
+              a.setAttribute("role", "button");
+              a.setAttribute("tabindex", "0");
+              a.setAttribute("title", "Geolocation");
+              a.setAttribute("aria-label", "Geolocation");
+              a.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                navigator.geolocation.getCurrentPosition((pos) => {
+                  let userLocation = [
+                    pos.coords.latitude,
+                    pos.coords.longitude,
+                  ];
+                  let control_icon = document.querySelector(
+                    ".leaflet-control-geolocation-toggle"
+                  );
+                  if (typeof userMarker === "undefined") {
+                    userMarker = new L.circleMarker(userLocation, {
+                      radius: 8,
+                      fillColor: "#4a87ee",
+                      color: "#ffffff",
+                      weight: 3,
+                      opacity: 1,
+                      fillOpacity: 0.8,
+                    }).addTo(map);
+                  } else {
+                    userMarker.setLatLng(userLocation);
+                  }
+                  map.flyTo(userLocation);
+                });
+              });
+              return div;
+            };
+            geolocationControl.addTo(map);
+          }
+
+          // Layers
+          var defaultMapLayer;
+          switch (data.defaultLayer) {
+            case "STAMEN_TERRAIN":
+              defaultMapLayer = stamen_terrain;
+              break;
+            case "CARTO_POSITRON":
+              defaultMapLayer = carto_positron;
+              break;
+            case "CARTO_DARK_MATTER":
+              defaultMapLayer = carto_dark_matter;
+              break;
+            case "CARTO_VOYAGER":
+              defaultMapLayer = carto_voyager;
+              break;
+            default:
+              defaultMapLayer = carto_voyager;
+          }
+          defaultMapLayer.addTo(map);
+          // Layer controls
+          var allLayers = {
+            Street:
+              defaultMapLayer == stamen_terrain
+                ? carto_voyager
+                : defaultMapLayer,
+            Terrain: stamen_terrain,
+          };
+          L.control.layers(allLayers).addTo(map);
+        });
+      });
+    });
+  } else {
+    if (typeof map == "object") {
+      map.closePopup();
+      map.invalidateSize();
+      // Open requested marker...
+      if (requested_id) {
+        all_markers.forEach((marker) => {
+          if (marker.options.item_id == requested_id) {
+            map.flyTo(marker._latlng);
+            setTimeout(() => {
+              marker.openPopup();
+            }, 300);
+          }
+        });
+      } else if (bounds) {
+        map.fitBounds(bounds);
+      }
+    }
+  }
+};
+
+// MAIN
+overlay.addEventListener("click", (e) => {
+  if (e.srcElement.classList.contains("open")) {
+    closeMultiMap();
+  }
+});
+showmap.addEventListener("click", (e) => {
+  if (e.srcElement.classList.contains("open")) {
+    closeMultiMap();
+  } else {
+    openMultiMap();
+  }
+});
+showmap_with_marker.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    openMultiMap(e.srcElement.dataset.id);
+  });
+});
