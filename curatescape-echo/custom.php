@@ -1043,13 +1043,13 @@ function multimap_markup($tour=false, $map_label=null, $button_label=null)
     if (!$map_label) {
         $map_label = __('Map');
     } ?>
-    <div id="multi-map-container" aria-label="<?php echo $map_label; ?>">
+    <div id="multi-map-container" aria-label="<?php echo htmlentities(strip_tags($map_label)); ?>">
         <?php echo rl_story_map_multi($tour); ?>
     </div>
     <div id="multi-map-overlay"></div>
-    <div id="show-multi-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo $button_label; ?>">
-        <div id="show-multi-map-inner"></div>
-    </div>
+    <a title="<?php echo htmlentities(strip_tags($button_label));?>" id="show-multi-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo htmlentities(strip_tags($button_label)); ?>">
+        <span id="show-multi-map-inner"></span>
+    </a>
     <?php
 }
 

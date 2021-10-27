@@ -135,8 +135,8 @@
     loadJS('<?php echo src('global.js', 'javascripts');?>');
     <?php if (0 === strpos(current_url(), '/items/show')):?>
     loadJS('<?php echo src('items-show.js', 'javascripts');?>');
-    <?php elseif (0 === strpos(current_url(), '/tours/show')):?>
-    loadJS('<?php echo src('tours-show.js', 'javascripts');?>');
+    <?php elseif (0 === strpos(current_url(), '/tours/show') || 0 === strpos(current_url(), '/items/browse')):?>
+    loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
     <?php endif;?>
     </script>
 

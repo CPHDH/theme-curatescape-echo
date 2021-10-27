@@ -40,29 +40,32 @@ const loadMapMulti = (requested_id = null) => {
   const urlpaths = new URL(url).pathname.split("/");
   const tourid = urlpaths.pop() || urlpaths.pop();
   const istour = url.indexOf("tours/show") > -1;
+  const isQuery = url.indexOf("?") > -1;
+  const jsonPath = isQuery ? "&output=mobile-json" : "?output=mobile-json";
   const isSecure = window.location.protocol == "https:" ? true : false;
   const mapfigure = document.querySelector("figure#multi-map");
   if (mapfigure && mapped == 0) {
-    const data = mapfigure.dataset;
-    loadCSS(data.leafletCss);
-    loadJS(data.leafletJs, () => {
-      loadJS(data.providers, () => {
-        loadJS(data.makiJs, () => {
+    const map_attr = mapfigure.dataset;
+    loadCSS(map_attr.leafletCss);
+    loadJS(map_attr.leafletJs, () => {
+      loadJS(map_attr.providers, () => {
+        loadJS(map_attr.makiJs, () => {
           mapped++;
           map = L.map("curatescape-map-canvas", {
             scrollWheelZoom: true,
           });
-          map.setView([data.lat, data.lon], data.zoom);
+          map.setView([map_attr.lat, map_attr.lon], map_attr.zoom);
           // Get Tour Items & Add Markers
-          fetch(url + data.jsonSource)
+          console.log(url + jsonPath);
+          fetch(url + jsonPath)
             .then((response) => response.json())
-            .then((tour) => {
-              if (tour.items.length) {
-                tour.items.forEach((item, i) => {
+            .then((data) => {
+              if (data.items.length) {
+                data.items.forEach((item, i) => {
                   let params =
                     istour && tourid ? "?tour=" + tourid + "&index=" + i : "";
                   let itemhref =
-                    data.rootUrl + "/items/show/" + item.id + params;
+                    map_attr.rootUrl + "/items/show/" + item.id + params;
                   // Info window
                   let address = item.address
                     ? item.address
@@ -85,7 +88,7 @@ const loadMapMulti = (requested_id = null) => {
                     "</div>" +
                     address.replace(/(<([^>]+)>)/gi, "") +
                     "</div>";
-                  let color = data.color ? data.color : "#222222";
+                  let color = map_attr.color ? map_attr.color : "#222222";
                   let icon = (color, markerInner) => {
                     return L.MakiMarkers.icon({
                       icon: markerInner,
@@ -112,7 +115,7 @@ const loadMapMulti = (requested_id = null) => {
                   }
                 });
               }
-              if (data.cluster) {
+              if (map_attr.cluster) {
                 console.log("@todo: clustering");
               }
               // Add Group
@@ -137,8 +140,8 @@ const loadMapMulti = (requested_id = null) => {
             );
             a.setAttribute("role", "button");
             a.setAttribute("tabindex", "0");
-            a.setAttribute("title", data.fitboundsLabel);
-            a.setAttribute("aria-label", data.fitboundsLabel);
+            a.setAttribute("title", map_attr.fitboundsLabel);
+            a.setAttribute("aria-label", map_attr.fitboundsLabel);
             a.addEventListener("click", (e) => {
               e.preventDefault();
               map.flyTo(bounds.getCenter(), map.getBoundsZoom(bounds));
@@ -197,7 +200,7 @@ const loadMapMulti = (requested_id = null) => {
 
           // Layers
           var defaultMapLayer;
-          switch (data.defaultLayer) {
+          switch (map_attr.defaultLayer) {
             case "STAMEN_TERRAIN":
               defaultMapLayer = stamen_terrain;
               break;
@@ -232,21 +235,22 @@ const loadMapMulti = (requested_id = null) => {
       map.invalidateSize();
       // Open requested marker...
       if (requested_id) {
-        all_markers.forEach((marker) => {
-          if (marker.options.item_id == requested_id) {
-            map.flyTo(marker._latlng);
-            setTimeout(() => {
-              marker.openPopup();
-            }, 300);
-          }
+        let req = all_markers.filter((marker) => {
+          return marker.options.item_id == requested_id;
         });
-      } else if (bounds) {
-        map.fitBounds(bounds);
+        let marker = req ? req[0] : null;
+        if (marker && marker.options.item_id == requested_id) {
+          map.flyTo(marker._latlng);
+          setTimeout(() => {
+            marker.openPopup();
+          }, 300);
+        } else if (bounds) {
+          map.fitBounds(bounds);
+        }
       }
     }
   }
 };
-
 // MAIN
 overlay.addEventListener("click", (e) => {
   if (e.srcElement.classList.contains("open")) {
