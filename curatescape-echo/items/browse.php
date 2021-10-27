@@ -110,9 +110,11 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
             <div class="pagination bottom"><?php echo pagination_links(); ?></div>
 
         </div><!-- end primary -->
+            
+        <?php echo $total_results ? multimap_markup(false,$title) : null;?>
+            
     </article>
 </div> <!-- end content -->
 
 
-        <?php echo $total_results ? multimap_markup(false,$title) : null;?>
 <?php echo foot(); ?>

@@ -189,7 +189,8 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'search','bodyclas
                     </div>
 
                     <div>
-                        <?php if (!isset($buttonText)) {
+                        <?php
+                        if (!isset($buttonText)) {
                     $buttonText = __('Submit %s Search', rl_item_label('singular'));
                 } ?>
                         <input type="submit" class="submit button button-primary" name="submit_search" id="submit_search_advanced" value="<?php echo $buttonText ?>">

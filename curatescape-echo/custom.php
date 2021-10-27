@@ -32,17 +32,17 @@ function rl_admin_message($which=null, $roles=array('admin','super','contributor
     if ($user=current_user()) {
         if (in_array($user['role'], $roles)) {
             switch ($which) {
-                     case 'items-browse':
-                          if (intval(option('per_page_public')) % 6 > 0) {
-                              $title = '<strong>'.__('Admin Notice').'</strong> ';
-                              $ps = __('This message is only visible to site admins.');
-                              return '<div class="warning message">'.rl_icon('warning').$title.': '.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).' '.$ps.'</div>';
-                          }
-                     break;
+                            case 'items-browse':
+                                  if (intval(option('per_page_public')) % 6 > 0) {
+                                      $title = '<strong>'.__('Admin Notice').'</strong> ';
+                                      $ps = __('This message is only visible to site admins.');
+                                      return '<div class="warning message">'.rl_icon('warning').$title.': '.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).' '.$ps.'</div>';
+                                  }
+                            break;
 
-                     default:
-                          return null;
-                }
+                            default:
+                                  return null;
+                     }
         }
     }
 }
@@ -109,8 +109,8 @@ function rl_search_result_card($searchText=null, $type=null, $class=null)
         if ($src = rl_get_first_image_src($record)) {
             $itemimg = '<img src="'.$src.'"/>';
         } elseif (metadata($record, 'has thumbnail')
-                     && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))
-                ) {
+                            && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))
+                     ) {
             $itemimg = item_image('square_thumbnail');
         } else {
             $itemimg = '<img src="'.img('ionicons/custom/blank.svg').'"/>';
@@ -118,8 +118,8 @@ function rl_search_result_card($searchText=null, $type=null, $class=null)
         $html .= link_to($record, 'show', $itemimg, array('class' => 'result-image'));
     } elseif ($type == 'Tour') {
         $tourimg = $record->getItems() && $record->getItems()[0]
-                     ? '<img src="'.rl_get_first_image_src($record->getItems()[0]).'"/>'
-                     : '<img src="'.img('ionicons/compass-sharp.svg').'"/>';
+                            ? '<img src="'.rl_get_first_image_src($record->getItems()[0]).'"/>'
+                            : '<img src="'.img('ionicons/compass-sharp.svg').'"/>';
         $html .= link_to($record, 'show', $tourimg, array('class' => 'result-image'));
     } elseif ($recordImage = record_image($type)) {
         $html .= link_to($record, 'show', $recordImage, array('class' => 'result-image'));
@@ -133,19 +133,19 @@ function rl_search_result_card($searchText=null, $type=null, $class=null)
 function rl_subhead_by_type($type=null, $record=null)
 {
     switch ($type) {
-          case 'Item':
-                return strip_tags(rl_the_byline($record, false), '<a>');
-          case 'File':
-                $parent=get_record_by_id('Item', $record->item_id);
-                $title=metadata($parent, array('Dublin Core','Title'));
-                return __('This file appears in: %s', link_to($parent, 'show', strip_tags($title)));
-          case 'Tour':
-                return __('%s Locations', rl_tour_total_items($record));
-          case 'Collection':
-                return __('%1s %2s', metadata($record, 'total_items'), rl_item_label('plural'));
-          default:
-                return null;
-     }
+             case 'Item':
+                     return strip_tags(rl_the_byline($record, false), '<a>');
+             case 'File':
+                     $parent=get_record_by_id('Item', $record->item_id);
+                     $title=metadata($parent, array('Dublin Core','Title'));
+                     return __('This file appears in: %s', link_to($parent, 'show', strip_tags($title)));
+             case 'Tour':
+                     return __('%s Locations', rl_tour_total_items($record));
+             case 'Collection':
+                     return __('%1s %2s', metadata($record, 'total_items'), rl_item_label('plural'));
+             default:
+                     return null;
+      }
 }
 /*
 ** Icons names by content type
@@ -153,40 +153,40 @@ function rl_subhead_by_type($type=null, $record=null)
 function rl_icon_name_by_type($type=null, $mime=null)
 {
     switch ($type) {
-          case 'Item':
-                $i = 'location';
-                break;
-          case 'File':
-                if ($mime) {
-                    switch ($mime) {
-                          case substr($mime, 0, 5) === 'audio':
-                                $i = 'headset';
-                                break;
-                          case substr($mime, 0, 5) === 'video':
-                                $i = 'film';
-                                break;
-                          case substr($mime, 0, 5) === 'image':
-                                $i = 'image';
-                                break;
-                          default:
-                                $i = 'document-text';
-                                break;
+             case 'Item':
+                     $i = 'location';
+                     break;
+             case 'File':
+                     if ($mime) {
+                         switch ($mime) {
+                                  case substr($mime, 0, 5) === 'audio':
+                                          $i = 'headset';
+                                          break;
+                                  case substr($mime, 0, 5) === 'video':
+                                          $i = 'film';
+                                          break;
+                                  case substr($mime, 0, 5) === 'image':
+                                          $i = 'image';
+                                          break;
+                                  default:
+                                          $i = 'document-text';
+                                          break;
+                            }
+                         break;
                      }
-                    break;
-                }
-          $i = 'document-text';
-          break;
+             $i = 'document-text';
+             break;
 
-          case 'Tour':
-                $i = 'compass';
-                break;
-          case 'Collection':
-                $i = 'folder';
-                break;
-          default:
-                $i = 'globe';
-                break;
-     }
+             case 'Tour':
+                     $i = 'compass';
+                     break;
+             case 'Collection':
+                     $i = 'folder';
+                     break;
+             default:
+                     $i = 'globe';
+                     break;
+      }
     return $i;
 }
 /*
@@ -195,24 +195,24 @@ function rl_icon_name_by_type($type=null, $mime=null)
 function rl_search_text($type=null, $record=null)
 {
     switch ($type) {
-          case 'Item':
-                return rl_the_text($record);
-          case 'File':
-                return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));
-          case 'Tour':
-                $tour = $record;
-                return tour('Description');
-          case 'SimplePagesPage':
-                return strip_tags(metadata($record, 'text', array('no_escape' => true)));
-          case 'Collection':
-                return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));;
-          case 'Exhibit':
-                return metadata($record, 'description', array('no_escape' => true));
-          case 'ExhibitPage':
-                return null;
-          default:
-                return null;
-     }
+             case 'Item':
+                     return rl_the_text($record);
+             case 'File':
+                     return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));
+             case 'Tour':
+                     $tour = $record;
+                     return tour('Description');
+             case 'SimplePagesPage':
+                     return strip_tags(metadata($record, 'text', array('no_escape' => true)));
+             case 'Collection':
+                     return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));;
+             case 'Exhibit':
+                     return metadata($record, 'description', array('no_escape' => true));
+             case 'ExhibitPage':
+                     return null;
+             default:
+                     return null;
+      }
 }
 /*
 ** Get Basic MIME type
@@ -228,15 +228,15 @@ function rl_clean_mime($mime=null)
 function rl_relabel_type($type=null)
 {
     switch ($type) {
-          case 'Item':
-                return rl_item_label('singular');
-          case 'SimplePagesPage':
-                return __('Page');
-          case 'ExhibitPage':
-                return __('Exhibit Page');
-          default:
-                return $type;
-     }
+             case 'Item':
+                     return rl_item_label('singular');
+             case 'SimplePagesPage':
+                     return __('Page');
+             case 'ExhibitPage':
+                     return __('Exhibit Page');
+             default:
+                     return $type;
+      }
 }
 /*
 ** Remove select plugin/core assets from queue
@@ -386,12 +386,12 @@ function rl_global_nav($nested=false)
     $curatenav=get_theme_option('default_nav');
     if ($curatenav==1 || !isset($curatenav)) {
         return nav(array(
-                     array('label'=>__('Home'),'uri' => url('/')),
-                     array('label'=>rl_item_label('plural'),'uri' => url('items/browse')),
-                     array('label'=>rl_tour_label('plural'),'uri' => url('tours/browse/')),
-                     array('label'=>__('Map'),'uri' => url('items/map/')),
-                     array('label'=>__('About'),'uri' => url('about/')),
-                ));
+                            array('label'=>__('Home'),'uri' => url('/')),
+                            array('label'=>rl_item_label('plural'),'uri' => url('items/browse')),
+                            array('label'=>rl_tour_label('plural'),'uri' => url('tours/browse/')),
+                            array('label'=>__('Map'),'uri' => url('items/map/')),
+                            array('label'=>__('About'),'uri' => url('about/')),
+                     ));
     } elseif ($nested) {
         return '<div class="custom nested">'.public_nav_main()->setMaxDepth(1).'</div>';
     } else {
@@ -405,10 +405,10 @@ function rl_global_nav($nested=false)
 function rl_item_browse_subnav()
 {
     echo nav(array(
-                array('label'=>__('All') ,'uri'=> url('items/browse')),
-                array('label'=>__('Featured') ,'uri'=> url('items/browse?featured=1')),
-                array('label'=>__('Tags'), 'uri'=> url('items/tags')),
-          ));
+                     array('label'=>__('All') ,'uri'=> url('items/browse')),
+                     array('label'=>__('Featured') ,'uri'=> url('items/browse?featured=1')),
+                     array('label'=>__('Tags'), 'uri'=> url('items/tags')),
+             ));
 }
 
 /*
@@ -417,9 +417,9 @@ function rl_item_browse_subnav()
 function rl_search_subnav()
 {
     echo nav(array(
-                array('label'=>__('%s Search', rl_item_label('singular')), 'uri'=> url('items/search')),
-                array('label'=>__('Sitewide Search'), 'uri'=> url('search')),
-          ));
+                     array('label'=>__('%s Search', rl_item_label('singular')), 'uri'=> url('items/search')),
+                     array('label'=>__('Sitewide Search'), 'uri'=> url('search')),
+             ));
 }
 
 
@@ -430,17 +430,17 @@ function rl_search_subnav()
 function rl_collection_browse_subnav()
 {
     echo nav(array(
-                array('label'=>__('All') ,'uri'=> url('collections/browse')),
-                array('label'=>__('Featured') ,'uri'=> url('collections/browse?featured=1')),
-          ));
+                     array('label'=>__('All') ,'uri'=> url('collections/browse')),
+                     array('label'=>__('Featured') ,'uri'=> url('collections/browse?featured=1')),
+             ));
 }
 
 function rl_tour_browse_subnav()
 {
     echo nav(array(
-                array('label'=>__('All') ,'uri'=> url('tours/browse')),
-                array('label'=>__('Featured') ,'uri'=> url('tours/browse?featured=1')),
-          ));
+                     array('label'=>__('All') ,'uri'=> url('tours/browse')),
+                     array('label'=>__('Featured') ,'uri'=> url('tours/browse?featured=1')),
+             ));
 }
 
 /*
@@ -530,8 +530,8 @@ function rl_global_header($html=null)
             <?php echo rl_simple_search('header-search', array('id'=>'header-search-form','class'=>'capsule'), __('Search')); ?>
             <div class="search-options">
                 <?php echo '<a href="'.url('items/search').'">'.__('Advanced %s Search', rl_item_label()).' &#9656;</a>'; ?>
-                < br>
-                    <?php echo '<a href="'.url('search').'">'.__('Sitewide Search').' &#9656;</a>'; ?>
+                <br>
+                <?php echo '<a href="'.url('search').'">'.__('Sitewide Search').' &#9656;</a>'; ?>
             </div>
         </div>
         <div class="overlay" onclick="overlayClick()"></div>
@@ -569,23 +569,23 @@ function rl_get_tour_json($tour=null)
         foreach ($tour->Items as $item) {
             $location = get_db()->getTable('Location')->findLocationByItem($item, true);
             $address = (element_exists('Item Type Metadata', 'Street Address'))
-                     ? metadata($item, array( 'Item Type Metadata','Street Address' ))
-                     : null;
+                            ? metadata($item, array( 'Item Type Metadata','Street Address' ))
+                            : null;
             $title=metadata($item, array( 'Dublin Core', 'Title' ));
             if ($location && $item->public) {
                 $tourItems[] = array(
-                          'id'		=> $item->id,
-                          'title'		=> rl_json_plaintextify($title),
-                          'address'	=> rl_json_plaintextify($address),
-                          'latitude'	=> $location[ 'latitude' ],
-                          'longitude'	=> $location[ 'longitude' ],
-                          );
+                                  'id'		=> $item->id,
+                                  'title'		=> rl_json_plaintextify($title),
+                                  'address'	=> rl_json_plaintextify($address),
+                                  'latitude'	=> $location[ 'latitude' ],
+                                  'longitude'	=> $location[ 'longitude' ],
+                                  );
             }
         }
         $tourMetadata = array(
-                 'id'           => $tour->id,
-                 'items'        => $tourItems,
-                 );
+                      'id'           => $tour->id,
+                      'items'        => $tourItems,
+                      );
         return json_encode($tourMetadata);
     }
 }
@@ -627,379 +627,379 @@ function rl_display_map($type=null, $item=null, $tour=null)
     $color=get_theme_option('marker_color') ? get_theme_option('marker_color') : '#222222';
     $featured_color=get_theme_option('featured_marker_color') ? get_theme_option('featured_marker_color') : $color;
     switch ($type) {
-          case 'focusarea':
-                /* all stories, map is centered on focus area (plugin center) */
-                $json_source=WEB_ROOT.'/items/browse?output=mobile-json';
-                break;
+             case 'focusarea':
+                     /* all stories, map is centered on focus area (plugin center) */
+                     $json_source=WEB_ROOT.'/items/browse?output=mobile-json';
+                     break;
 
-          case 'global':
-                /* all stories, map is bounded according to content */
-                $json_source=WEB_ROOT.'/items/browse?output=mobile-json';
-                break;
+             case 'global':
+                     /* all stories, map is bounded according to content */
+                     $json_source=WEB_ROOT.'/items/browse?output=mobile-json';
+                     break;
 
-          case 'queryresults':
-                /* browsing by tags, subjects, search results, etc, map is bounded according to content */
-                $uri=WEB_ROOT.$_SERVER['REQUEST_URI'];
-                $json_source=$uri.'&output=mobile-json';
-                break;
+             case 'queryresults':
+                     /* browsing by tags, subjects, search results, etc, map is bounded according to content */
+                     $uri=WEB_ROOT.$_SERVER['REQUEST_URI'];
+                     $json_source=$uri.'&output=mobile-json';
+                     break;
 
-          case 'tour':
-                /* single tour, map is bounded according to content  */
-                $json_source= ($tour) ? rl_get_tour_json($tour) : null;
-                break;
+             case 'tour':
+                     /* single tour, map is bounded according to content  */
+                     $json_source= ($tour) ? rl_get_tour_json($tour) : null;
+                     break;
 
-          default:
-                $json_source=WEB_ROOT.'/items/browse?output=mobile-json';
-     } ?>
-     <script>
-         // // PHP Variables
-         // var type =  '<?php echo $type ; ?>';
-         // var color = '<?php echo $color ; ?>';
-         // var featured_color = '<?php echo $featured_color ; ?>';
-         // var root = '<?php echo WEB_ROOT ; ?>';
-         // var source ='<?php echo $json_source ; ?>';
-         // var center =[<?php echo $pluginlat.','.$pluginlng ; ?>];
-         // var zoom = <?php echo $zoom ; ?>;
-         // var defaultItemZoom=<?php echo get_theme_option('map_zoom_single') ? (int)get_theme_option('map_zoom_single') : 14; ?>;
-         // var featuredStar = <?php echo get_theme_option('featured_marker_star'); ?>;
-         // var useClusters = <?php echo get_theme_option('clustering'); ?>; 
-         // var clusterTours = <?php echo get_theme_option('tour_clustering'); ?>; 
-         // var clusterIntensity = <?php echo get_theme_option('cluster_intensity') ? get_theme_option('cluster_intensity') : 15; ?>; 
-         // var alwaysFit = <?php echo get_theme_option('fitbounds') ? get_theme_option('fitbounds') : 0; ?>; 
-         // var markerSize = '<?php echo get_theme_option('marker_size') ? get_theme_option('marker_size') : "m"; ?>'; 
-         // var mapBounds; // keep track of changing bounds
-         // var root_url = '<?php echo WEB_ROOT; ?>';
-         // var geolocation_icon = '<?php echo img('geolocation.png'); ?>';
-         // var mapLayerThemeSetting = '<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER'; ?>';
-         // var leafletjs='<?php //echo src('leaflet.maki.combined.min.js','javascripts');?>'+'?v=1.1';
-         // var leafletcss='<?php //echo src('leaflet/leaflet.min.css','javascripts');?>'+'?v=1.1';	
-         // var leafletClusterjs='<?php //echo src('leaflet.markercluster/leaflet.markercluster.js','javascripts');?>'+'?v=1.1';
-         // var leafletClustercss='<?php //echo src('leaflet.markercluster/leaflet.markercluster.min.css','javascripts');?>'+'?v=1.1';
-         // var mapbox_tile_layer='<?php echo get_theme_option('mapbox_tile_layer'); ?>';
-         // var mapbox_access_token='<?php echo get_theme_option('mapbox_access_token'); ?>';
-         // var mapbox_layer_title='<?php echo get_theme_option('mapbox_tile_layer') ? ucwords(str_replace(array('-v11','-v10','-v9','-'), ' ', get_theme_option('mapbox_tile_layer'))) : "Mapbox"; ?>';
-         // 
-         // // End PHP Variables
-         // 
-         // var isSecure = window.location.protocol == 'https:' ? true : false;	
-         // 
-         // jQuery(document).ready(function() {
-         // 	loadCSS( leafletcss );
-         // 	if(useClusters==true) loadCSS( leafletClustercss );
-         // 	
-         // 	loadJS( leafletjs, function(){
-         // 		console.log('Leaflet ready...');
-         // 		
-         // 		var terrain = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{retina}.jpg', {
-         // 				attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | Map Tiles by <a href="http://stamen.com/">Stamen Design</a>',
-         // 				retina: (L.Browser.retina) ? '@2x' : '',
-         // 			});		
-         // 		var carto = L.tileLayer('//cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{retina}.png', {
-         // 		    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://cartodb.com/attributions">CartoDB</a>',
-         // 				retina: (L.Browser.retina) ? '@2x' : '',
-         // 			});
-         // 		var voyager = L.tileLayer('//cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}{retina}.png', {
-         // 		    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://cartodb.com/attributions">CartoDB</a>',
-         // 				retina: (L.Browser.retina) ? '@2x' : '',
-         // 			});					
-         // 		var mapbox = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/'+mapbox_tile_layer+'/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-         // 		    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
-         // 				accessToken: mapbox_access_token,
-         // 				tileSize: 512,
-         // 				zoomOffset: -1,
-         // 			});	
-         // 			
-         // 		var defaultMapLayer;	
-         // 		switch(mapLayerThemeSetting){
-         // 			case 'TERRAIN':
-         // 				defaultMapLayer=terrain;
-         // 				break;
-         // 			case 'CARTO':
-         // 				defaultMapLayer=carto;
-         // 				break;
-         // 			case 'CARTO_VOYAGER':
-         // 				defaultMapLayer=voyager;
-         // 				break;						
-         // 			case 'MAPBOX_TILES':
-         // 				defaultMapLayer=mapbox;
-         // 				break;	
-         // 			default:
-         // 				defaultMapLayer=wikimedia;				
-         // 		}
-         // 						
-         // 		// helper for title attributes with encoded HTML
-         // 		function convertHtmlToText(value) {
-         // 		    var d = document.createElement('div');
-         // 		    d.innerHTML = value;
-         // 		    return d.innerText;
-         // 		}				
-         // 
-         // 		var mapDisplay =function(){
-         // 			// Build the base map
-         // 			var map = L.map('curatescape-map-canvas',{
-         // 				layers: defaultMapLayer,
-         // 				minZoom: 3,
-         // 				scrollWheelZoom: false,
-         // 			}).setView(center, zoom);
-         // 			
-         // 			
-         // 			// Geolocation controls
-         // 			if( !isSecure || !navigator.geolocation){			
-         // 				console.warn('Geolocation is not available over insecure origins on this browser.');
-         // 			}else{
-         // 				var geolocationControl = L.control({position: 'topleft'});
-         // 				geolocationControl.onAdd = function (map) {
-         // 				    var div = L.DomUtil.create('div', 'leaflet-control leaflet-control-geolocation');
-         // 				    div.innerHTML = '<a class="leaflet-control-geolocation-toggle" href="#" aria-label="Geolocation" title="Geolocation" role="button"><i class="fa fa fa-location-arrow" aria-hidden="true"></i></a>'; 
-         // 				    return div;
-         // 				};
-         // 				geolocationControl.addTo(map);				
-         // 			}
-         // 			
-         // 			// Fullscreen controls
-         // 			var fullscreenControl = L.control({position: 'topleft'});
-         // 			fullscreenControl.onAdd = function (map) {
-         // 			    var div = L.DomUtil.create('div', 'leaflet-control leaflet-control-fullscreen');
-         // 			    div.innerHTML = '<a class="leaflet-control-fullscreen-toggle" href="#" aria-label="Fullscreen" title="Fullscreen" role="button"><i class="fa fa-expand" aria-hidden="true"></i></a>'; 
-         // 			    return div;
-         // 			};
-         // 			fullscreenControl.addTo(map);
-         // 			
-         // 			// Layer controls
-         // 			var allLayers={
-         // 				"Street":(defaultMapLayer == terrain) ? voyager : defaultMapLayer,
-         // 				"Terrain":terrain,
-         // 			};
-         // 			if(mapbox_access_token){
-         // 				allLayers[mapbox_layer_title]=mapbox;
-         // 			}
-         // 			L.control.layers(allLayers).addTo(map);		
-         // 			
-         // 			
-         // 								
-         // 			
-         // 			// Center marker and popup on open
-         // 			map.on('popupopen', function(e) {
-         // 				// find the pixel location on the map where the popup anchor is
-         // 			    var px = map.project(e.popup._latlng); 
-         // 			    // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-         // 			    px.y -= e.popup._container.clientHeight/2;
-         // 			    // pan to new center
-         // 			    map.panTo(map.unproject(px),{animate: true}); 
-         // 			});				
-         // 			// Add Markers
-         // 			var addMarkers = function(data){				
-         // 			    function icon(color,markerInner){ 
-         // 			        return L.MakiMarkers.icon({
-         // 			        	icon: markerInner, 
-         // 						color: color, 
-         // 						size: markerSize,
-         // 						accessToken: "pk.eyJ1IjoiZWJlbGxlbXBpcmUiLCJhIjoiY2ludWdtOHprMTF3N3VnbHlzODYyNzh5cSJ9.w3AyewoHl8HpjEaOel52Eg"
-         // 			    		});	
-         // 			    }				
-         // 				if(typeof(data.items)!="undefined"){ // tours and other multi-item maps
-         // 					
-         // 					var group=[];
-         // 					if(useClusters==true){
-         // 						var markers = L.markerClusterGroup({
-         // 							spiderfyOnMaxZoom: false, // should be an option?
-         // 							zoomToBoundsOnClick:true,
-         // 							disableClusteringAtZoom: clusterIntensity,
-         // 							polygonOptions: {
-         // 								'stroke': false,
-         // 								'color': '#000',
-         // 								'fillOpacity': .1
-         // 							}
-         // 						});
-         // 					}
-         // 					
-         // 			        jQuery.each(data.items,function(i,item){
-         // 						var appendQueryParams=(type=='tour') ? '?tour='+data.id+'&index='+i : '';
-         // 				        var address = item.address ? item.address : '';
-         // 						var c = (item.featured==1 && featured_color) ? featured_color : color;
-         // 						var inner = (item.featured==1 && featuredStar) ? "star" : "circle";
-         // 				        if(typeof(item.thumbnail)!="undefined"){
-         // 					        var image = '<a href="'+root_url+'/items/show/'+item.id+'" class="curatescape-infowindow-image '+(!item.thumbnail ? 'no-img' : '')+'" style="background-image:url('+item.thumbnail+');"></a>';
-         // 					    }else{
-         // 						    var image = '';
-         // 					    }
-         // 					    var number = (type=='tour') ? '<span class="number">'+(i+1)+'</span>' : '';
-         // 				        var html = image+number+'<span><a class="curatescape-infowindow-title" href="'+root_url+'/items/show/'+item.id+appendQueryParams+'">'+item.title+'</a><br>'+'<div class="curatescape-infowindow-address">'+address.replace(/(<([^>]+)>)/ig,"")+'</div></span>';
-         // 														
-         // 						var marker = L.marker([item.latitude,item.longitude],{
-         // 							icon: icon(c,inner),
-         // 							title: convertHtmlToText(item.title),
-         // 							alt: convertHtmlToText(item.title),
-         // 							}).bindPopup(html);
-         // 						
-         // 						group.push(marker);  
-         // 						
-         // 						if(useClusters==true) markers.addLayer(marker);
-         // 			
-         // 			        });
-         // 			        
-         // 			        if(useClusters==true && type!=='tour' || type=='tour' && clusterTours==true){
-         // 				        map.addLayer(markers);
-         // 				        mapBounds = markers.getBounds();
-         // 				    }else{
-         // 			        	group=new L.featureGroup(group); 
-         // 						group.addTo(map);	
-         // 						mapBounds = group.getBounds();				    
-         // 				    }
-         // 			        
-         // 					// Fit map to markers as needed			        
-         // 			        if((type == 'queryresults'|| type == 'tour') || alwaysFit==true){
-         // 				        if(useClusters==true){
-         // 					        map.fitBounds(markers.getBounds());
-         // 					    }else{
-         // 						    map.fitBounds(group.getBounds());
-         // 					    }
-         // 			        }
-         // 			        
-         // 			        
-         // 				}else{ // single items
-         // 					map.setView([data.latitude,data.longitude],defaultItemZoom);	
-         // 			        var address = data.address ? data.address : data.latitude+','+data.longitude;
-         // 			
-         // 			        var image = (typeof(data.thumbnail)!="undefined") ? '<a href="" class="curatescape-infowindow-image '+(!data.thumbnail ? 'no-img' : '')+'" style="background-image:url('+data.thumbnail+');" title="'+data.title+'"></a>' : '';
-         // 			
-         // 			        var html = image+'<div class="curatescape-infowindow-address single-item"><span class="icon-map-marker" aria-hidden="true"></span> '+address.replace(/(<([^>]+)>)/ig,"")+'</div>';
-         // 					
-         // 					var marker = L.marker([data.latitude,data.longitude],{
-         // 						icon: icon(color,"circle"),
-         // 						title: convertHtmlToText(data.title),
-         // 						alt: convertHtmlToText(data.title),
-         // 						}).bindPopup(html);					
-         // 					
-         // 					marker.addTo(map);
-         // 
-         // 					mapBounds = map.getBounds();
-         // 				
-         // 				}
-         // 				
-         // 			}		
-         // 			
-         // 			if(type=='story'){
-         // 				var data = jQuery.parseJSON(source);
-         // 				if(data){
-         // 					addMarkers(data);
-         // 				}
-         // 				
-         // 			}else if(type=='tour'){
-         // 				var data = jQuery.parseJSON(source);
-         // 				addMarkers(data);
-         // 				
-         // 			}else if(type=='focusarea'){
-         // 				jQuery.getJSON( source, function(data) {
-         // 					var data = data;
-         // 					addMarkers(data);
-         // 				});
-         // 				
-         // 			}else if(type=='queryresults'){
-         // 				jQuery.getJSON( source, function(data) {
-         // 					var data = data;
-         // 					addMarkers(data);
-         // 				});
-         // 				
-         // 			}else{
-         // 				jQuery.getJSON( source, function(data) {
-         // 					var data = data;
-         // 					addMarkers(data);
-         // 				});
-         // 			}
-         // 			
-         // 			/* Map Action Buttons */
-         // 			
-         // 			// Fullscreen
-         // 			jQuery('.leaflet-control-fullscreen-toggle').click(function(e){
-         // 				e.preventDefault();
-         // 				jQuery("body").toggleClass("fullscreen-map");
-         // 				jQuery(".leaflet-control-fullscreen-toggle i").toggleClass('fa-expand').toggleClass('fa-compress');
-         // 				map.invalidateSize();
-         // 			});
-         // 			jQuery(document).keyup(function(e) {
-         // 				if ( e.keyCode == 27 ){ // exit fullscreen
-         // 					if(jQuery('body').hasClass('fullscreen-map')) jQuery('.leaflet-control-fullscreen-toggle').click();
-         // 				}
-         // 			});
-         // 			
-         // 			// Geolocation
-         // 			jQuery('.leaflet-control-geolocation-toggle').click(
-         // 				function(e){
-         // 				e.preventDefault();	
-         // 				var options = {
-         // 					enableHighAccuracy: true,
-         // 					maximumAge: 30000,
-         // 					timeout: 15000
-         // 				};
-         // 				jQuery(".leaflet-control-geolocation-toggle").addClass("working");
-         // 				navigator.geolocation.getCurrentPosition(
-         // 					function(pos) {
-         // 						var userLocation = [pos.coords.latitude, pos.coords.longitude];					
-         // 						// adjust map view
-         // 						if(type=='story'|| type=='tour' || type == 'queryresults'){
-         // 							if(jQuery(".leaflet-popup-close-button").length) jQuery(".leaflet-popup-close-button")[0].click(); // close popup
-         // 							var newBounds = new L.LatLngBounds(mapBounds,new L.LatLng(pos.coords.latitude, pos.coords.longitude));
-         // 							map.fitBounds(newBounds);
-         // 						}else{
-         // 							map.panTo(userLocation);
-         // 						}
-         // 						// add/update user location indicator
-         // 						if(typeof(userMarker)==='undefined') {
-         // 							userMarker = new L.circleMarker(userLocation,{
-         // 							  radius: 8,
-         // 							  fillColor: "#4a87ee",
-         // 							  color: "#ffffff",
-         // 							  weight: 3,
-         // 							  opacity: 1,
-         // 							  fillOpacity: 0.8,
-         // 							}).addTo(map);
-         // 							jQuery(".leaflet-control-geolocation-toggle").removeClass("working");
-         // 						}else{
-         // 							userMarker.setLatLng(userLocation);
-         // 							jQuery(".leaflet-control-geolocation-toggle").removeClass("working");
-         // 						}
-         // 					}, 
-         // 					function(error) {
-         // 						console.log(error);
-         // 						var errorMessage = error.message ? ' Error message: "' + error.message + '"' : 'Oops! We were unable to determine your current location.';
-         // 						jQuery(".leaflet-control-geolocation-toggle").removeClass("working");
-         // 						alert(errorMessage);
-         // 					}, 
-         // 					options);
-         // 			});	
-         // 			
-         // 			// enable mouse scrollwheel zoom if the user has interacted with the map
-         // 			map.once('focus', function() { map.scrollWheelZoom.enable(); });					
-         // 					
-         // 		}
-         // 
-         // 
-         // 
-         // 
-         // 		if(useClusters==true){
-         // 			loadJS( leafletClusterjs, function(){
-         // 				console.log('Clustering ready...')
-         // 				mapDisplay();
-         // 			});
-         // 		}else{
-         // 			mapDisplay();
-         // 		}
-         // 
-         // 		
-         // 	});
-         // 
-         // 
-         // 
-         // });
-     </script>
+             default:
+                     $json_source=WEB_ROOT.'/items/browse?output=mobile-json';
+      } ?>
+      <script>
+          // // PHP Variables
+          // var type =  '<?php echo $type ; ?>';
+          // var color = '<?php echo $color ; ?>';
+          // var featured_color = '<?php echo $featured_color ; ?>';
+          // var root = '<?php echo WEB_ROOT ; ?>';
+          // var source ='<?php echo $json_source ; ?>';
+          // var center =[<?php echo $pluginlat.','.$pluginlng ; ?>];
+          // var zoom = <?php echo $zoom ; ?>;
+          // var defaultItemZoom=<?php echo get_theme_option('map_zoom_single') ? (int)get_theme_option('map_zoom_single') : 14; ?>;
+          // var featuredStar = <?php echo get_theme_option('featured_marker_star'); ?>;
+          // var useClusters = <?php echo get_theme_option('clustering'); ?>; 
+          // var clusterTours = <?php echo get_theme_option('tour_clustering'); ?>; 
+          // var clusterIntensity = <?php echo get_theme_option('cluster_intensity') ? get_theme_option('cluster_intensity') : 15; ?>; 
+          // var alwaysFit = <?php echo get_theme_option('fitbounds') ? get_theme_option('fitbounds') : 0; ?>; 
+          // var markerSize = '<?php echo get_theme_option('marker_size') ? get_theme_option('marker_size') : "m"; ?>'; 
+          // var mapBounds; // keep track of changing bounds
+          // var root_url = '<?php echo WEB_ROOT; ?>';
+          // var geolocation_icon = '<?php echo img('geolocation.png'); ?>';
+          // var mapLayerThemeSetting = '<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER'; ?>';
+          // var leafletjs='<?php //echo src('leaflet.maki.combined.min.js','javascripts');?>'+'?v=1.1';
+          // var leafletcss='<?php //echo src('leaflet/leaflet.min.css','javascripts');?>'+'?v=1.1';	
+          // var leafletClusterjs='<?php //echo src('leaflet.markercluster/leaflet.markercluster.js','javascripts');?>'+'?v=1.1';
+          // var leafletClustercss='<?php //echo src('leaflet.markercluster/leaflet.markercluster.min.css','javascripts');?>'+'?v=1.1';
+          // var mapbox_tile_layer='<?php echo get_theme_option('mapbox_tile_layer'); ?>';
+          // var mapbox_access_token='<?php echo get_theme_option('mapbox_access_token'); ?>';
+          // var mapbox_layer_title='<?php echo get_theme_option('mapbox_tile_layer') ? ucwords(str_replace(array('-v11','-v10','-v9','-'), ' ', get_theme_option('mapbox_tile_layer'))) : "Mapbox"; ?>';
+          // 
+          // // End PHP Variables
+          // 
+          // var isSecure = window.location.protocol == 'https:' ? true : false;	
+          // 
+          // jQuery(document).ready(function() {
+          // 	loadCSS( leafletcss );
+          // 	if(useClusters==true) loadCSS( leafletClustercss );
+          // 	
+          // 	loadJS( leafletjs, function(){
+          // 		console.log('Leaflet ready...');
+          // 		
+          // 		var terrain = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{retina}.jpg', {
+          // 				attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | Map Tiles by <a href="http://stamen.com/">Stamen Design</a>',
+          // 				retina: (L.Browser.retina) ? '@2x' : '',
+          // 			});		
+          // 		var carto = L.tileLayer('//cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{retina}.png', {
+          // 		    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://cartodb.com/attributions">CartoDB</a>',
+          // 				retina: (L.Browser.retina) ? '@2x' : '',
+          // 			});
+          // 		var voyager = L.tileLayer('//cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}{retina}.png', {
+          // 		    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://cartodb.com/attributions">CartoDB</a>',
+          // 				retina: (L.Browser.retina) ? '@2x' : '',
+          // 			});					
+          // 		var mapbox = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/'+mapbox_tile_layer+'/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+          // 		    	attribution: '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+          // 				accessToken: mapbox_access_token,
+          // 				tileSize: 512,
+          // 				zoomOffset: -1,
+          // 			});	
+          // 			
+          // 		var defaultMapLayer;	
+          // 		switch(mapLayerThemeSetting){
+          // 			case 'TERRAIN':
+          // 				defaultMapLayer=terrain;
+          // 				break;
+          // 			case 'CARTO':
+          // 				defaultMapLayer=carto;
+          // 				break;
+          // 			case 'CARTO_VOYAGER':
+          // 				defaultMapLayer=voyager;
+          // 				break;						
+          // 			case 'MAPBOX_TILES':
+          // 				defaultMapLayer=mapbox;
+          // 				break;	
+          // 			default:
+          // 				defaultMapLayer=wikimedia;				
+          // 		}
+          // 						
+          // 		// helper for title attributes with encoded HTML
+          // 		function convertHtmlToText(value) {
+          // 		    var d = document.createElement('div');
+          // 		    d.innerHTML = value;
+          // 		    return d.innerText;
+          // 		}				
+          // 
+          // 		var mapDisplay =function(){
+          // 			// Build the base map
+          // 			var map = L.map('curatescape-map-canvas',{
+          // 				layers: defaultMapLayer,
+          // 				minZoom: 3,
+          // 				scrollWheelZoom: false,
+          // 			}).setView(center, zoom);
+          // 			
+          // 			
+          // 			// Geolocation controls
+          // 			if( !isSecure || !navigator.geolocation){			
+          // 				console.warn('Geolocation is not available over insecure origins on this browser.');
+          // 			}else{
+          // 				var geolocationControl = L.control({position: 'topleft'});
+          // 				geolocationControl.onAdd = function (map) {
+          // 				    var div = L.DomUtil.create('div', 'leaflet-control leaflet-control-geolocation');
+          // 				    div.innerHTML = '<a class="leaflet-control-geolocation-toggle" href="#" aria-label="Geolocation" title="Geolocation" role="button"><i class="fa fa fa-location-arrow" aria-hidden="true"></i></a>'; 
+          // 				    return div;
+          // 				};
+          // 				geolocationControl.addTo(map);				
+          // 			}
+          // 			
+          // 			// Fullscreen controls
+          // 			var fullscreenControl = L.control({position: 'topleft'});
+          // 			fullscreenControl.onAdd = function (map) {
+          // 			    var div = L.DomUtil.create('div', 'leaflet-control leaflet-control-fullscreen');
+          // 			    div.innerHTML = '<a class="leaflet-control-fullscreen-toggle" href="#" aria-label="Fullscreen" title="Fullscreen" role="button"><i class="fa fa-expand" aria-hidden="true"></i></a>'; 
+          // 			    return div;
+          // 			};
+          // 			fullscreenControl.addTo(map);
+          // 			
+          // 			// Layer controls
+          // 			var allLayers={
+          // 				"Street":(defaultMapLayer == terrain) ? voyager : defaultMapLayer,
+          // 				"Terrain":terrain,
+          // 			};
+          // 			if(mapbox_access_token){
+          // 				allLayers[mapbox_layer_title]=mapbox;
+          // 			}
+          // 			L.control.layers(allLayers).addTo(map);		
+          // 			
+          // 			
+          // 								
+          // 			
+          // 			// Center marker and popup on open
+          // 			map.on('popupopen', function(e) {
+          // 				// find the pixel location on the map where the popup anchor is
+          // 			    var px = map.project(e.popup._latlng); 
+          // 			    // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+          // 			    px.y -= e.popup._container.clientHeight/2;
+          // 			    // pan to new center
+          // 			    map.panTo(map.unproject(px),{animate: true}); 
+          // 			});				
+          // 			// Add Markers
+          // 			var addMarkers = function(data){				
+          // 			    function icon(color,markerInner){ 
+          // 			        return L.MakiMarkers.icon({
+          // 			        	icon: markerInner, 
+          // 						color: color, 
+          // 						size: markerSize,
+          // 						accessToken: "pk.eyJ1IjoiZWJlbGxlbXBpcmUiLCJhIjoiY2ludWdtOHprMTF3N3VnbHlzODYyNzh5cSJ9.w3AyewoHl8HpjEaOel52Eg"
+          // 			    		});	
+          // 			    }				
+          // 				if(typeof(data.items)!="undefined"){ // tours and other multi-item maps
+          // 					
+          // 					var group=[];
+          // 					if(useClusters==true){
+          // 						var markers = L.markerClusterGroup({
+          // 							spiderfyOnMaxZoom: false, // should be an option?
+          // 							zoomToBoundsOnClick:true,
+          // 							disableClusteringAtZoom: clusterIntensity,
+          // 							polygonOptions: {
+          // 								'stroke': false,
+          // 								'color': '#000',
+          // 								'fillOpacity': .1
+          // 							}
+          // 						});
+          // 					}
+          // 					
+          // 			        jQuery.each(data.items,function(i,item){
+          // 						var appendQueryParams=(type=='tour') ? '?tour='+data.id+'&index='+i : '';
+          // 				        var address = item.address ? item.address : '';
+          // 						var c = (item.featured==1 && featured_color) ? featured_color : color;
+          // 						var inner = (item.featured==1 && featuredStar) ? "star" : "circle";
+          // 				        if(typeof(item.thumbnail)!="undefined"){
+          // 					        var image = '<a href="'+root_url+'/items/show/'+item.id+'" class="curatescape-infowindow-image '+(!item.thumbnail ? 'no-img' : '')+'" style="background-image:url('+item.thumbnail+');"></a>';
+          // 					    }else{
+          // 						    var image = '';
+          // 					    }
+          // 					    var number = (type=='tour') ? '<span class="number">'+(i+1)+'</span>' : '';
+          // 				        var html = image+number+'<span><a class="curatescape-infowindow-title" href="'+root_url+'/items/show/'+item.id+appendQueryParams+'">'+item.title+'</a><br>'+'<div class="curatescape-infowindow-address">'+address.replace(/(<([^>]+)>)/ig,"")+'</div></span>';
+          // 														
+          // 						var marker = L.marker([item.latitude,item.longitude],{
+          // 							icon: icon(c,inner),
+          // 							title: convertHtmlToText(item.title),
+          // 							alt: convertHtmlToText(item.title),
+          // 							}).bindPopup(html);
+          // 						
+          // 						group.push(marker);  
+          // 						
+          // 						if(useClusters==true) markers.addLayer(marker);
+          // 			
+          // 			        });
+          // 			        
+          // 			        if(useClusters==true && type!=='tour' || type=='tour' && clusterTours==true){
+          // 				        map.addLayer(markers);
+          // 				        mapBounds = markers.getBounds();
+          // 				    }else{
+          // 			        	group=new L.featureGroup(group); 
+          // 						group.addTo(map);	
+          // 						mapBounds = group.getBounds();				    
+          // 				    }
+          // 			        
+          // 					// Fit map to markers as needed			        
+          // 			        if((type == 'queryresults'|| type == 'tour') || alwaysFit==true){
+          // 				        if(useClusters==true){
+          // 					        map.fitBounds(markers.getBounds());
+          // 					    }else{
+          // 						    map.fitBounds(group.getBounds());
+          // 					    }
+          // 			        }
+          // 			        
+          // 			        
+          // 				}else{ // single items
+          // 					map.setView([data.latitude,data.longitude],defaultItemZoom);	
+          // 			        var address = data.address ? data.address : data.latitude+','+data.longitude;
+          // 			
+          // 			        var image = (typeof(data.thumbnail)!="undefined") ? '<a href="" class="curatescape-infowindow-image '+(!data.thumbnail ? 'no-img' : '')+'" style="background-image:url('+data.thumbnail+');" title="'+data.title+'"></a>' : '';
+          // 			
+          // 			        var html = image+'<div class="curatescape-infowindow-address single-item"><span class="icon-map-marker" aria-hidden="true"></span> '+address.replace(/(<([^>]+)>)/ig,"")+'</div>';
+          // 					
+          // 					var marker = L.marker([data.latitude,data.longitude],{
+          // 						icon: icon(color,"circle"),
+          // 						title: convertHtmlToText(data.title),
+          // 						alt: convertHtmlToText(data.title),
+          // 						}).bindPopup(html);					
+          // 					
+          // 					marker.addTo(map);
+          // 
+          // 					mapBounds = map.getBounds();
+          // 				
+          // 				}
+          // 				
+          // 			}		
+          // 			
+          // 			if(type=='story'){
+          // 				var data = jQuery.parseJSON(source);
+          // 				if(data){
+          // 					addMarkers(data);
+          // 				}
+          // 				
+          // 			}else if(type=='tour'){
+          // 				var data = jQuery.parseJSON(source);
+          // 				addMarkers(data);
+          // 				
+          // 			}else if(type=='focusarea'){
+          // 				jQuery.getJSON( source, function(data) {
+          // 					var data = data;
+          // 					addMarkers(data);
+          // 				});
+          // 				
+          // 			}else if(type=='queryresults'){
+          // 				jQuery.getJSON( source, function(data) {
+          // 					var data = data;
+          // 					addMarkers(data);
+          // 				});
+          // 				
+          // 			}else{
+          // 				jQuery.getJSON( source, function(data) {
+          // 					var data = data;
+          // 					addMarkers(data);
+          // 				});
+          // 			}
+          // 			
+          // 			/* Map Action Buttons */
+          // 			
+          // 			// Fullscreen
+          // 			jQuery('.leaflet-control-fullscreen-toggle').click(function(e){
+          // 				e.preventDefault();
+          // 				jQuery("body").toggleClass("fullscreen-map");
+          // 				jQuery(".leaflet-control-fullscreen-toggle i").toggleClass('fa-expand').toggleClass('fa-compress');
+          // 				map.invalidateSize();
+          // 			});
+          // 			jQuery(document).keyup(function(e) {
+          // 				if ( e.keyCode == 27 ){ // exit fullscreen
+          // 					if(jQuery('body').hasClass('fullscreen-map')) jQuery('.leaflet-control-fullscreen-toggle').click();
+          // 				}
+          // 			});
+          // 			
+          // 			// Geolocation
+          // 			jQuery('.leaflet-control-geolocation-toggle').click(
+          // 				function(e){
+          // 				e.preventDefault();	
+          // 				var options = {
+          // 					enableHighAccuracy: true,
+          // 					maximumAge: 30000,
+          // 					timeout: 15000
+          // 				};
+          // 				jQuery(".leaflet-control-geolocation-toggle").addClass("working");
+          // 				navigator.geolocation.getCurrentPosition(
+          // 					function(pos) {
+          // 						var userLocation = [pos.coords.latitude, pos.coords.longitude];					
+          // 						// adjust map view
+          // 						if(type=='story'|| type=='tour' || type == 'queryresults'){
+          // 							if(jQuery(".leaflet-popup-close-button").length) jQuery(".leaflet-popup-close-button")[0].click(); // close popup
+          // 							var newBounds = new L.LatLngBounds(mapBounds,new L.LatLng(pos.coords.latitude, pos.coords.longitude));
+          // 							map.fitBounds(newBounds);
+          // 						}else{
+          // 							map.panTo(userLocation);
+          // 						}
+          // 						// add/update user location indicator
+          // 						if(typeof(userMarker)==='undefined') {
+          // 							userMarker = new L.circleMarker(userLocation,{
+          // 							  radius: 8,
+          // 							  fillColor: "#4a87ee",
+          // 							  color: "#ffffff",
+          // 							  weight: 3,
+          // 							  opacity: 1,
+          // 							  fillOpacity: 0.8,
+          // 							}).addTo(map);
+          // 							jQuery(".leaflet-control-geolocation-toggle").removeClass("working");
+          // 						}else{
+          // 							userMarker.setLatLng(userLocation);
+          // 							jQuery(".leaflet-control-geolocation-toggle").removeClass("working");
+          // 						}
+          // 					}, 
+          // 					function(error) {
+          // 						console.log(error);
+          // 						var errorMessage = error.message ? ' Error message: "' + error.message + '"' : 'Oops! We were unable to determine your current location.';
+          // 						jQuery(".leaflet-control-geolocation-toggle").removeClass("working");
+          // 						alert(errorMessage);
+          // 					}, 
+          // 					options);
+          // 			});	
+          // 			
+          // 			// enable mouse scrollwheel zoom if the user has interacted with the map
+          // 			map.once('focus', function() { map.scrollWheelZoom.enable(); });					
+          // 					
+          // 		}
+          // 
+          // 
+          // 
+          // 
+          // 		if(useClusters==true){
+          // 			loadJS( leafletClusterjs, function(){
+          // 				console.log('Clustering ready...')
+          // 				mapDisplay();
+          // 			});
+          // 		}else{
+          // 			mapDisplay();
+          // 		}
+          // 
+          // 		
+          // 	});
+          // 
+          // 
+          // 
+          // });
+      </script>
 
-     <!-- Map Container -->
-     <div class="curatescape-map">
-         <div id="curatescape-map-canvas"></div>
-     </div>
+      <!-- Map Container -->
+      <div class="curatescape-map">
+          <div id="curatescape-map-canvas"></div>
+      </div>
 
-     <?php
+      <?php
 }
 
 
@@ -1062,7 +1062,7 @@ function rl_map_actions($item=null, $tour=null, $collection=null, $saddr='curren
 
     if ($item!==null) {
 
-                // get the destination coordinates for the item
+                     // get the destination coordinates for the item
         $location = get_db()->getTable('Location')->findLocationByItem($item, true);
         $coords=$location[ 'latitude' ].','.$location[ 'longitude' ];
         $street_address=rl_street_address($item);
@@ -1070,7 +1070,7 @@ function rl_map_actions($item=null, $tour=null, $collection=null, $saddr='curren
         $showlink=true;
     } elseif ($tour!==null) {
 
-                // get the waypoint coordinates for the tour
+                     // get the waypoint coordinates for the tour
         $coords = array();
         foreach ($tour->Items as $item) {
             set_current_record('item', $item);
@@ -1150,14 +1150,14 @@ function rl_appstore_downloads()
         if ($ios_app_id) {
             $href='https://itunes.apple.com/us/app/'.$ios_app_id;
             $apps[]='<a class="button appstore ios" href="'.$href.'" target="_blank" rel="noopener">'.
-                rl_icon('logo-apple-appstore', null).__('App Store').'</a>';
+                     rl_icon('logo-apple-appstore', null).__('App Store').'</a>';
         }
 
         $android_app_id = get_theme_option('android_app_id');
         if ($android_app_id) {
             $href='http://play.google.com/store/apps/details?id='.$android_app_id;
             $apps[]='<a class="button appstore android" href="'.$href.'" target="_blank" rel="noopener">'.
-                rl_icon('logo-google-playstore', null).__('Google Play').'</a>';
+                     rl_icon('logo-google-playstore', null).__('Google Play').'</a>';
         }
 
 
@@ -1752,7 +1752,7 @@ function rl_single_file_show($file=null)
                         <?php
 
 
-          // SINGLE VIDEO FILE
+             // SINGLE VIDEO FILE
     } elseif (array_search($mime, $videoTypes) !== false) {
         $videoTypes = array('video/mp4','video/mpeg','video/quicktime');
         $videoFile = file_display_url($file, 'original');
@@ -1787,7 +1787,7 @@ function rl_file_metadata_additional($file='file', $html=null)
 
     if ($fields['Dublin Core']) {
 
-          // Omit Primary DC Fields
+             // Omit Primary DC Fields
         $dc = array_filter($fields['Dublin Core'], function ($key) {
             $omit=array('Description','Title','Creator','Date','Rights','Source');
             return !(in_array($key, $omit));
@@ -1940,8 +1940,8 @@ function rl_tour_preview($s)
         $html.=  '<span class="tour-thumbs-container">';
         foreach ($record->Items as $mini_thumb) {
             $html.=  metadata($mini_thumb, 'has thumbnail') ?
-                '<div class="mini-thumb">'.item_image('square_thumbnail', array('height'=>'40','width'=>'40'), null, $mini_thumb).'</div>' :
-                null;
+                     '<div class="mini-thumb">'.item_image('square_thumbnail', array('height'=>'40','width'=>'40'), null, $mini_thumb).'</div>' :
+                     null;
         }
         $html.=  '</span>';
     }
@@ -1972,13 +1972,13 @@ function rl_display_homepage_tours($num=5, $scope='featured')
 
     // Continue, get scope
     switch ($scope) {
-          case 'random':
-                $select->from(array(), 'RAND() as rand');
-                break;
-          case 'featured':
-                $select->where('featured = 1');
-                break;
-     }
+             case 'random':
+                     $select->from(array(), 'RAND() as rand');
+                     break;
+             case 'featured':
+                     $select->where('featured = 1');
+                     break;
+      }
 
 
     // Fetch some items with our select.
@@ -2073,13 +2073,13 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
 
     // Output HTML
     $html .= '<nav class="rl-toc"><ul>'.
-     '<li class="head"><a title="'.__('%s Contents', rl_item_label('singular')).'" class="icon-capsule label" href="javascript:void(0)">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label('singular')).'</span></a></li>'.
-     '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.__('Main Text').'</span></a></li>'.
-     $media_list.
-     $location.
-     '<li><a title="'.__('Skip to %s', __('Metadata')).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.__('Metadata').'</span></a></li>'.
-     $totop.
-     '</ul>'.$tournav.'</nav>';
+      '<li class="head"><a title="'.__('%s Contents', rl_item_label('singular')).'" class="icon-capsule label" href="javascript:void(0)">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label('singular')).'</span></a></li>'.
+      '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.__('Main Text').'</span></a></li>'.
+      $media_list.
+      $location.
+      '<li><a title="'.__('Skip to %s', __('Metadata')).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.__('Metadata').'</span></a></li>'.
+      $totop.
+      '</ul>'.$tournav.'</nav>';
 
     return $html;
 }
@@ -2088,41 +2088,41 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
 function rl_item_files_by_type($item=null, $output=null)
 {
     $output=array(
-          'images'=>array(),
-          'audio'=>array(),
-          'video'=>array(),
-          'other'=>array()
-     );
+             'images'=>array(),
+             'audio'=>array(),
+             'video'=>array(),
+             'other'=>array()
+      );
 
     if (metadata($item, 'has files')) {
         foreach (loop('files', $item->Files) as $file) {
             $mime = $file->mime_type;
             switch ($mime) {
-                     case strpos($mime, 'image') !== false:
-                     $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP'), '.jpg', $file->filename);
-                     $size=getimagesize(WEB_ROOT.'/files/fullsize/'.$src);
-                     $orientation = $size[0] > $size[1] ? 'landscape' : 'portrait';
-                     array_push(
-                         $output['images'],
-                         array(
-                                 'title'=>metadata($file, array('Dublin Core','Title')),
-                                 'id'=>$file->id,
-                                 'src'=>$src,
-                                 'caption'=>rl_file_caption($file),
-                                 'size'=>array($size[0],$size[1]),
-                                 'orientation'=>$orientation
-                            )
-                     );
-                     break;
-                     case strpos($mime, 'audio') !== false:
-                     array_push($output['audio'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file)));
-                     break;
-                     case strpos($mime, 'video') !== false:
-                     array_push($output['video'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file)));
-                     break;
-                     default:
-                     array_push($output['other'], array('id'=>$file->id, 'src'=>$file->filename,'size'=>$file->size,'title'=>metadata($file, array('Dublin Core','Title')),'filename'=>$file->original_filename));
-                }
+                            case strpos($mime, 'image') !== false:
+                            $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP'), '.jpg', $file->filename);
+                            $size=getimagesize(WEB_ROOT.'/files/fullsize/'.$src);
+                            $orientation = $size[0] > $size[1] ? 'landscape' : 'portrait';
+                            array_push(
+                                $output['images'],
+                                array(
+                                            'title'=>metadata($file, array('Dublin Core','Title')),
+                                            'id'=>$file->id,
+                                            'src'=>$src,
+                                            'caption'=>rl_file_caption($file),
+                                            'size'=>array($size[0],$size[1]),
+                                            'orientation'=>$orientation
+                                     )
+                            );
+                            break;
+                            case strpos($mime, 'audio') !== false:
+                            array_push($output['audio'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file)));
+                            break;
+                            case strpos($mime, 'video') !== false:
+                            array_push($output['video'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file)));
+                            break;
+                            default:
+                            array_push($output['other'], array('id'=>$file->id, 'src'=>$file->filename,'size'=>$file->size,'title'=>metadata($file, array('Dublin Core','Title')),'filename'=>$file->original_filename));
+                     }
         }
     }
     return $output;
@@ -2139,8 +2139,8 @@ function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)
         $url = WEB_ROOT.'/files/show/'.$image['id'];
         $data_or_style_attr = $class == 'featured' ? 'style' : 'data-style';
         return '<figure class="image-figure '.$class.'" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-        <a itemprop="contentUrl" aria-label="Image: '.$image['title'].'" href="'.($hrefOverride ? $hrefOverride : $src).'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" '.$data_or_style_attr.'="background-image:url('.$src.')" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"></a>
-        <figcaption>'.$image['caption'].'</figcaption></figure>';
+          <a itemprop="contentUrl" aria-label="Image: '.$image['title'].'" href="'.($hrefOverride ? $hrefOverride : $src).'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" '.$data_or_style_attr.'="background-image:url('.$src.')" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"></a>
+          <figcaption>'.$image['caption'].'</figcaption></figure>';
     }
 }
 
@@ -2197,7 +2197,7 @@ function rl_display_random_featured_item($withImage=false, $num=1)
 
     if ($featuredItems) {
         foreach ($featuredItems as $item):
-                $html .=rl_hero_item($item);
+                     $html .=rl_hero_item($item);
         endforeach;
 
         $html.='<p class="view-more-link"><a class="button" href="/items/browse?featured=1">'.__('Browse Featured %s', rl_item_label('plural')).'</a></p>';
@@ -2350,11 +2350,11 @@ function rl_story_actions($class=null, $title=null, $id=null)
 {
     $url=WEB_ROOT.'/items/show/'.$id;
     $actions = array(
-          '<a rel="noopener" title="print" href="javascript:void" onclick="window.print();" class="button social icon-round">'.rl_icon("print").'</a>',
-          '<a target="_blank" rel="noopener" title="email" href="mailto:?subject='.$title.'&body='.$url.'" class="button social icon-round">'.rl_icon("mail").'</a>',
-          '<a target="_blank" rel="noopener" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u='.urlencode($url).'" class="button social icon-round">'.rl_icon("logo-facebook", null).'</a>',
-          '<a target="_blank" rel="noopener" title="twitter" href="https://twitter.com/intent/tweet?text='.urlencode($url).'" class="button social icon-round">'.rl_icon("logo-twitter", null).'</a>'
-     );
+             '<a rel="noopener" title="print" href="javascript:void" onclick="window.print();" class="button social icon-round">'.rl_icon("print").'</a>',
+             '<a target="_blank" rel="noopener" title="email" href="mailto:?subject='.$title.'&body='.$url.'" class="button social icon-round">'.rl_icon("mail").'</a>',
+             '<a target="_blank" rel="noopener" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u='.urlencode($url).'" class="button social icon-round">'.rl_icon("logo-facebook", null).'</a>',
+             '<a target="_blank" rel="noopener" title="twitter" href="https://twitter.com/intent/tweet?text='.urlencode($url).'" class="button social icon-round">'.rl_icon("logo-twitter", null).'</a>'
+      );
     return '<div class="link-icons '.$class.'">'.implode(' ', $actions).'</div>';
 }
 
@@ -2417,37 +2417,37 @@ function homepage_widget_sections()
 
     foreach (array(homepage_widget_1(),homepage_widget_2(),homepage_widget_3(),homepage_widget_4()) as $setting) {
         switch ($setting) {
-                     case 'featured':
-                          $html.= ($featured==0) ? '<section id="featured-stories">'.rl_display_random_featured_item(true, 3).'</section>' : null;
-                          $featured++;
-                          break;
-                     case 'tours':
-                          $html.= ($tours==0) ? '<section id="home-tours">'.rl_display_homepage_tours().'</section>' : null;
-                          $tours++;
-                          break;
-                     case 'recent_or_random':
-                          $html.= ($recent_or_random==0) ? '<section id="home-item-list">'.rl_home_item_list().'</section>' : null;
-                          $recent_or_random++;
-                          break;
-                     case 'popular_tags':
-                          $html.= ($popular_tags==0) ? '<section id="home-popular-tags">'.rl_home_popular_tags().'</section>' : null;
-                          $popular_tags++;
-                          break;
-                     case 'about':
-                          $html.= ($about==0) ? '<section id="about">'.rl_home_about().'</section>	' : null;
-                          $about++;
-                          break;
-                     case 'cta':
-                          $html.= ($cta==0) ? '<section id="cta">'.rl_home_cta().'</section>	' : null;
-                          $cta++;
-                          break;
-                     case 'custom_meta_img':
-                          $html.= ($meta==0) ? '<section id="custom-meta-img" aria-hidden="true"><img src="'.rl_seo_pageimg_custom().'" alt="" class="homepage-brand-image"></section>	' : null;
-                          $meta++;
-                          break;
-                     default:
-                          $html.=null;
-                }
+                            case 'featured':
+                                  $html.= ($featured==0) ? '<section id="featured-stories">'.rl_display_random_featured_item(true, 3).'</section>' : null;
+                                  $featured++;
+                                  break;
+                            case 'tours':
+                                  $html.= ($tours==0) ? '<section id="home-tours">'.rl_display_homepage_tours().'</section>' : null;
+                                  $tours++;
+                                  break;
+                            case 'recent_or_random':
+                                  $html.= ($recent_or_random==0) ? '<section id="home-item-list">'.rl_home_item_list().'</section>' : null;
+                                  $recent_or_random++;
+                                  break;
+                            case 'popular_tags':
+                                  $html.= ($popular_tags==0) ? '<section id="home-popular-tags">'.rl_home_popular_tags().'</section>' : null;
+                                  $popular_tags++;
+                                  break;
+                            case 'about':
+                                  $html.= ($about==0) ? '<section id="about">'.rl_home_about().'</section>	' : null;
+                                  $about++;
+                                  break;
+                            case 'cta':
+                                  $html.= ($cta==0) ? '<section id="cta">'.rl_home_cta().'</section>	' : null;
+                                  $cta++;
+                                  break;
+                            case 'custom_meta_img':
+                                  $html.= ($meta==0) ? '<section id="custom-meta-img" aria-hidden="true"><img src="'.rl_seo_pageimg_custom().'" alt="" class="homepage-brand-image"></section>	' : null;
+                                  $meta++;
+                                  break;
+                            default:
+                                  $html.=null;
+                     }
     }
 
     return $html;
@@ -2461,16 +2461,16 @@ function rl_random_or_recent($mode='recent', $num=6)
 {
     switch ($mode) {
 
-     case 'random':
-          $items=get_records('Item', array('hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
-          $param="Random";
-          break;
-     case 'recent':
-          $items=get_records('Item', array('hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
-          $param="Recent";
-          break;
+      case 'random':
+             $items=get_records('Item', array('hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
+             $param="Random";
+             break;
+      case 'recent':
+             $items=get_records('Item', array('hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
+             $param="Recent";
+             break;
 
-     }
+      }
     set_loop_records('items', $items);
     $html='<section id="random-recent">';
     $labelcount='<span>'.total_records('Item').' '.rl_item_label('plural').'</span>';
@@ -2566,23 +2566,23 @@ function rl_secondary_link_color()
 function rl_configured_css($vars=null, $output=null)
 {
     $vars .= get_theme_option('link_color')
-          ? '--link-text:'.get_theme_option('link_color').';'
-          : null;
+             ? '--link-text:'.get_theme_option('link_color').';'
+             : null;
     $vars .= get_theme_option('link_color_hover')
-          ? '--link-text-hover:'.get_theme_option('link_color_hover').';'
-          : null;
+             ? '--link-text-hover:'.get_theme_option('link_color_hover').';'
+             : null;
     $vars .= get_theme_option('secondary_link_color')
-          ? '--link-text-on-dark:'.get_theme_option('secondary_link_color').';'
-          : null;
+             ? '--link-text-on-dark:'.get_theme_option('secondary_link_color').';'
+             : null;
     $vars .= get_theme_option('secondary_link_color_hover')
-          ? '--link-text-on-dark-hover:'.get_theme_option('secondary_link_color_hover').';'
-          : null;
+             ? '--link-text-on-dark-hover:'.get_theme_option('secondary_link_color_hover').';'
+             : null;
     $vars .= get_theme_option('header_footer_color')
-          ? '--site-header-bg-color-1:'.get_theme_option('header_footer_color').';'
-          : null;
+             ? '--site-header-bg-color-1:'.get_theme_option('header_footer_color').';'
+             : null;
     $vars .= get_theme_option('secondary_header_footer_color')
-          ? '--site-header-bg-color-2:'.get_theme_option('secondary_header_footer_color').';'
-          : null;
+             ? '--site-header-bg-color-2:'.get_theme_option('secondary_header_footer_color').';'
+             : null;
     if ($vars) {
         $output .= ':root {'.$vars.'}';
     }
@@ -2650,7 +2650,7 @@ function rl_google_analytics()
 {
     $id=get_theme_option('google_analytics');
     if ($id):
-     if (substr($id, 0, 2) == 'G-'): ?>
+      if (substr($id, 0, 2) == 'G-'): ?>
                         <!-- GA -->
                         <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $id; ?>"></script>
                         <script>
@@ -2691,8 +2691,8 @@ function rl_about($text=null)
     if (!$text) {
         // If the 'About Text' option has a value, use it. Otherwise, use default text
         $text = get_theme_option('about') ?
-                strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u><br><img><video><iframe>') :
-                __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile framework available for both Android and iOS devices.', option('site_title'));
+                     strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u><br><img><video><iframe>') :
+                     __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile framework available for both Android and iOS devices.', option('site_title'));
     }
     return $text;
 }
@@ -2706,25 +2706,25 @@ function rl_license()
     $cc_version=get_theme_option('cc_version');
     $cc_jurisdiction=get_theme_option('cc_jurisdiction');
     $cc_readable=array(
-          '1'=>'1.0',
-          '2'=>'2.0',
-          '2-5'=>'2.5',
-          '3'=>'3.0',
-          '4'=>'4.0',
-          'by'=>'Attribution',
-          'by-sa'=>'Attribution-ShareAlike',
-          'by-nd'=>'Attribution-NoDerivs',
-          'by-nc'=>'Attribution-NonCommercial',
-          'by-nc-sa'=>'Attribution-NonCommercial-ShareAlike',
-          'by-nc-nd'=>'Attribution-NonCommercial-NoDerivs'
-     );
+             '1'=>'1.0',
+             '2'=>'2.0',
+             '2-5'=>'2.5',
+             '3'=>'3.0',
+             '4'=>'4.0',
+             'by'=>'Attribution',
+             'by-sa'=>'Attribution-ShareAlike',
+             'by-nd'=>'Attribution-NoDerivs',
+             'by-nc'=>'Attribution-NonCommercial',
+             'by-nc-sa'=>'Attribution-NonCommercial-ShareAlike',
+             'by-nc-nd'=>'Attribution-NonCommercial-NoDerivs'
+      );
     $cc_jurisdiction_readable=array(
-          'intl'=>'International',
-          'ca'=>'Canada',
-          'au'=>'Australia',
-          'uk'=>'United Kingdom (England and Whales)',
-          'us'=>'United States'
-     );
+             'intl'=>'International',
+             'ca'=>'Canada',
+             'au'=>'Australia',
+             'uk'=>'United Kingdom (England and Whales)',
+             'us'=>'United States'
+      );
     if ($cc_license != 'none') {
         return __('This work is licensed by '.rl_owner_link().' under a <a rel="license" href="http://creativecommons.org/licenses/'.$cc_license.'/'.$cc_readable[$cc_version].'/'.($cc_jurisdiction !== 'intl' ? $cc_jurisdiction : null).'">Creative Commons '.$cc_readable[$cc_license].' '.$cc_readable[$cc_version].' '.$cc_jurisdiction_readable[$cc_jurisdiction].' License</a>.');
     } else {
@@ -2805,8 +2805,8 @@ function adjustBrightness($hex, $steps)
 
     foreach ($color_parts as $color) {
         $color   = hexdec($color); // Convert to decimal
-          $color   = max(0, min(255, $color + $steps)); // Adjust color
-          $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
+             $color   = max(0, min(255, $color + $steps)); // Adjust color
+             $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
     }
 
     return $return;
