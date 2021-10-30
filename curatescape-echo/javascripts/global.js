@@ -27,6 +27,24 @@ const safeText = (value) => {
   d.innerHTML = value;
   return d.innerText;
 };
+
+// MAP PAUSE/RESUME FUNCTIONS
+const pauseInteraction = (map) => {
+  if (map) {
+    map.dragging.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+  }
+};
+
+const resumeInteraction = (map, scrollable = true) => {
+  if (map) {
+    map.dragging.enable();
+    map.doubleClickZoom.enable();
+    if (scrollable) map.scrollWheelZoom.enable();
+  }
+};
+
 // CLOSE FUNCTIONS
 const closeMapSingle = () => {
   if (map_container && map_container.classList.contains("fullscreen")) {

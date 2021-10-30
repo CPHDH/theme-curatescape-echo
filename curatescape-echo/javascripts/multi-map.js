@@ -8,6 +8,8 @@ const openMultiMap = (requested_id = null) => {
   if (!showmap.classList.contains("open")) {
     showmap.classList.remove("pulse");
     showmap.classList.add("open");
+    showmap.setAttribute("title", "");
+    showmap.setAttribute("aria-label", "");
   }
   if (!container.classList.contains("open")) {
     container.classList.add("open");
@@ -34,7 +36,11 @@ const closeMultiMap = () => {
 let mapped = 0;
 let map = null;
 let all_markers = new Array();
-var bounds = null;
+let bounds = null;
+let currentZoom = null;
+let geolocationZoom = 15;
+let markerRequestZoom = 15;
+let requestedMarker = null;
 const loadMapMulti = (requested_id = null) => {
   const url = window.location.href;
   const urlpaths = new URL(url).pathname.split("/");
@@ -44,6 +50,7 @@ const loadMapMulti = (requested_id = null) => {
   const jsonPath = isQuery ? "&output=mobile-json" : "?output=mobile-json";
   const isSecure = window.location.protocol == "https:" ? true : false;
   const mapfigure = document.querySelector("figure#multi-map");
+  const map_title = container.getAttribute("aria-label");
   if (mapfigure && mapped == 0) {
     const map_attr = mapfigure.dataset;
     loadCSS(map_attr.leafletCss);
@@ -51,12 +58,14 @@ const loadMapMulti = (requested_id = null) => {
       loadJS(map_attr.providers, () => {
         loadJS(map_attr.makiJs, () => {
           mapped++;
+          // Map init
           map = L.map("curatescape-map-canvas", {
             scrollWheelZoom: true,
+            tap: false,
           });
+          pauseInteraction(map);
           map.setView([map_attr.lat, map_attr.lon], map_attr.zoom);
           // Get Tour Items & Add Markers
-          console.log(url + jsonPath);
           fetch(url + jsonPath)
             .then((response) => response.json())
             .then((data) => {
@@ -83,9 +92,11 @@ const loadMapMulti = (requested_id = null) => {
                   let html =
                     image +
                     '<div class="curatescape-infowindow">' +
-                    '<div class="curatescape-infowindow-title">' +
+                    '<a href="' +
+                    itemhref +
+                    '" class="curatescape-infowindow-title">' +
                     item.title +
-                    "</div>" +
+                    "</a>" +
                     address.replace(/(<([^>]+)>)/gi, "") +
                     "</div>";
                   let color = map_attr.color ? map_attr.color : "#222222";
@@ -106,12 +117,9 @@ const loadMapMulti = (requested_id = null) => {
                     item_id: item.id.toString(),
                   }).bindPopup(html);
                   all_markers.push(marker);
-                  // Open requested marker...
+                  // Store requested marker...
                   if (item.id == requested_id) {
-                    map.flyTo([item.latitude, item.longitude]);
-                    setTimeout(() => {
-                      marker.openPopup();
-                    }, 600);
+                    requestedMarker = marker;
                   }
                 });
               }
@@ -124,8 +132,33 @@ const loadMapMulti = (requested_id = null) => {
               // Bounds
               bounds = group.getBounds();
               map.fitBounds(bounds);
-            });
+              resumeInteraction(map);
 
+              // Open Requested Marker
+              if (requestedMarker) {
+                pauseInteraction(map);
+                currentZoom = map.getZoom();
+                if (currentZoom >= markerRequestZoom) {
+                  markerRequestZoom = Math.min(17, currentZoom + 2);
+                }
+                map.flyTo(requestedMarker._latlng, markerRequestZoom);
+                map.once("moveend", () => {
+                  requestedMarker.openPopup();
+                  resumeInteraction(map);
+                });
+              }
+            });
+          // Title
+          if (map_title) {
+            var titleControl = L.control({ position: "bottomleft" });
+            titleControl.onAdd = (map) => {
+              var div = L.DomUtil.create("div", "leaflet-title");
+              var span = L.DomUtil.create("span", "leaflet-title-inner", div);
+              span.innerHTML = map_title;
+              return div;
+            };
+            titleControl.addTo(map);
+          }
           // Fit Bounds controls
           var fitBoundsControl = L.control({ position: "topleft" });
           fitBoundsControl.onAdd = (map) => {
@@ -144,7 +177,11 @@ const loadMapMulti = (requested_id = null) => {
             a.setAttribute("aria-label", map_attr.fitboundsLabel);
             a.addEventListener("click", (e) => {
               e.preventDefault();
+              pauseInteraction(map);
               map.flyTo(bounds.getCenter(), map.getBoundsZoom(bounds));
+              map.once("moveend", () => {
+                resumeInteraction(map);
+              });
             });
             return div;
           };
@@ -169,12 +206,17 @@ const loadMapMulti = (requested_id = null) => {
               a.setAttribute("aria-label", "Geolocation");
               a.addEventListener("click", (e) => {
                 e.preventDefault();
-
+                pauseInteraction(map);
                 navigator.geolocation.getCurrentPosition((pos) => {
                   let userLocation = [
                     pos.coords.latitude,
                     pos.coords.longitude,
                   ];
+                  currentZoom = map.getZoom();
+                  if (currentZoom >= geolocationZoom) {
+                    geolocationZoom = Math.min(17, currentZoom + 2);
+                  }
+                  console.log(currentZoom, geolocationZoom);
                   let control_icon = document.querySelector(
                     ".leaflet-control-geolocation-toggle"
                   );
@@ -186,11 +228,19 @@ const loadMapMulti = (requested_id = null) => {
                       weight: 3,
                       opacity: 1,
                       fillOpacity: 0.8,
-                    }).addTo(map);
+                    });
+                    map.flyTo(userLocation, geolocationZoom);
+                    map.once("moveend", () => {
+                      userMarker.addTo(map);
+                      resumeInteraction(map);
+                    });
                   } else {
                     userMarker.setLatLng(userLocation);
+                    map.flyTo(userLocation, geolocationZoom);
+                    map.once("moveend", () => {
+                      resumeInteraction(map);
+                    });
                   }
-                  map.flyTo(userLocation);
                 });
               });
               return div;
@@ -216,6 +266,7 @@ const loadMapMulti = (requested_id = null) => {
             default:
               defaultMapLayer = carto_voyager;
           }
+          // Add Tile Layer
           defaultMapLayer.addTo(map);
           // Layer controls
           var allLayers = {
@@ -240,10 +291,12 @@ const loadMapMulti = (requested_id = null) => {
         });
         let marker = req ? req[0] : null;
         if (marker && marker.options.item_id == requested_id) {
-          map.flyTo(marker._latlng);
-          setTimeout(() => {
+          pauseInteraction(map);
+          map.flyTo(marker._latlng, markerRequestZoom);
+          map.once("moveend", () => {
             marker.openPopup();
-          }, 300);
+            resumeInteraction(map);
+          });
         } else if (bounds) {
           map.fitBounds(bounds);
         }

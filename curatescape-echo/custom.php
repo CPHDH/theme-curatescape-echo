@@ -2335,7 +2335,7 @@ function rl_social_array($max=5)
 /*
 ** Build a series of social media icon links for the footer
 */
-function rl_find_us($class=null, $max=9)
+function rl_find_us($class=null, $max=5)
 {
     if ($services=rl_social_array($max)) {
         return '<div class="link-icons '.$class.'">'.implode(' ', $services).'</div>';

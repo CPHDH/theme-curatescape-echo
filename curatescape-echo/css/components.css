@@ -593,8 +593,19 @@ figure#story-map {
   font-family: var(--font-body);
   padding: 1em;
 }
-.curatescape-infowindow-title {
+.leaflet-container .curatescape-infowindow-title {
   font-weight: 800;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+body.fullscreen-map .leaflet-container .curatescape-infowindow-title,
+#multi-map-container .leaflet-container .curatescape-infowindow-title {
+  font-size: 0.833rem;
+}
+.leaflet-container .curatescape-infowindow-title:focus,
+.leaflet-container .curatescape-infowindow-title:hover {
+  text-decoration: underline;
 }
 .leaflet-control-geolocation-toggle {
   background-image: url("../images/ionicons/custom/locate-grey.svg");
@@ -1285,6 +1296,13 @@ ul.pagination .button {
     max-height: 50vh;
   }
 }
+.browse .browse-items.empty {
+  margin: 0 0;
+}
+.browse .browse-items #no-results {
+  font-family: var(--font-ui);
+  width: 100%;
+}
 
 /* Advanced Search Results */
 #result-cards {
@@ -1541,9 +1559,6 @@ ul.pagination .button {
   height: calc(100vh - 4em);
   opacity: 1;
 }
-#multi-map-container .leaflet-control-attribution {
-  padding-right: 50px;
-}
 @media all and (max-width: 800px) {
   #show-multi-map:not(.open) {
     height: 75px;
@@ -1554,4 +1569,38 @@ ul.pagination .button {
   #show-multi-map.open {
     left: calc(100vw - 50px - 0.25em);
   }
+}
+.leaflet-control-attribution a {
+  font-family: var(--font-ui);
+}
+#multi-map-container .leaflet-control-attribution {
+  padding-right: 50px;
+}
+.leaflet-bottom.leaflet-left {
+  width: 100%;
+  text-align: center;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.leaflet-title {
+  width: 100%;
+  bottom: 35px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.leaflet-title-inner {
+  display: block;
+  width: max-content;
+  font-family: var(--font-ui);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: var(--form-element-border-radius);
+  padding: 5px 10px;
+  font-size: 1rem;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: var(--shadow-general);
+  border: var(--deco-border);
+  max-width: calc(100% - 30px);
+  line-height: 1.4em;
 }

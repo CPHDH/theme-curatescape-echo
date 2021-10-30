@@ -11,7 +11,9 @@ const loadMapSingle = () => {
           // console.log("Leaflet initialized...");
           let map = L.map("curatescape-map-canvas", {
             scrollWheelZoom: false,
+            tap: false,
           });
+          pauseInteraction(map);
           // Set View
           map.setView([data.lat, data.lon], data.zoom);
           // Center on open
@@ -23,7 +25,7 @@ const loadMapSingle = () => {
           // Info window
           var address = data.address ? data.address : data.lat + "," + data.lon;
           var image =
-            '<a href="javascript:void" class="curatescape-infowindow-image ' +
+            '<a href="javascript:void(0)" class="curatescape-infowindow-image ' +
             data.orientation +
             '" style="background-image:url(' +
             data.image +
@@ -55,6 +57,7 @@ const loadMapSingle = () => {
             alt: safeText(data.title),
           }).bindPopup(html);
           marker.addTo(map).openPopup();
+          resumeInteraction(map, false);
 
           // Layers
           var defaultMapLayer;
@@ -103,6 +106,7 @@ const loadMapSingle = () => {
               a.setAttribute("aria-label", "Geolocation");
               a.addEventListener("click", (e) => {
                 e.preventDefault();
+                pauseInteraction(map);
                 if (e.composed) {
                   navigator.geolocation.getCurrentPosition((pos) => {
                     let userLocation = [
@@ -127,8 +131,15 @@ const loadMapSingle = () => {
                         userMarker.setLatLng(userLocation);
                       }
                       map.flyTo(userLocation);
+                      map.once("moveend", () => {
+                        userMarker.addTo(map);
+                        resumeInteraction(map, false);
+                      });
                     } else {
                       map.flyTo([data.lat, data.lon]);
+                      map.once("moveend", () => {
+                        resumeInteraction(map, false);
+                      });
                     }
                   });
                 }

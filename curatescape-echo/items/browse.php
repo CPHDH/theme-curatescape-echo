@@ -15,7 +15,7 @@ if (($tag || $tags) && !($query)) {
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif (!empty($auth)) {
-    $title = __('%1$s by author "%2$s"', rl_item_label('plural'), $auth);
+    $title = __('%1$s by author %2$s', rl_item_label('plural'), $auth);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif (!empty($subj)) {
@@ -69,7 +69,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
         <div id="primary" class="browse">
             <section id="results" aria-label="<?php echo rl_item_label('plural');?>">
 
-                <div class="browse-items">
+                <div class="browse-items <?php echo $total_results ? '' : 'empty';?>">
                     <?php
             foreach (loop('Items') as $item):
                 $item_image=null;
@@ -92,6 +92,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
                         <div class="result-details">
                             <?php echo rl_the_title_expanded($item); ?>
                             <?php echo rl_the_byline($item, false);?>
+                            <?php echo link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore')).' | <a data-id="'.$item->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';?>
                         </div>
 
                     </article>
@@ -99,10 +100,12 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
 
                     <?php if ($query && !$total_results) {?>
                     <div id="no-results">
-                        <p><?php echo ($query) ? '<em>'.__('Your query returned <strong>no results</strong>.').'</em>' : null;?></p>
-                        <?php echo search_form(array('show_advanced'=>true));?>
+                        <p><?php echo ($query) ? '<em>'.__('Your query returned <strong>no results.</strong>').'</em><br><span class="caption">'.rl_icon('information-circle').__('Try using <a href="'.url('items/search').'">Advanced %s Search</a> or <a href="'.url('search').'">Sitewide Search</a>.</span>',rl_item_label()) : null;?></p>
                     </div>
-                    <?php }?>
+                    <?php }else{ ?>
+                    <article class="item-result" style="visibility:hidden"></article>
+                    <article class="item-result" style="visibility:hidden"></article>
+                    <?php } ?>
 
                 </div>
             </section>
