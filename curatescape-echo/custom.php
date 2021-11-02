@@ -501,7 +501,7 @@ function rl_icon($name=null, $variant="-sharp")
 /*
 ** Global header
 */
-function rl_global_header($html=null)
+function rl_global_header($html=null, $includeMap=false)
 {
     ?>
     <nav id="top-navigation" class="" aria-label="<?php echo __('Main Navigation'); ?>">
@@ -511,7 +511,7 @@ function rl_global_header($html=null)
         <div id="nav-desktop">
             <?php echo '<a class="button transparent" href="'.url('items/browse').'">'.rl_icon("location").rl_item_label('plural').'</a>'; ?>
             <?php echo '<a class="button transparent" href="'.url('tours/browse').'">'.rl_icon("compass").rl_tour_label('plural').'</a>'; ?>
-            <?php echo '<a class="button transparent" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>'; ?>
+            <?php echo ($includeMap) ? '<a class="button transparent" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>' : null; ?>
         </div>
         <div id="nav-interactive">
             <!-- Search -->
