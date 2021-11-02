@@ -48,6 +48,17 @@
     box-shadow: var(--shadow-big), 0 0 0 20px rgba(0, 0, 0, 0);
   }
 }
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /* Buttons */
 button,

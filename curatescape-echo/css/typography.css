@@ -166,6 +166,7 @@ footer {
 a {
   color: var(--link-text);
   word-break: break-word;
+  text-decoration-thickness: from-font;
 }
 a:hover,
 a:focus {

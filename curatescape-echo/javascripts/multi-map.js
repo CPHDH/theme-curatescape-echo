@@ -1,15 +1,18 @@
 const overlay = document.querySelector("#multi-map-overlay");
 const container = document.querySelector("#multi-map-container");
 const showmap = document.querySelector("#show-multi-map");
+const showmap_title = showmap.getAttribute("title");
 const showmap_with_marker = document.querySelectorAll(".showonmap");
+let requested_marker_id = null;
 
 // OPEN/CLOSE FUNCTIONS
 const openMultiMap = (requested_id = null) => {
+  requested_marker_id = requested_id;
   if (!showmap.classList.contains("open")) {
     showmap.classList.remove("pulse");
     showmap.classList.add("open");
-    showmap.setAttribute("title", "");
-    showmap.setAttribute("aria-label", "");
+    showmap.setAttribute("title", showmap.dataset.close);
+    showmap.setAttribute("aria-label", showmap.dataset.close);
   }
   if (!container.classList.contains("open")) {
     container.classList.add("open");
@@ -23,12 +26,39 @@ const openMultiMap = (requested_id = null) => {
 const closeMultiMap = () => {
   if (showmap.classList.contains("open")) {
     showmap.classList.remove("open");
+    showmap.setAttribute("title", showmap_title);
+    showmap.setAttribute("aria-label", showmap_title);
   }
   if (container.classList.contains("open")) {
     container.classList.remove("open");
   }
   if (overlay.classList.contains("open")) {
     overlay.classList.remove("open");
+  }
+  if (requested_marker_id) {
+    let open_origin = document.querySelector(
+      '.showonmap[data-id="' + requested_marker_id + '"]'
+    );
+    open_origin.focus();
+  } else {
+    showmap.focus();
+  }
+};
+
+// FOCUS FUNCTIONS
+const setMarkerFocus = (requestedMarker = null, map = null) => {
+  if (map) {
+    let m = L.DomUtil.get(map._container);
+  }
+  if (requestedMarker) {
+    let r = L.DomUtil.get(requestedMarker._popup._container);
+    r.querySelector("a:first-child").focus();
+  }
+};
+const setMapFocus = (map = null) => {
+  if (map) {
+    let m = L.DomUtil.get(map._container);
+    m.querySelector("a:first-child").focus();
   }
 };
 
@@ -53,6 +83,7 @@ const loadMapMulti = (requested_id = null) => {
   const map_title = container.getAttribute("aria-label");
   if (mapfigure && mapped == 0) {
     const map_attr = mapfigure.dataset;
+    let loader = null;
     loadCSS(map_attr.leafletCss);
     loadJS(map_attr.leafletJs, () => {
       loadJS(map_attr.providers, () => {
@@ -65,6 +96,19 @@ const loadMapMulti = (requested_id = null) => {
           });
           pauseInteraction(map);
           map.setView([map_attr.lat, map_attr.lon], map_attr.zoom);
+          // Title / Loading
+          if (map_title) {
+            var titleControl = L.control({ position: "bottomleft" });
+            titleControl.onAdd = (map) => {
+              var div = L.DomUtil.create("div", "leaflet-title");
+              var span = L.DomUtil.create("span", "leaflet-title-inner", div);
+              span.innerHTML = map_title;
+              loader = L.DomUtil.create("span", "title-loader spin");
+              span.prepend(loader);
+              return div;
+            };
+            titleControl.addTo(map);
+          }
           // Get Tour Items & Add Markers
           fetch(url + jsonPath)
             .then((response) => response.json())
@@ -133,7 +177,8 @@ const loadMapMulti = (requested_id = null) => {
               bounds = group.getBounds();
               map.fitBounds(bounds);
               resumeInteraction(map);
-
+              // Remove Loading
+              loader.classList.remove("spin");
               // Open Requested Marker
               if (requestedMarker) {
                 pauseInteraction(map);
@@ -144,21 +189,13 @@ const loadMapMulti = (requested_id = null) => {
                 map.flyTo(requestedMarker._latlng, markerRequestZoom);
                 map.once("moveend", () => {
                   requestedMarker.openPopup();
+                  setMarkerFocus(requestedMarker, map);
                   resumeInteraction(map);
                 });
+              } else {
+                setMapFocus(map);
               }
             });
-          // Title
-          if (map_title) {
-            var titleControl = L.control({ position: "bottomleft" });
-            titleControl.onAdd = (map) => {
-              var div = L.DomUtil.create("div", "leaflet-title");
-              var span = L.DomUtil.create("span", "leaflet-title-inner", div);
-              span.innerHTML = map_title;
-              return div;
-            };
-            titleControl.addTo(map);
-          }
           // Fit Bounds controls
           var fitBoundsControl = L.control({ position: "topleft" });
           fitBoundsControl.onAdd = (map) => {
@@ -216,7 +253,6 @@ const loadMapMulti = (requested_id = null) => {
                   if (currentZoom >= geolocationZoom) {
                     geolocationZoom = Math.min(17, currentZoom + 2);
                   }
-                  console.log(currentZoom, geolocationZoom);
                   let control_icon = document.querySelector(
                     ".leaflet-control-geolocation-toggle"
                   );
@@ -295,11 +331,15 @@ const loadMapMulti = (requested_id = null) => {
           map.flyTo(marker._latlng, markerRequestZoom);
           map.once("moveend", () => {
             marker.openPopup();
+            setMarkerFocus(marker, map);
             resumeInteraction(map);
           });
         } else if (bounds) {
           map.fitBounds(bounds);
+          setMapFocus(map);
         }
+      } else {
+        setMapFocus(map);
       }
     }
   }

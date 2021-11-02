@@ -515,11 +515,11 @@ function rl_global_header($html=null)
         </div>
         <div id="nav-interactive">
             <!-- Search -->
-            <a tabindex="0" title="<?php echo __('Search'); ?>" id="search-button" href="#footer-search-form" class="button transparent"><?php echo rl_icon("search"); ?>
+            <a role="button" tabindex="0" title="<?php echo __('Search'); ?>" id="search-button" href="#footer-search-form" class="button transparent"><?php echo rl_icon("search"); ?>
                 <span>
                     <?php echo __('Search'); ?></span></a>
             <!-- Menu Button -->
-            <a tabindex="0" title="<?php echo __('Menu'); ?>" id="menu-button" href="#footer-nav" class="button transparent"><?php echo rl_icon("menu"); ?>
+            <a role="button" tabindex="0" title="<?php echo __('Menu'); ?>" id="menu-button" href="#footer-nav" class="button transparent"><?php echo rl_icon("menu"); ?>
                 <span>
                     <?php echo __('Menu'); ?></span></a>
         </div>
@@ -1047,7 +1047,7 @@ function multimap_markup($tour=false, $map_label=null, $button_label=null)
         <?php echo rl_story_map_multi($tour); ?>
     </div>
     <div id="multi-map-overlay"></div>
-    <a title="<?php echo htmlentities(strip_tags($button_label));?>" id="show-multi-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo htmlentities(strip_tags($button_label)); ?>">
+    <a role="button" title="<?php echo htmlentities(strip_tags($button_label));?>" id="show-multi-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo htmlentities(strip_tags($button_label)); ?>" data-close="<?php echo __('Close Map or Press ESC Key');?>">
         <span id="show-multi-map-inner"></span>
     </a>
     <?php

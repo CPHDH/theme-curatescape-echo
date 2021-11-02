@@ -75,6 +75,8 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
                 $item_image=null;
                 $tags=tag_string(get_current_record('item'), url('items/browse'));
                 $hasImage=metadata($item, 'has thumbnail');
+                $location = get_db()->getTable('Location')->findLocationByItem($item, true);
+                $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
                 if ($item_image = rl_get_first_image_src($item)) {
                     $size=getimagesize($item_image);
                     $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
@@ -92,7 +94,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
                         <div class="result-details">
                             <?php echo rl_the_title_expanded($item); ?>
                             <?php echo rl_the_byline($item, false);?>
-                            <?php echo link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore')).' | <a data-id="'.$item->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';?>
+                            <?php echo link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore')).($has_location ? ' | <a role="button" data-id="'.$item->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>' : null);?>
                         </div>
 
                     </article>
