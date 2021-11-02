@@ -197,7 +197,7 @@ input[type="submit"].icon-round,
 .button[title="pause"]:focus {
   color: #fff;
   border-color: #fff;
-  background-color: var(--text-caption);
+  background-color: var(--dark-primary);
 }
 /* Social buttons */
 .button[title="facebook"]:hover,
@@ -301,5 +301,5 @@ input[type="submit"].icon-round,
 .button[title="print"]:focus {
   color: #fff;
   border-color: #fff;
-  background: var(--text-caption);
+  background: var(--dark-primary);
 }

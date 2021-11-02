@@ -246,7 +246,7 @@ p {
 }
 .browse .byline a {
   margin: 0 0 1em;
-  color: initial;
+  color: var(--article-header-title);
   text-decoration: none;
 }
 .browse a.permalink:hover,

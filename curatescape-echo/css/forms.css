@@ -4,7 +4,7 @@ form {
 }
 body.queryresults #results form,
 body.advanced-search #results form {
-  background: #eee;
+  background: var(--deco-color-subtle);
   padding: 1em;
   border: var(--deco-frame);
   box-shadow: var(--shadow-big);
@@ -52,7 +52,7 @@ form #advanced-form {
 button.add_search,
 button.remove_search {
   margin-bottom: 0.5em;
-  color: var(--text-base);
+  color: #222;
 }
 button.add_search {
   background: var(--message-success);
@@ -125,7 +125,7 @@ select {
 }
 select {
   border-color: var(--form-element-border-color);
-  color: var(--form-select-color);
+  color: #222;
 }
 textarea {
   border-radius: var(--form-textarea-border-radius);
