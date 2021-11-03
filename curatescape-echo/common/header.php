@@ -65,6 +65,15 @@
     <?php echo rl_configured_css();
     ?>
     </style>
+    
+    <!-- Preconnect to Map JSON -->
+    <?php if (0 === strpos(current_url(), '/items/show') || 0 === strpos(current_url(), '/tours/show') ):?>
+    <link rel="preconnect" href="?output=mobile-json">
+    <?php elseif(0 === strpos(current_url(), '/items/browse') && $_SERVER['QUERY_STRING']):?>
+    <link rel="preconnect" href="?<?php echo $_SERVER['QUERY_STRING'];?>&output=mobile-json">
+    <?php elseif(0 === strpos(current_url(), '/items/browse')):?>
+    <link rel="preconnect" href="?output=mobile-json">
+    <?php endif;?>
 
     <!-- Async Assets -->
     <script>
@@ -139,7 +148,7 @@
     loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
     <?php endif;?>
     </script>
-
+    
     <noscript>
         <link href="<?php echo css_src('noscript'); ?>" media="all" rel="stylesheet" type="text/css" />
     </noscript>
