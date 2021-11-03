@@ -1644,3 +1644,12 @@ ul.pagination .button {
 .title-loader.spin {
   display: inline-block;
 }
+.curatescape-map .marker-cluster div {
+  color: #fff;
+  font-family: var(--font-ui);
+}
+.curatescape-map .marker-cluster-large div,
+.curatescape-map .marker-cluster-medium div,
+.curatescape-map .marker-cluster-small div {
+  background-color: rgba(0, 0, 0, 0.65);
+}

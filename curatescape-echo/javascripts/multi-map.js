@@ -85,6 +85,9 @@ const loadMapMulti = (requested_id = null) => {
     const map_attr = mapfigure.dataset;
     let loader = null;
     loadCSS(map_attr.leafletCss);
+    if (map_attr.cluster) {
+      loadCSS(map_attr.clusterCss);
+    }
     loadJS(map_attr.leafletJs, () => {
       loadJS(map_attr.providers, () => {
         loadJS(map_attr.makiJs, () => {
@@ -168,15 +171,39 @@ const loadMapMulti = (requested_id = null) => {
                 });
               }
               if (map_attr.cluster) {
-                console.log("@todo: clustering");
+                loadJS(map_attr.clusterJs, () => {
+                  // Clusters...
+                  var clusterOptions = {
+                    removeOutsideVisibleBounds: false,
+                    spiderfyOnMaxZoom: false, // @todo: true unless disableClusteringAtZoom is set
+                    disableClusteringAtZoom: 15, // @todo: theme option
+                    showCoverageOnHover: true,
+                    polygonOptions: {
+                      fillColor: "#000",
+                      color: "#000",
+                      weight: 0,
+                      opacity: 0,
+                      fillOpacity: 0.25,
+                    },
+                  };
+                  var cluster_group = L.markerClusterGroup(clusterOptions);
+                  var group = L.featureGroup(all_markers);
+                  cluster_group.addLayer(group);
+                  cluster_group.addTo(map);
+                  // Bounds
+                  bounds = group.getBounds();
+                  map.fitBounds(bounds);
+                  resumeInteraction(map);
+                });
+              } else {
+                // No Clusters...
+                var group = L.featureGroup(all_markers);
+                group.addTo(map);
+                // Bounds
+                bounds = group.getBounds();
+                map.fitBounds(bounds);
+                resumeInteraction(map);
               }
-              // Add Group
-              var group = L.featureGroup(all_markers);
-              group.addTo(map);
-              // Bounds
-              bounds = group.getBounds();
-              map.fitBounds(bounds);
-              resumeInteraction(map);
               // Remove Loading
               loader.classList.remove("spin");
               // Open Requested Marker
