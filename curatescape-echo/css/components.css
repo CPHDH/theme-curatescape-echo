@@ -318,7 +318,7 @@ header.primary nav #nav-interactive a > i {
     display: none;
   }
   header.primary nav #nav-interactive {
-    background-color: transparent;
+    /* background-color: transparent; */
   }
   header.primary nav #nav-interactive a {
     margin-left: 0.25em;
@@ -403,7 +403,7 @@ article header .title-card-image figcaption .file-description {
 .title-card-subject a:first-child::before {
   background: var(--link-text);
   width: 2em;
-  height: 0.833em;
+  height: 0.7em;
   display: inline-block;
   content: "";
   margin-right: 0.5em;
@@ -421,6 +421,11 @@ article header .background-image {
   left: 0;
   z-index: 0;
   filter: grayscale(1);
+}
+@media (prefers-color-scheme: dark) {
+  article header .background-image {
+    filter: grayscale(1) brightness(0.8);
+  }
 }
 article header .background-image.portrait {
   background-position: center 35%;
@@ -478,11 +483,17 @@ figure.image-figure,
   z-index: 1;
   position: relative;
   display: block;
-  transition: height 0.15s linear, box-shadow 0.15s linear;
+  transition: filter 0.15s linear, height 0.15s linear, box-shadow 0.15s linear;
+}
+@media (prefers-color-scheme: dark) {
+  .gallery-image {
+    filter: brightness(0.8);
+  }
 }
 .gallery-image:hover,
 .gallery-image:focus {
   box-shadow: var(--shadow-big-hover);
+  filter: none;
 }
 .gallery-image.portrait {
   background-position: center 20%;
@@ -1233,11 +1244,17 @@ ul.pagination .button {
   background-size: cover;
   border: var(--deco-frame);
   box-shadow: var(--shadow-big);
-  transition: box-shadow 0.15s linear, height 0.15s linear;
+  transition: filter 0.15s linear, box-shadow 0.15s linear, height 0.15s linear;
+}
+@media (prefers-color-scheme: dark) {
+  .browse .item-image {
+    filter: brightness(0.8);
+  }
 }
 .browse .item-image:hover,
 .browse .item-image:focus {
   box-shadow: var(--shadow-big-hover);
+  filter: none;
 }
 .browse .item-image.portrait {
   background-position: center 20%;
@@ -1418,11 +1435,17 @@ ul.pagination .button {
   margin: 0 0 1em 0;
   flex-grow: 0;
   flex-shrink: 0;
-  transition: box-shadow 0.15s linear;
+  transition: filter 0.15s linear, box-shadow 0.15s linear;
+}
+@media (prefers-color-scheme: dark) {
+  .item-result.tour .tour-image {
+    filter: brightness(0.8);
+  }
 }
 .item-result.tour .tour-image:hover,
 .item-result.tour .tour-image:focus {
   box-shadow: var(--shadow-big-hover);
+  filter: none;
 }
 .item-result.tour .tour-image.single {
   background-size: 200px;
@@ -1560,7 +1583,7 @@ ul.pagination .button {
 }
 #multi-map-container.open .curatescape-map {
   max-width: none;
-  height: calc(100vh - 4em);
+  height: calc(100vh - 4em - env(safe-area-inset-bottom));
   opacity: 1;
 }
 @media all and (max-width: 800px) {

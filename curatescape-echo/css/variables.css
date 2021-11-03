@@ -146,6 +146,7 @@
     --link-text-hover: var(--link-text-on-dark-hover) !important;
     --bg-body: var(--bg-body-dark);
     --bg-article: var(--bg-article-dark);
+    --site-footer-bg-color: #000;
     --text-base: var(--text-base-on-dark);
     --text-heading: var(--text-heading-on-dark);
     --text-subheading: var(--text-subheading-on-dark);
