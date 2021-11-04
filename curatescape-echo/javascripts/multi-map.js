@@ -52,7 +52,9 @@ const setMarkerFocus = (requestedMarker = null, map = null) => {
   }
   if (requestedMarker) {
     let r = L.DomUtil.get(requestedMarker._popup._container);
-    r.querySelector("a:first-child").focus();
+    if (r) {
+      r.querySelector("a:first-child").focus();
+    }
   }
 };
 const setMapFocus = (map = null) => {
@@ -171,6 +173,7 @@ const loadMapMulti = (requested_id = null) => {
                 });
               }
               if (map_attr.cluster && !istour) {
+                markerRequestZoom = 18;
                 loadJS(map_attr.clusterJs, () => {
                   // Clusters...
                   const getRadius = (zoom, rad = 0) => {
@@ -178,9 +181,8 @@ const loadMapMulti = (requested_id = null) => {
                   };
                   var cluster_group = L.markerClusterGroup({
                     removeOutsideVisibleBounds: false,
-                    spiderfyOnMaxZoom: false, // @todo: true unless disableClusteringAtZoom is set
-                    disableClusteringAtZoom: 15, // @todo: theme option
                     maxClusterRadius: getRadius,
+                    spiderfyOnMaxZoom: true,
                     showCoverageOnHover: true,
                     polygonOptions: {
                       fillColor: "#000",
@@ -195,7 +197,9 @@ const loadMapMulti = (requested_id = null) => {
                   cluster_group.addTo(map);
                   // Bounds
                   bounds = group.getBounds();
-                  map.fitBounds(bounds);
+                  if (!requestedMarker) {
+                    map.fitBounds(bounds);
+                  }
                   resumeInteraction(map);
                 });
               } else {
@@ -204,7 +208,9 @@ const loadMapMulti = (requested_id = null) => {
                 group.addTo(map);
                 // Bounds
                 bounds = group.getBounds();
-                map.fitBounds(bounds);
+                if (!requestedMarker) {
+                  map.fitBounds(bounds);
+                }
                 resumeInteraction(map);
               }
               // Remove Loading
@@ -212,10 +218,6 @@ const loadMapMulti = (requested_id = null) => {
               // Open Requested Marker
               if (requestedMarker) {
                 pauseInteraction(map);
-                currentZoom = map.getZoom();
-                if (currentZoom >= markerRequestZoom) {
-                  markerRequestZoom = Math.min(17, currentZoom + 2);
-                }
                 map.flyTo(requestedMarker._latlng, markerRequestZoom);
                 map.once("moveend", () => {
                   requestedMarker.openPopup();
