@@ -1632,6 +1632,11 @@ ul.pagination .button {
   max-width: calc(100% - 30px);
   line-height: 1.4em;
 }
+@media all and (max-width: 650px) {
+  .leaflet-title-inner {
+    font-size: 0.833rem;
+  }
+}
 .title-loader {
   display: none;
   vertical-align: sub;
@@ -1645,11 +1650,24 @@ ul.pagination .button {
   display: inline-block;
 }
 .curatescape-map .marker-cluster div {
-  color: #fff;
+  color: var(--cluster-text-color, #fff);
   font-family: var(--font-ui);
 }
-.curatescape-map .marker-cluster-large div,
-.curatescape-map .marker-cluster-medium div,
+.curatescape-map .marker-cluster-large {
+  background-color: var(--cluster-large-color, rgba(253, 156, 115, 0.6));
+}
+.curatescape-map .marker-cluster-medium {
+  background-color: var(--cluster-medium-color, rgba(241, 211, 87, 0.6));
+}
+.curatescape-map .marker-cluster-small {
+  background-color: var(--cluster-small-color, rgba(181, 226, 140, 0.6));
+}
+.curatescape-map .marker-cluster-large div {
+  background-color: var(--cluster-large-color, rgba(0, 0, 0, 0.65));
+}
+.curatescape-map .marker-cluster-medium div {
+  background-color: var(--cluster-medium-color, rgba(0, 0, 0, 0.65));
+}
 .curatescape-map .marker-cluster-small div {
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: var(--cluster-small-color, rgba(0, 0, 0, 0.65));
 }

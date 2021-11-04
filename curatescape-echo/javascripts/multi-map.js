@@ -170,13 +170,17 @@ const loadMapMulti = (requested_id = null) => {
                   }
                 });
               }
-              if (map_attr.cluster) {
+              if (map_attr.cluster && !istour) {
                 loadJS(map_attr.clusterJs, () => {
                   // Clusters...
-                  var clusterOptions = {
+                  const getRadius = (zoom, rad = 0) => {
+                    return 60 + zoom;
+                  };
+                  var cluster_group = L.markerClusterGroup({
                     removeOutsideVisibleBounds: false,
                     spiderfyOnMaxZoom: false, // @todo: true unless disableClusteringAtZoom is set
                     disableClusteringAtZoom: 15, // @todo: theme option
+                    maxClusterRadius: getRadius,
                     showCoverageOnHover: true,
                     polygonOptions: {
                       fillColor: "#000",
@@ -185,8 +189,7 @@ const loadMapMulti = (requested_id = null) => {
                       opacity: 0,
                       fillOpacity: 0.25,
                     },
-                  };
-                  var cluster_group = L.markerClusterGroup(clusterOptions);
+                  });
                   var group = L.featureGroup(all_markers);
                   cluster_group.addLayer(group);
                   cluster_group.addTo(map);
