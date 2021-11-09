@@ -245,30 +245,34 @@ function rl_relabel_type($type=null)
 */
 function rl_assets_blacklist($view=null, $paths=array())
 {
-    if ($view) {
-        $scripts = $view->headScript();
-        foreach ($scripts as $key=>$file) {
-            foreach ($paths as $path) {
-                if (strpos($file->attributes['src'], $path) !== false) {
-                    $scripts[$key]->type = null;
-                    $scripts[$key]->attributes['src'] = null;
-                    $scripts[$key]->attributes['source'] = null;
-                }
+   if ($view) {
+      $scripts = $view->headScript();
+      foreach ($scripts as $key=>$file) {
+         foreach ($paths as $path) {
+            if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
+               // do nothing if this is an exhibit... might need the Geolocation plugin assets
+            }elseif (strpos($file->attributes['src'], $path) !== false) {
+               $scripts[$key]->type = null;
+               $scripts[$key]->attributes['src'] = null;
+               $scripts[$key]->attributes['source'] = null;
             }
-        }
-        $styles = $view->headLink();
-        foreach ($styles as $key=>$file) {
-            foreach ($paths as $path) {
-                if (strpos($file->href, $path) !== false) {
-                    $styles[$key]->href = null;
-                    $styles[$key]->type = null;
-                    $styles[$key]->rel = null;
-                    $styles[$key]->media = null;
-                    $styles[$key]->conditionalStylesheet = null;
-                }
+         }
+      }
+      $styles = $view->headLink();
+      foreach ($styles as $key=>$file) {
+         foreach ($paths as $path) {
+            if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
+               // do nothing if this is an exhibit... might need the Geolocation plugin assets
+            }elseif (strpos($file->href, $path) !== false) {
+               $styles[$key]->href = null;
+               $styles[$key]->type = null;
+               $styles[$key]->rel = null;
+               $styles[$key]->media = null;
+               $styles[$key]->conditionalStylesheet = null;
             }
-        }
-    }
+         }
+      }
+   }
 }
 
 /*

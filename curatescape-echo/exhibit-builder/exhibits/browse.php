@@ -67,19 +67,18 @@ echo head(array('maptype'=>'none','title'=>$title,'bodyid'=>'exhibits','bodyclas
 
             <?php if (count($exhibits) > 0): ?>
 
-            <div id="exhibits">
+            <div id="results">
                 <?php $exhibitCount = 0; ?>
                 <?php foreach (loop('exhibit') as $exhibit): ?>
                 <?php $exhibitCount++; ?>
-                <div class="exhibit <?php if ($exhibitCount%2==1) {
+                <div class="exhibit item-result collection <?php if ($exhibitCount%2==1) {
                 echo ' even';
             } else {
                 echo ' odd';
             } ?>">
                     <?php echo link_to_exhibit('<h3 class="title">'.metadata('exhibit', 'title').'</h3>', array('class'=>'permalink')); ?>
-                    <?php if ($exhibitDescription = metadata('exhibit', 'description', array('no_escape' => true))): ?>
-                    <div class="description"><?php echo strip_tags($exhibitDescription); ?></div>
-                    <?php endif; ?>
+                    <?php echo '<div class="byline">'.rl_icon('globe').__('Curated by %2s', metadata($exhibit, 'credits')).'</div>'; ?>
+
                 </div>
                 <?php endforeach; ?>
             </div>
