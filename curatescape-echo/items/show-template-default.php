@@ -50,7 +50,7 @@ $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : f
                 <?php echo rl_the_byline($item, true);?>
             </div>
             <div class="title-card-image">
-                <?php echo rl_gallery_figure($filesforitem['images'][0], 'featured', '#images');?>
+                <?php echo rl_gallery_figure($filesforitem['images'][0], 'featured', 'javascript:void(0)');?>
             </div>
         </div>
     </header>
