@@ -25,15 +25,30 @@
   .tour-inner {
     border: none !important;
   }
-  figure .gallery-image {
+  figure .gallery-image,
+  #single-file-show a.download-file img {
     border: none !important;
     box-shadow: none !important;
     page-break-inside: avoid;
+  }
+  #single-file-show > div{
+    background-color: transparent;
+    padding: 0;
   }
   article header .title-card-image figcaption {
     padding-bottom: 0;
   }
   #metadata-section {
     page-break-before: always;
+  }
+  .additional-elements{
+    border:none;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 1em 0;
+    }
+  #file-header-info{
+    margin-bottom: 1em;
+    display: block;
   }
 }

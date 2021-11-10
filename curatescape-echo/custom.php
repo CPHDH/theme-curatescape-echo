@@ -1791,16 +1791,16 @@ function rl_file_metadata_additional($file='file', $html=null)
 
     if ($fields['Dublin Core']) {
 
-             // Omit Primary DC Fields
+        // Omit Primary DC Fields
         $dc = array_filter($fields['Dublin Core'], function ($key) {
-            $omit=array('Description','Title','Creator','Date','Rights','Source');
+            $omit=array('Description','Title');
             return !(in_array($key, $omit));
         }, ARRAY_FILTER_USE_KEY);
 
         // Output
         foreach ($dc as $dcname=>$values) {
             $html.='<div class="additional-element">';
-            $html.='<h4 class="additional-element-name">'.$dcname.'</h4>';
+            $html.='<h3 class="h4 additional-element-name">'.$dcname.'</h3>';
             $html.='<div class="additional-element-value-container">';
             foreach ($values as $value) {
                 $html.='<div class="additional-element-value">'.$value.'</div>';
@@ -1811,7 +1811,6 @@ function rl_file_metadata_additional($file='file', $html=null)
     }
 
     if ($html) {
-        echo '<h3>'.__('Additional Information').'</h3>';
         echo '<div class="additional-elements">'.$html.'</div>';
     }
 }
