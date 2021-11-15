@@ -134,7 +134,9 @@ small,
   letter-spacing: 0.015em;
 }
 header,
-footer {
+footer,
+.additional-elements,
+.additional-elements h3 {
   font-family: var(--font-ui);
 }
 .card-label,
@@ -188,7 +190,6 @@ video,
 iframe {
   max-width: 100%;
 }
-
 figcaption,
 .caption {
   line-height: 1.5em;
@@ -197,7 +198,10 @@ figcaption,
   font-size: 0.833em;
   color: var(--text-caption);
 }
-
+.single-file-caption {
+  color: var(--text-base);
+  font-size: 1em;
+}
 blockquote {
   display: block;
   margin: 1em 0;
@@ -210,7 +214,6 @@ blockquote[cite]::after {
   font-size: 0.833em;
   color: var(--text-caption);
 }
-
 strong,
 b {
   font-weight: bold;
@@ -233,22 +236,30 @@ p {
   max-width: 37em;
   letter-spacing: 0.015em;
 }
-/* Browse */
+/* Browse / Home */
+.home a.permalink,
 .browse a.permalink {
   text-decoration: none;
 }
+.home a .subtitle,
 .browse a .subtitle {
   font-size: 1rem;
   margin: 0 0 0.15em;
 }
+.home a .title,
 .browse a .title {
   margin: 0 0 0.15em;
 }
+.home .byline a,
 .browse .byline a {
   margin: 0 0 1em;
   color: var(--article-header-title);
   text-decoration: none;
 }
+.home a.permalink:hover,
+.home a.permalink:focus,
+.home .byline a:hover,
+.home .byline a:focus,
 .browse a.permalink:hover,
 .browse a.permalink:focus,
 .browse .byline a:hover,

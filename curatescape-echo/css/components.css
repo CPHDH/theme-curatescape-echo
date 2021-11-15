@@ -1746,32 +1746,36 @@ body.exhibits.summary .exhibit-summary-link a {
 }
 
 /* Single File Show */
-#single-file-show > div{
+#single-file-show > div {
   text-align: center;
   background: var(--dark-primary);
   padding: 1em;
   margin-bottom: 1em;
 }
-#single-file-show a.download-file{
+#single-file-show a.download-file {
   display: flex;
   justify-content: center;
 }
 
-#single-file-show a.download-file img{
+#single-file-show a.download-file img {
   box-shadow: var(--shadow-big);
-  transition: box-shadow .15s linear;
+  transition: box-shadow 0.15s linear;
 }
 #single-file-show a.download-file img:hover,
-#single-file-show a.download-file img:focus{
+#single-file-show a.download-file img:focus {
   box-shadow: var(--shadow-big-hover);
 }
 
-.additional-elements{
+#single-file-show video {
+  height: 100%;
+}
+
+.additional-elements {
   border: var(--deco-frame);
   background-color: var(--deco-color-subtle);
   box-shadow: var(--shadow-big);
   padding: 0 1em 1em;
 }
-.additional-elements h3{
-  margin: 1em 0 0 0
+.additional-elements h3 {
+  margin: 1em 0 0 0;
 }

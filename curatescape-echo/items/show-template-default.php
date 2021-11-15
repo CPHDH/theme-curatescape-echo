@@ -97,8 +97,8 @@ $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : f
                         <?php echo rl_nojs_images($filesforitem['images']);?>
                     </noscript>
                     <?php foreach ($filesforitem['images'] as $image) {
-    echo rl_gallery_figure($image, 'border');
-}?>
+                        echo rl_gallery_figure($image, 'border');
+                    }?>
                 </div>
                 <?php endif;?>
 
@@ -123,20 +123,20 @@ $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : f
             <section aria-label="<?php echo __('Metadata');?>" id="metadata-section" data-toc="#metadata-section">
                 <h2><?php echo __('Metadata');?></h2>
                 <?php if ($res = rl_meta_style(__('Related Resources'), array(rl_related_links()))) {
-    echo $res;
-}?>
+                    echo $res;
+                }?>
                 <?php if ($website = rl_meta_style(__('Official Website'), array(rl_official_website()))) {
-    echo $website;
-}?>
+                    echo $website;
+                }?>
                 <?php if ($cite = rl_meta_style(__('Citation Info'), array(rl_item_citation(),rl_post_date()))) {
-    echo $cite;
-};?>
+                    echo $cite;
+                };?>
                 <?php if ($tours = rl_tours_for_item($item->id)) {
-    echo rl_meta_style(__('Related Tours'), array($tours));
-}?>
+                    echo rl_meta_style(__('Related Tours'), array($tours));
+                }?>
                 <?php if ($cats = rl_meta_style(__('Filed Under'), array(rl_collection($item),rl_subjects(),rl_tags($item)))) {
-    echo $cats;
-}?>
+                    echo $cats;
+                }?>
             </section>
 
         </div>
