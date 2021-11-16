@@ -116,6 +116,7 @@ small,
   color: var(--article-header-title);
   margin-bottom: 0.5rem;
   font-weight: 800;
+  line-height: 1.2;
 }
 .subtitle {
   font-family: var(--font-subheading);

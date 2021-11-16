@@ -29,22 +29,36 @@ function rl_search_record_types($recordTypes)
 */
 function rl_admin_message($which=null, $roles=array('admin','super','contributor','researcher','editor','author'))
 {
-    if ($user=current_user()) {
-        if (in_array($user['role'], $roles)) {
-         switch ($which) {
-            case 'items-browse':
-            if (intval(option('per_page_public')) % 6 > 0) {
-               $title = '<strong>'.__('Admin Notice').'</strong> ';
-               $ps = __('This message is only visible to site admins.');
-               return '<div class="warning message">'.rl_icon('warning').$title.': '.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).' '.$ps.'</div>';
-            }
-            break;
-            
-            default:
-            return null;
-         }
-        }
+  $icon = rl_icon('warning');
+  $title = '<span class="t"><strong>'.__('Admin Notice').'</strong></span>';
+  $ps = '<span class="ps">'.__('This message is visible only to site administrators, and only while Stealth Mode is active.').'</span>';
+  if (($user=current_user()) && (get_theme_option('stealth_mode')==1)) {
+    if (in_array($user['role'], $roles)) {
+      switch ($which) {
+        case 'items-browse':
+          if (intval(option('per_page_public')) % 6 > 0) {
+            return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).'</span> '.$ps.'</div></div>';
+          }
+        case 'home-featured':
+          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Featured Items. <a href="%s">Publish some now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';
+        
+        case 'home-tours':
+          $tours_scope = get_theme_option('homepage_tours_scope');
+          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for %1$s Tours. <a href="%2$s">Publish some now</a>.', ucfirst($tours_scope), admin_url('tours/browse')).'</span> '.$ps.'</div></div>';
+        
+        case 'home-recent-random':
+          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Recent/Random Items. <a href="%s">Publish some now</a>. Note that Featured Items will be omitted in this section.', admin_url('items/browse')).'</span> '.$ps.'<div></div>';
+        
+        case 'home-tags':
+          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Tags. <a href="%s">Add some tags to each of your items now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';          
+        
+        default:
+        return null;
+      }
+    }else{
+      return null;
     }
+  }
 }
 
 /*
@@ -1438,76 +1452,204 @@ function rl_tour_preview($s)
     return $html;
 }
 
+/*
+** Homepage Featured Items
+*/ 
+function rl_homepage_featured($num=5,$html=null,$index=1)
+{
+  $items=get_records('Item', array('featured'=>true,'hasImage'=>true,'sort_field' => 'modified', 'sort_dir' => 'd','public'=>true), $num);
+  if(count($items)){
+    $index = 1;
+    $html = '<h2 class="query-header">'.__('Featured %s',rl_item_label('plural')).'</h2>';
+    foreach($items as $item){
+        $html .= '<article class="featured featured-'.$index.'" style="background-image:url('.rl_get_first_image_src($item).')">';
+            $html .= '<div>'.rl_the_title_expanded($item);
+                $html .= '<div class="featured-item-author">'.rl_the_byline($item, false).'</div>';
+            $html .= '</div>';
+        $html .= '</article>';
+        $index++;
+    }
+    $html .= '<p class="view-more-link"><a class="button" href="/items/browse?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></p>';
+    return '<section id="home-featured">'.$html.'</section>';
+  }else{
+    return rl_admin_message('home-featured',array('admin','super','editor','author'));
+  }          
+}
+
+/*
+** Homepage Recent/Random Items
+*/ 
+function rl_homepage_recent_random($mode='recent',$num=5,$html=null,$index=1)
+{
+  switch ($mode) {
+    case 'recent':
+      $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
+      $param=__("Recent");
+      break;
+    case 'random':
+      $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
+      $param=__("Discover");
+      break;
+  }
+  if(count($items)){
+    $html = '<h2 class="query-header">'.$param.' '.rl_item_label('plural').'</h2>';
+    foreach($items as $item){
+      set_current_record('item', $item);
+      $tags=tag_string(get_current_record('item'), url('items/browse'));
+      $hasImage=metadata($item, 'has thumbnail');
+      $location = get_db()->getTable('Location')->findLocationByItem($item, true);
+      $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
+      if ($item_image = rl_get_first_image_src($item)) {
+          $size=getimagesize($item_image);
+          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+      } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
+          $img = item_image('fullsize');
+          preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
+          $item_image = array_pop($result);
+          $size=getimagesize($item_image);
+          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+      }else{
+          $item_image=null;
+      }
+      $html .= '<article class="item-result '.($hasImage ? 'has-image' : 'no-image').'">';
+      $html .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container')); 
+      $html .= '<div class="result-details">';
+      $html .= rl_the_title_expanded($item);
+      $html .= rl_the_byline($item, false);
+      $html .= link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore'));
+      $html .= '</div>';
+      $html .= '</article>';
+    }
+    $html .= '<p class="view-more-link"><a class="button" href="/items/browse/">'.__('Browse All %2s', rl_item_label('plural')).'</a></p>';
+    return '<section id="home-recent-random">'.$html.'</section>';
+  }else{
+    return rl_admin_message('home-recent-random',array('admin','super','editor','author'));
+  }          
+}
+
+/*
+** Homepage Tags
+*/
+function rl_homepage_tags($num=25)
+{
+    $tags=get_records('Tag', array('sort_field' => 'count', 'sort_dir' => 'd'), $num);
+    if(count($tags)){
+      $html = '<h2 class="query-header">'.__('Popular Tags').'</h2>';
+      $html.=tag_cloud($tags, url('items/browse'));
+      $html.='<p class="view-more-link"><a class="button" href="/items/tags/">'.__('Browse All Tags').'</a></p>';
+      return '<section id="home-tags">'.$html.'</section>';    
+    }else{
+      return rl_admin_message('home-tags',array('admin','super','editor','author'));
+    }
+}
+
+/*
+** Homepage About Text 
+*/
+function rl_homepage_about($length=800)
+{
+  $text = get_theme_option('about') 
+    ? strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u><br><img><video><iframe>') 
+    : __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile app framework available for both Android and iOS devices.', option('site_title'));
+  $html = '<h2 class="query-header">'.__('About Us').'</h2>';
+  $html .= '<div class="about-text">';
+
+    $html .= '<div class="about-main">'; 
+      $html .= '<p>'.substr($text, 0, $length).(($length < strlen($text)) ? '... ' : null).'</p>';
+      $html .= '<p class="view-more-link"><a class="button" href="'.url('about').'">'.__('Read More About Us').'</a></p>';
+    $html .= '</div>';
+  $html .= '</div>';
+  
+  return '<section id="home-about">'.$html.'</section>';
+}
+
+/*
+** Homepage Call to Action 
+*/
+function rl_homepage_cta($html=null){
+  $cta_title=get_theme_option('cta_title');
+  $cta_text=get_theme_option('cta_text');
+  $cta_button_label=get_theme_option('cta_button_label');
+  $cta_button_url=get_theme_option('cta_button_url');
+  $cta_button_url_target=get_theme_option('cta_button_url_target') ? ' target="_blank" rel="noreferrer noopener"' : null;
+  if($cta_title && $cta_text && $cta_button_label && $cta_button_url){
+    
+    $html = '<h2 class="query-header">'.$cta_title.'</h2>';
+    $html .= '<div class="about-text">';
+      $html .= '<div class="about-main">'; 
+        $html .= '<p>'.$cta_text.'</p>';
+        $html .= '<p class="view-more-link"><a '.$cta_button_url_target.' class="button" href="'.$cta_button_url.'">'.$cta_button_label.'</a></p>';
+      $html .= '</div>';
+    $html .= '</div>';
+    
+  }else{
+    
+  }
+  return $html;
+}
 
 /*
 ** Display the Tours list
 */
-function rl_display_homepage_tours($num=5, $scope='featured')
+function rl_homepage_tours($html=null, $num=3, $scope='featured')
 {
-   $scope=get_theme_option('homepage_tours_scope') ? get_theme_option('homepage_tours_scope') : $scope;
-   
-   // Get the database.
-   $db = get_db();
-   
-   // Get the Tour table.
-   $table = $db->getTable('Tour');
-   
-   // Build the select query.
-   $select = $table->getSelect();
-   $select->where('public = 1');
-   
-   // Get total count
-   $public = $table->fetchObjects($select);
-   
-   // Continue, get scope
-   switch ($scope) {
-      case 'random':
-         $select->from(array(), 'RAND() as rand');
-         break;
-      case 'featured':
-         $select->where('featured = 1');
-         break;
-   }
-
-
-   // Fetch some items with our select.
-   $items = $table->fetchObjects($select);
-   $customheader=get_theme_option('tour_header');
-   if ($scope=='random') {
-     shuffle($items);
-     $heading = $customheader ? $customheader : __('Take a').' '.rl_tour_label('singular');
-   } else {
-     $heading = $customheader ? $customheader : ucfirst($scope).' '.rl_tour_label('plural');
-   }
-   $num = (count($items)<$num) ? count($items) : $num;
-   $html=null;
-
-
-
-   $html .= '<h3 class="result-type-header">'.$heading.'</h3>';
-   if ($items) {
-      for ($i = 0; $i < $num; $i++) {
-         set_current_record('tour', $items[$i]);
-         $tour=get_current_tour();
-         
-         if (tour('credits')) {
-            $byline= __('Curated by %s', tour('credits'));
-         } else {
-            $byline= __('Curated by %s', option('site_title'));
-         }
-         
-         $html .= '<article class="item-result" data-tour-id="'.tour('id').'">';
-         $html .= '<div><a class="permalink" href="' . WEB_ROOT . '/tours/show/'. tour('id').'"><h3 class="title">' . tour('title').'</h3></a><span class="byline">'.__('%s Locations', rl_tour_total_items($tour)).'</span></div>';
-         $html .= '</article>';
+  // Build query
+  $scope=get_theme_option('homepage_tours_scope') ? get_theme_option('homepage_tours_scope') : $scope;
+  $db = get_db();
+  $table = $db->getTable('Tour');
+  $select = $table->getSelect();
+  $select->where('public = 1');
+  $public = $table->fetchObjects($select);
+  switch ($scope) {
+    case 'random':
+      $select->from(array(), 'RAND() as rand');
+      break;
+    case 'featured':
+      $select->where('featured = 1');
+      break;
+  }
+  $tours = $table->fetchObjects($select);
+  
+  // section heading
+  $customheader=get_theme_option('tour_header');
+  if ($scope=='random') {
+    shuffle($tours);
+    $heading = $customheader ? $customheader : __('Take a').' '.rl_tour_label('singular');
+  } else {
+    $heading = $customheader ? $customheader : ucfirst($scope).' '.rl_tour_label('plural');
+  }
+  
+  // output
+  if ($tours) {
+    $html .= '<h2 class="query-header">'.$heading.'</h2>';
+    for ($i = 0; $i < min(count($tours),$num); $i++) {
+      set_current_record('tour', $tours[$i]);
+      $tour=get_current_tour();
+      $bg=array();
+      if ($touritems = $tour->getItems()) {
+          foreach ($touritems as $ti) {
+              if (count($bg) == 4) {
+                  break;
+              }
+              if ($src=rl_get_first_image_src($ti, 'square_thumbnails')) {
+                  $bg[]='url('.$src.')';
+              }
+          }
       }
-      if (count($public)>1) {
-         $html .= '<p class="view-more-link"><a class="button" href="'.WEB_ROOT.'/tours/browse/">'.__('Browse all <span>%1$s %2$s</span>', count($public), rl_tour_label('plural')).'</a></p>';
-      }
-   } else {
-      $html .= '<p>'.__('No tours are available. Publish some now.').'</p>';
-   }
-
-   return $html;
+      $html .= '<article class="item-result tour">';
+        $html .= '<a class="tour-image '.(count($bg) < 4 ? 'single' : 'multi').'" style="background-image:'.implode(',', $bg).'" href="'.WEB_ROOT.'/tours/show/'.tour('id').'"></a><div class="separator thin flush-bottom flush-top"></div>';
+        $html .= '<div class="tour-inner">';
+          $html .= '<a class="permalink" href="' . WEB_ROOT . '/tours/show/'. tour('id').'"><h3 class="title">' . tour('title').'</h3></a>'.
+              '<span class="byline">'.rl_icon('compass').__('%s Locations', rl_tour_total_items($tours[$i])).'</span>';
+          $html .= '<p class="tour-snip">'.snippet(strip_tags(htmlspecialchars_decode(tour('description'))), 0, 200).'<br><a class="readmore" href="'.WEB_ROOT . '/tours/show/'. tour('id').'">'.__('View %s', rl_tour_label('singular')).'</a></p>';
+        $html .= '</div>';
+      $html .= '</article>';
+    }
+    $html .= '<p class="view-more-link"><a class="button" href="'.WEB_ROOT.'/tours/browse/">'.__('Browse All <span>%s</span>', rl_tour_label('plural')).'</a></p>';
+    return '<section id="home-tours">'.$html.'</section>';
+  } else {
+    return rl_admin_message('home-tours',array('admin','super','editor','author'));
+  }
 }
 
 // return story navigation and (when applicable) tour navigation
@@ -1700,31 +1842,6 @@ function rl_display_random_featured_item($withImage=false, $num=1)
     return $html;
 }
 
-
-/*
-** Display the customizable "About" content on homepage
-*/
-function rl_home_about($length=800, $html=null)
-{
-    $html .= '<div class="about-text">';
-    $html .= '<article>';
-
-    $html .= '<header>';
-    $html .= '<h3 class="title">'.option('site_title').'</h3>';
-    $html .= '<span class="sponsor byline">'.__('A project by').' <span class="sponsor-name">'.rl_owner_link().'</span></span>';
-    $html .= '</header>';
-
-    $html .= '<div class="about-main"><p>';
-    $html .= substr(rl_about(), 0, $length);
-    $html .= ($length < strlen(rl_about())) ? '... ' : null;
-    $html .= '</p><a class="button u-full-width" href="'.url('about').'">'.__('Read more About Us').'</a></div>';
-
-    $html .= '</article>';
-    $html .= '</div>';
-
-    return $html;
-}
-
 /*
 ** Display the customizable "Call to Action" content on homepage
 */
@@ -1771,28 +1888,6 @@ function rl_footer_cta($html=null)
         $html.= '<div class="footer_cta"><a class="button button-primary" href="'.$footer_cta_button_url.'" '.$footer_cta_button_target.'>'.$footer_cta_button_label.'</a></div>';
     }
     return $html;
-}
-
-/*
-** Tag cloud for homepage
-*/
-function rl_home_popular_tags($num=40)
-{
-    $tags=get_records('Tag', array('sort_field' => 'count', 'sort_dir' => 'd'), $num);
-    $html = '<h3 class="result-type-header">'.__('Popular Tags').'</h3>';
-    $html.=tag_cloud($tags, url('items/browse'));
-    $html.='<p class="view-more-link"><a class="button" href="/items/tags/">'.__('Browse all %s tags', total_records('Tags')).'</a></p>';
-    return $html;
-}
-
-
-
-/*
-** List of recent or random items for homepage
-*/
-function rl_home_item_list()
-{
-    return rl_random_or_recent(($mode=get_theme_option('random_or_recent')) ? $mode : 'recent');
 }
 
 /*
@@ -1858,85 +1953,6 @@ function rl_owner_link()
    $authname=(get_theme_option('sponsor_name')) ? get_theme_option('sponsor_name') : $fallback;
    return $authname;
 }
-
-
-/*
-** Build HTML content for homepage widget sections
-** Each widget can be used ONLY ONCE
-*/
-
-function homepage_widget_1($content='recent_or_random')
-{
-   get_theme_option('widget_section_1') ? $content=get_theme_option('widget_section_1') : null;
-   return $content;
-}
-
-function homepage_widget_2($content='featured')
-{
-   get_theme_option('widget_section_2') ? $content=get_theme_option('widget_section_2') : null;
-   return $content;
-}
-
-function homepage_widget_3($content='tours')
-{
-   get_theme_option('widget_section_3') ? $content=get_theme_option('widget_section_3') : null;
-   return $content;
-}
-
-function homepage_widget_4($content='about')
-{
-   get_theme_option('widget_section_4') ? $content=get_theme_option('widget_section_4') : null;
-   return $content;
-}
-
-function homepage_widget_sections()
-{
-   $html=null;
-   $recent_or_random=0;
-   $tours=0;
-   $featured=0;
-   $popular_tags=0;
-   $about=0;
-   $meta=0;
-   $cta=0;
-   
-   foreach (array(homepage_widget_1(),homepage_widget_2(),homepage_widget_3(),homepage_widget_4()) as $setting) {
-      switch ($setting) {
-         case 'featured':
-            $html.= ($featured==0) ? '<section id="featured-stories">'.rl_display_random_featured_item(true, 3).'</section>' : null;
-            $featured++;
-            break;
-         case 'tours':
-            $html.= ($tours==0) ? '<section id="home-tours">'.rl_display_homepage_tours().'</section>' : null;
-            $tours++;
-            break;
-         case 'recent_or_random':
-            $html.= ($recent_or_random==0) ? '<section id="home-item-list">'.rl_home_item_list().'</section>' : null;
-            $recent_or_random++;
-            break;
-         case 'popular_tags':
-            $html.= ($popular_tags==0) ? '<section id="home-popular-tags">'.rl_home_popular_tags().'</section>' : null;
-            $popular_tags++;
-            break;
-         case 'about':
-            $html.= ($about==0) ? '<section id="about">'.rl_home_about().'</section>	' : null;
-            $about++;
-            break;
-         case 'cta':
-            $html.= ($cta==0) ? '<section id="cta">'.rl_home_cta().'</section>	' : null;
-            $cta++;
-            break;
-         case 'custom_meta_img':
-            $html.= ($meta==0) ? '<section id="custom-meta-img" aria-hidden="true"><img src="'.rl_seo_pageimg_custom().'" alt="" class="homepage-brand-image"></section>	' : null;
-            $meta++;
-            break;
-         default:
-            $html.=null;
-      }
-   }
-   return $html;
-}
-
 
 /*
 ** Get recent/random items for use in mobile slideshow on homepage

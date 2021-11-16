@@ -8,10 +8,13 @@ echo head(
     'bodyclass'=>$classname)
 ); ?>
 
-<div id="content" role="main">
-    <article id="homepage" class="page show">
-        <?php echo homepage_widget_sections();?>
-    </article>
+<div id="content" role="main" class="wide">
+    <?php echo rl_homepage_featured();?>
+    <?php echo rl_homepage_recent_random();?>
+    <?php echo rl_homepage_tours();?>
+    <?php echo rl_homepage_tags();?>
+    <?php echo rl_homepage_about();?>
+    <?php echo rl_homepage_cta();?>
 </div>
 
 <?php echo foot(); ?>

@@ -44,6 +44,19 @@
   font-family: var(--font-ui);
   font-size: 0.833em;
   padding: 1em;
+  display: flex;
+  flex-direction: row;
+}
+.message span {
+  display: inline-block;
+}
+.message .icon {
+  margin-right: 0.5em;
+}
+.message .ps {
+  display: block;
+  font-size: 12px;
+  font-style: italic;
 }
 .message a {
   color: var(--text-base);
@@ -978,7 +991,7 @@ div.meta-style > .related-resources {
 }
 .hTagcloud ul li {
   display: inline;
-  padding: 0.25em;
+  padding: 0.25em 0.5em 0.25em 0;
 }
 .hTagcloud ul li a {
   font-family: var(--font-body);
