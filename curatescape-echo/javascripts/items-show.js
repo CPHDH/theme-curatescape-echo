@@ -205,7 +205,7 @@ const streamingMediaControls = () => {
         let index = e.currentTarget.getAttribute("data-index");
         let type = e.currentTarget.getAttribute("data-type");
         let activeicon = document.querySelector(
-          '.media-button[data-type="' + type + '"]'
+          '.media-button[data-type="' + type + '"][data-index="' + index + '"]'
         );
         if (activeicon) {
           activeicon.classList.toggle("alt");
