@@ -72,7 +72,6 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
                 <div class="browse-items <?php echo $total_results ? '' : 'empty';?>">
                     <?php
             foreach (loop('Items') as $item):
-                $item_image=null;
                 $tags=tag_string(get_current_record('item'), url('items/browse'));
                 $hasImage=metadata($item, 'has thumbnail');
                 $location = get_db()->getTable('Location')->findLocationByItem($item, true);
@@ -86,6 +85,8 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
                     $item_image = array_pop($result);
                     $size=getimagesize($item_image);
                     $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+                }else{
+                    $item_image=null;
                 }
                 ?>
                     <article class="item-result <?php echo $hasImage ? 'has-image' : 'no-image';?>">
