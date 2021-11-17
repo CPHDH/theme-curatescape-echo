@@ -37,24 +37,30 @@ function rl_admin_message($which=null, $roles=array('admin','super','contributor
       switch ($which) {
         case 'items-browse':
           if (intval(option('per_page_public')) % 6 > 0) {
-            return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).'</span> '.$ps.'</div></div>';
+            $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).'</span> '.$ps.'</div></div>';
           }
+          break;
         case 'home-featured':
-          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Featured Items. <a href="%s">Publish some now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';
+          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Featured Items. <a href="%s">Publish some now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';
+          break;
         
         case 'home-tours':
           $tours_scope = get_theme_option('homepage_tours_scope');
-          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for %1$s Tours. <a href="%2$s">Publish some now</a>.', ucfirst($tours_scope), admin_url('tours/browse')).'</span> '.$ps.'</div></div>';
+          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for %1$s Tours. <a href="%2$s">Publish some now</a>.', ucfirst($tours_scope), admin_url('tours/browse')).'</span> '.$ps.'</div></div>';
+          break;
         
         case 'home-recent-random':
-          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Recent/Random Items. <a href="%s">Publish some now</a>. Note that Featured Items will be omitted in this section.', admin_url('items/browse')).'</span> '.$ps.'<div></div>';
+          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Recent/Random Items. <a href="%s">Publish some now</a>. Note that Featured Items will be omitted in this section.', admin_url('items/browse')).'</span> '.$ps.'<div></div>';
+          break;
         
         case 'home-tags':
-          return '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Tags. <a href="%s">Add some tags to each of your items now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';          
+          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Tags. <a href="%s">Add some tags to each of your items now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';   
+          break;       
         
         default:
-        return null;
+        $html = null;
       }
+      return $html;
     }else{
       return null;
     }
