@@ -1091,7 +1091,7 @@ function rl_the_byline($itemObj='item', $include_sponsor=false)
         $authors=metadata($itemObj, array('Dublin Core', 'Creator'), array('all'=>true));
         $total=count($authors);
         $index=1;
-        $authlink=get_theme_option('link_author');
+        $authlink=1;
         foreach ($authors as $author) {
             if ($authlink==1) {
                 $href='/items/browse?search=&advanced[0][element_id]=39&advanced[0][type]=is+exactly&advanced[0][terms]='.$author;
@@ -1466,19 +1466,43 @@ function rl_homepage_featured($num=5,$html=null,$index=1)
   $items=get_records('Item', array('featured'=>true,'hasImage'=>true,'sort_field' => 'modified', 'sort_dir' => 'd','public'=>true), $num);
   if(count($items)){
     $index = 1;
-    $html = '<h2 class="query-header">'.__('Featured %s',rl_item_label('plural')).'</h2>';
-    foreach($items as $item){
-        $html .= '<article class="featured featured-'.$index.'" style="background-image:url('.rl_get_first_image_src($item).')">';
-            $html .= '<div>'.rl_the_title_expanded($item);
-                $html .= '<div class="featured-item-author">'.rl_the_byline($item, false).'</div>';
+    //$html = '<h2 class="query-header">'.__('Featured %s',rl_item_label('plural')).'</h2>';
+    $html = '<div class="featured-card-container">';
+      foreach($items as $item){
+        set_current_record('item', $item);
+        if ($item_image = rl_get_first_image_src($item)) {
+          $size=getimagesize($item_image);
+          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+        } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
+          $img = item_image('fullsize');
+          preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
+          $item_image = array_pop($result);
+          $size=getimagesize($item_image);
+          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+        }else{
+          $orientation=null;
+          $item_image=null;
+        }
+        $html .= '<article class="featured-card featured-'.$index.' '.$orientation.'" style="background-image:url('.$item_image.')">';
+            $html .= '<div class="featured-card-inner inner-padding">';
+              $html .= '<div class="featured-card-image">';
+                $html .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container'));
+              $html .= '</div>';
+              $html .= '<div class="featured-card-content">';
+                $html .= '<div class="title-card-subject" aria-label="'. __('Filed Under').'">'.rl_filed_under($item).'</div>';
+                $html .= '<div class="separator wide thin flush-top"></div>';
+                $html .= rl_the_title_expanded($item).'<div class="separator"></div>';
+                $html .= rl_the_byline($item, false);
+              $html .= '</div>';
             $html .= '</div>';
         $html .= '</article>';
         $index++;
-    }
-    $html .= '<p class="view-more-link"><a class="button" href="/items/browse?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></p>';
-    return '<section id="home-featured">'.$html.'</section>';
+      }
+    $html .= '</div>';
+    $html .= '<p class="view-more-link inner-padding"><a class="button" href="/items/browse?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></p>';
+    return '<section id="home-featured" class="browse" aria-label="'.__('Featured %s',rl_item_label('plural')).'">'.$html.'</section>';
   }else{
-    return rl_admin_message('home-featured',array('admin','super','editor','author'));
+    return rl_admin_message('home-featured',array('admin','super'));
   }          
 }
 
@@ -1503,19 +1527,18 @@ function rl_homepage_recent_random($mode='recent',$num=5,$html=null,$index=1)
       set_current_record('item', $item);
       $tags=tag_string(get_current_record('item'), url('items/browse'));
       $hasImage=metadata($item, 'has thumbnail');
-      $location = get_db()->getTable('Location')->findLocationByItem($item, true);
-      $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
       if ($item_image = rl_get_first_image_src($item)) {
-          $size=getimagesize($item_image);
-          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+        $size=getimagesize($item_image);
+        $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
       } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
-          $img = item_image('fullsize');
-          preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
-          $item_image = array_pop($result);
-          $size=getimagesize($item_image);
-          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+        $img = item_image('fullsize');
+        preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
+        $item_image = array_pop($result);
+        $size=getimagesize($item_image);
+        $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
       }else{
-          $item_image=null;
+        $orientation=null;
+        $item_image=null;
       }
       $html .= '<article class="item-result '.($hasImage ? 'has-image' : 'no-image').'">';
       $html .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container')); 
@@ -1527,9 +1550,9 @@ function rl_homepage_recent_random($mode='recent',$num=5,$html=null,$index=1)
       $html .= '</article>';
     }
     $html .= '<p class="view-more-link"><a class="button" href="/items/browse/">'.__('Browse All %2s', rl_item_label('plural')).'</a></p>';
-    return '<section id="home-recent-random">'.$html.'</section>';
+    return '<section id="home-recent-random" class="browse inner-padding">'.$html.'</section>';
   }else{
-    return rl_admin_message('home-recent-random',array('admin','super','editor','author'));
+    return rl_admin_message('home-recent-random',array('admin','super'));
   }          
 }
 
@@ -1543,9 +1566,9 @@ function rl_homepage_tags($num=25)
       $html = '<h2 class="query-header">'.__('Popular Tags').'</h2>';
       $html.=tag_cloud($tags, url('items/browse'));
       $html.='<p class="view-more-link"><a class="button" href="/items/tags/">'.__('Browse All Tags').'</a></p>';
-      return '<section id="home-tags">'.$html.'</section>';    
+      return '<section id="home-tags" class="inner-padding">'.$html.'</section>';    
     }else{
-      return rl_admin_message('home-tags',array('admin','super','editor','author'));
+      return rl_admin_message('home-tags',array('admin','super'));
     }
 }
 
@@ -1559,15 +1582,15 @@ function rl_homepage_about($length=800)
     : __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile app framework available for both Android and iOS devices.', option('site_title'));
   $html = '<h2 class="query-header">'.__('About Us').'</h2>';
   $html .= '<div class="about-text">';
-
     $html .= '<div class="about-main">'; 
       $html .= '<p>'.substr($text, 0, $length).(($length < strlen($text)) ? '... ' : null).'</p>';
       $html .= '<p class="view-more-link"><a class="button" href="'.url('about').'">'.__('Read More About Us').'</a></p>';
     $html .= '</div>';
   $html .= '</div>';
   
-  return '<section id="home-about">'.$html.'</section>';
+  return '<section id="home-about" class="inner-padding">'.$html.'</section>';
 }
+
 
 /*
 ** Homepage Call to Action 
@@ -1579,7 +1602,6 @@ function rl_homepage_cta($html=null){
   $cta_button_url=get_theme_option('cta_button_url');
   $cta_button_url_target=get_theme_option('cta_button_url_target') ? ' target="_blank" rel="noreferrer noopener"' : null;
   if($cta_title && $cta_text && $cta_button_label && $cta_button_url){
-    
     $html = '<h2 class="query-header">'.$cta_title.'</h2>';
     $html .= '<div class="about-text">';
       $html .= '<div class="about-main">'; 
@@ -1587,11 +1609,10 @@ function rl_homepage_cta($html=null){
         $html .= '<p class="view-more-link"><a '.$cta_button_url_target.' class="button" href="'.$cta_button_url.'">'.$cta_button_label.'</a></p>';
       $html .= '</div>';
     $html .= '</div>';
-    
+    return '<section id="home-cta" class="inner-padding">'.$html.'</section>';
   }else{
     
   }
-  return $html;
 }
 
 /*
@@ -1652,9 +1673,9 @@ function rl_homepage_tours($html=null, $num=3, $scope='featured')
       $html .= '</article>';
     }
     $html .= '<p class="view-more-link"><a class="button" href="'.WEB_ROOT.'/tours/browse/">'.__('Browse All <span>%s</span>', rl_tour_label('plural')).'</a></p>';
-    return '<section id="home-tours">'.$html.'</section>';
+    return '<section id="home-tours" class="browse inner-padding">'.$html.'</section>';
   } else {
-    return rl_admin_message('home-tours',array('admin','super','editor','author'));
+    return rl_admin_message('home-tours',array('admin','super'));
   }
 }
 
@@ -1848,42 +1869,6 @@ function rl_display_random_featured_item($withImage=false, $num=1)
     return $html;
 }
 
-/*
-** Display the customizable "Call to Action" content on homepage
-*/
-function rl_home_cta($html=null)
-{
-    $cta_title=get_theme_option('cta_title');
-    $cta_text=get_theme_option('cta_text');
-    $cta_img_src=get_theme_option('cta_img_src');
-    $cta_button_label=get_theme_option('cta_button_label');
-    $cta_button_url=get_theme_option('cta_button_url');
-    $cta_button_url_target=get_theme_option('cta_button_url_target') ? ' target="_blank" rel="noreferrer noopener"' : null;
-
-    if ($cta_title && $cta_button_label && $cta_button_url) {
-        $html .='<h3 class="result-type-header">'.$cta_title.'</h3>';
-
-        $html .= '<div class="cta-inner">';
-        $html .= '<article style="background-image:url(/files/theme_uploads/'.$cta_img_src.');">';
-        if ($cta_img_src) {
-            $html .= '<div class="cta-hero">';
-            $html .= '<a class="button button-primary" href="'.$cta_button_url.'" '.$cta_button_url_target.'>'.$cta_button_label.'</a>';
-            $html .= '</div>';
-        }
-        if ($cta_text) {
-            $html .= '<div class="cta-description">';
-            $html .= '<p>';
-            $html .= $cta_text;
-            $html .= '</p>';
-            $html .= '<a class="button" href="'.$cta_button_url.'" '.$cta_button_url_target.'>'.$cta_button_label.'</a>';
-            $html .= '</div>';
-        }
-        $html .= '</article>';
-        $html .= '</div>';
-
-        return $html;
-    }
-}
 
 function rl_footer_cta($html=null)
 {
