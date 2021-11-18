@@ -2029,23 +2029,24 @@ function rl_browser_icon_url()
 */
 function rl_configured_css($vars=null, $output=null)
 {
-   $vars .= get_theme_option('link_color') ? '--link-text:'.get_theme_option('link_color').';' : null;
-   $vars .= get_theme_option('link_color_hover') ? '--link-text-hover:'.get_theme_option('link_color_hover').';' : null;
-   $vars .= get_theme_option('secondary_link_color') ? '--link-text-on-dark:'.get_theme_option('secondary_link_color').';' : null;
-   $vars .= get_theme_option('secondary_link_color_hover') ? '--link-text-on-dark-hover:'.get_theme_option('secondary_link_color_hover').';' : null;
-   $vars .= get_theme_option('header_footer_color') ? '--site-header-bg-color-1:'.get_theme_option('header_footer_color').';' : null;
-   $vars .= get_theme_option('secondary_header_footer_color') ? '--site-header-bg-color-2:'.get_theme_option('secondary_header_footer_color').';': null;
-   $vars .= get_theme_option('cluster_text_color') ? '--cluster-text-color:'.get_theme_option('cluster_text_color').';' : null;      
-   $vars .= get_theme_option('cluster_large_color') ? '--cluster-large-color:'.get_theme_option('cluster_large_color').';' : null; 
-   $vars .= get_theme_option('cluster_medium_color') ? '--cluster-medium-color:'.get_theme_option('cluster_medium_color').';' : null; 
-   $vars .= get_theme_option('cluster_small_color') ? '--cluster-small-color:'.get_theme_option('cluster_small_color').';' : null;
-   
-   if ($vars) {
-      $output .= ':root {'.$vars.'}';
-   }
-   if (get_theme_option('custom_css')) {
-   }
-   return $output;
+  $vars .= get_theme_option('link_color') ? '--link-text:'.get_theme_option('link_color').';' : null;
+  $vars .= get_theme_option('link_color_hover') ? '--link-text-hover:'.get_theme_option('link_color_hover').';' : null;
+  $vars .= get_theme_option('secondary_link_color') ? '--link-text-on-dark:'.get_theme_option('secondary_link_color').';' : null;
+  $vars .= get_theme_option('secondary_link_color_hover') ? '--link-text-on-dark-hover:'.get_theme_option('secondary_link_color_hover').';' : null;
+  $vars .= get_theme_option('header_footer_color') ? '--site-header-bg-color-1:'.get_theme_option('header_footer_color').';' : null;
+  $vars .= get_theme_option('secondary_header_footer_color') ? '--site-header-bg-color-2:'.get_theme_option('secondary_header_footer_color').';': null;
+  $vars .= get_theme_option('cluster_text_color') ? '--cluster-text-color:'.get_theme_option('cluster_text_color').';' : null;      
+  $vars .= get_theme_option('cluster_large_color') ? '--cluster-large-color:'.get_theme_option('cluster_large_color').';' : null; 
+  $vars .= get_theme_option('cluster_medium_color') ? '--cluster-medium-color:'.get_theme_option('cluster_medium_color').';' : null; 
+  $vars .= get_theme_option('cluster_small_color') ? '--cluster-small-color:'.get_theme_option('cluster_small_color').';' : null;
+  $vars .= get_theme_option('header_footer_color') ? '--featured-one: '.get_theme_option('header_footer_color').';' : null;
+  
+  if ($vars) {
+    $output .= ':root {'.$vars.'}';
+  }
+  if (get_theme_option('custom_css')) {
+  }
+  return $output;
 }
 
 

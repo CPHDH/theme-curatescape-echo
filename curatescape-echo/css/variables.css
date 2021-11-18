@@ -50,6 +50,9 @@
   --link-text-on-dark: #eee;
   --link-text-on-dark-hover: #ccc;
 
+  /* Static Block Colors */
+  --featured-one: var(--site-header-bg-color-1);
+
   /* Site Header */
   --site-header-bg-color-1: #333;
   --site-header-bg-color-2: #444;
