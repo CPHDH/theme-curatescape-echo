@@ -349,6 +349,17 @@ header.primary nav #nav-interactive a > i {
 }
 
 /* HOME */
+#home section .view-more-link {
+  border-bottom: var(--deco-border);
+  padding: 1rem;
+}
+#home section > div {
+  border-bottom: var(--deco-border);
+  padding-bottom: 1rem;
+}
+#home section .view-more-link .button {
+  margin: 0;
+}
 .featured-card-container {
   display: flex;
   flex-direction: row;
