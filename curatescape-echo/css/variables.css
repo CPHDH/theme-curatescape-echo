@@ -143,12 +143,14 @@
 }
 
 /* DARK MODE */
-@media screen and (prefers-color-scheme: dark) {
+/* @TODO: needs more testing and config options */
+/* @media screen and (prefers-color-scheme: dark) {
   :root {
     --link-text: var(--link-text-on-dark) !important;
     --link-text-hover: var(--link-text-on-dark-hover) !important;
     --bg-body: var(--bg-body-dark);
     --bg-article: var(--bg-article-dark);
+    --featured-one: #000 !important;
     --site-footer-bg-color: #000;
     --text-base: var(--text-base-on-dark);
     --text-heading: var(--text-heading-on-dark);
@@ -169,4 +171,4 @@
       rgba(34, 34, 34, 0.5)
     );
   }
-}
+} */
