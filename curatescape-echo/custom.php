@@ -1528,7 +1528,7 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
 /*
 ** Homepage Recent/Random Items
 */ 
-function rl_homepage_recent_random($mode='recent',$num=6,$html=null,$index=1)
+function rl_homepage_recent_random($mode='recent',$num=3,$html=null,$index=1)
 {
   switch ($mode) {
     case 'recent':
