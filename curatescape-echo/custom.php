@@ -815,27 +815,30 @@ function rl_the_sponsor($item='item')
 ** Filed Under
 ** returns link to: (public) collection for item, or first subject, or first tag
 */
-function rl_filed_under($item=null)
+function rl_filed_under($item = null, $maxlength = 35)
 {
     if ($collection = get_collection_for_item() && $collection->public) {
-        return link_to_collection_for_item($collection->display_name, array('class'=>'tag tag-alt'), 'show');
+        $label = trim($collection->display_name);
+        $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>'Collection: '.$label, 'class'=>'tag tag-alt'), 'show');
     } elseif ($subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?term=');
         $link .= rawurlencode($subject);
         $link .= htmlentities('&search=&advanced[0][element_id]=49&advanced[0][type]=contains&advanced[0][terms]=');
         $link .= urlencode(str_replace('&amp;', '&', $subject));
-        $node .= '<a class="tag tag-alt" href="'.$link.'">'.$subject.'</a>';
-        return $node;
+        $label = trim($subject);
+        $node = '<a title="Subject: '.$label.'" class="tag tag-alt" href="'.$link.'">'.snippet($label,0,$maxlength).'</a>';
     } elseif (metadata($item, 'has tags') && $tag = $item->Tags[0]) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?tags=');
         $link .= rawurlencode($tag);
-        $node .= '<a class="tag tag-alt" href="'.$link.'">'.$tag.'</a>';
-        return $node;
+        $label = trim($tag);
+        $node = '<a title="Tag: '.$label.'" class="tag tag-alt" href="'.$link.'">'.snippet($label,0,$maxlength).'</a>';
     } else {
-        return link_to('items', 'browse', rl_item_label('singular'));
+        $label = trim(rl_item_label('singular'));
+        $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>'Type: '.$label, 'class'=>'tag tag-alt'));
     }
+    return '<div class="title-card-subject '.text_to_id($label,'subject').'" aria-label="'. __('Filed Under').'">'.$node.'</div>';
 }
 
 /*

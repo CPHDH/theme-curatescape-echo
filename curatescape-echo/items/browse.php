@@ -93,6 +93,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
                         <?php echo link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container')); ?>
 
                         <div class="result-details">
+                            <?php echo rl_filed_under($item);?>
                             <?php echo rl_the_title_expanded($item); ?>
                             <?php echo rl_the_byline($item, false);?>
                             <?php echo link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore')).($has_location && $item->public ? ' <span class="sep-bar">|</span> <a role="button" data-id="'.$item->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>' : null);?>

@@ -42,7 +42,7 @@ $has_location = ($location[ 'latitude' ] && $location[ 'longitude' ]) ? true : f
         <div class="background-gradient"></div>
         <div class="title-card inner-padding max-content-width">
             <div class="title-card-main">
-                <div class="title-card-subject" aria-label="<?php echo __('Filed Under');?>"><?php echo rl_filed_under($item);?></div>
+                <?php echo rl_filed_under($item);?>
                 <div class="separator wide thin flush-top"></div>
                 <?php echo rl_the_title();?>
                 <?php echo rl_the_subtitle();?>
