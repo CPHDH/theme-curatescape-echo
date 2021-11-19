@@ -351,10 +351,10 @@ header.primary nav #nav-interactive a > i {
 /* HOME */
 #home section .view-more-link {
   border-bottom: var(--deco-border);
+  border-top: var(--deco-border);
   padding: 1rem;
 }
 #home section > div {
-  border-bottom: var(--deco-border);
   padding-bottom: 1rem;
 }
 #home section .view-more-link .button {
@@ -372,15 +372,49 @@ header.primary nav #nav-interactive a > i {
 .featured-card.featured-1 {
   width: 50%;
   flex-shrink: 0;
+  position: relative;
+}
+.featured-card .background-image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  filter: grayscale(1);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.featured-card .background-image.portrait {
+  background-position: center 35%;
+}
+.featured-card .background-gradient {
+  background: var(--featured-one);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  opacity: 0.9;
+}
+.featured-card.featured-1 .featured-card-content {
+  padding: 2em 0;
 }
 .featured-card.featured-1 .featured-card-inner {
-  background: var(--featured-one);
-  background-blend-mode: saturation;
+  background-image: linear-gradient(
+    to top,
+    var(--featured-one) 50%,
+    transparent
+  );
   height: 100%;
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 .featured-card.featured-1 .separator {
   background: var(--deco-color);
@@ -418,6 +452,7 @@ header.primary nav #nav-interactive a > i {
   width: 300px;
   height: 300px;
   flex-shrink: 0;
+  transition: width 0.15s linear;
 }
 @media all and (min-width: 1450px) {
   #home-featured .secondary article {
@@ -425,6 +460,15 @@ header.primary nav #nav-interactive a > i {
   }
   #home-featured .secondary article:last-child {
     border-bottom: none;
+  }
+  .browse .featured-card.featured-1 .image-container,
+  .browse .featured-card.featured-1 .featured-card-image {
+    height: 400px;
+  }
+}
+@media all and (max-width: 1450px) and (min-width: 1250px) {
+  .browse .featured-card.featured-1 .featured-card-image {
+    width: 500px;
   }
 }
 @media all and (max-width: 1450px) {

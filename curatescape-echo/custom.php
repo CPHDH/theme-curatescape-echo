@@ -1512,18 +1512,20 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
             $orientation=null;
             $item_image=null;
           }          
-          $primary .= '<article class="featured-card featured-'.$index.' '.$orientation.'" style="background-image:url('.$item_image.')">';
-              $primary .= '<div class="featured-card-inner inner-padding">';
-                $primary .= '<div class="featured-card-image">';
-                  $primary .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container'));
-                $primary .= '</div>';
-                $primary .= '<div class="featured-card-content">';
-                  $primary .= rl_filed_under($item);
-                  $primary .= '<div class="separator wide thin flush-top"></div>';
-                  $primary .= rl_the_title_expanded($item).'<div class="separator"></div>';
-                  $primary .= rl_the_byline($item, false);
-                $primary .= '</div>';
+          $primary .= '<article class="featured-card featured-'.$index.'">';
+            $primary .= '<div class="background-image '.$orientation.'" style="background-image:url('.$item_image.')"></div>';
+            $primary .= '<div class="background-gradient"></div>';
+            $primary .= '<div class="featured-card-inner inner-padding">';
+              $primary .= '<div class="featured-card-image">';
+                $primary .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container'));
               $primary .= '</div>';
+              $primary .= '<div class="featured-card-content">';
+                $primary .= rl_filed_under($item);
+                $primary .= '<div class="separator wide thin flush-top"></div>';
+                $primary .= rl_the_title_expanded($item).'<div class="separator"></div>';
+                $primary .= rl_the_byline($item, false);
+              $primary .= '</div>';
+            $primary .= '</div>';
           $primary .= '</article>';          
         }else{
           $secondary .= '<article class="featured-card featured-'.$index.'">';

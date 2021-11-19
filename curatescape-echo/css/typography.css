@@ -111,6 +111,7 @@ small,
 .query-header {
   font-family: var(--font-ui);
   margin-top: 1rem;
+  border-bottom: var(--deco-border-dashed);
 }
 .title {
   color: var(--article-header-title);
