@@ -1,7 +1,10 @@
 const overlay = document.querySelector("#multi-map-overlay");
-const container = document.querySelector("#multi-map-container");
-const showmap = document.querySelector("#show-multi-map");
-const showmap_title = showmap.getAttribute("title");
+const container =
+  document.querySelector("#multi-map-container") ||
+  document.querySelector("#home-map-container") ||
+  false;
+const showmap = document.querySelector("#show-multi-map") || false;
+const showmap_title = showmap ? showmap.getAttribute("title") : false;
 const showmap_with_marker = document.querySelectorAll(".showonmap");
 let requested_marker_id = null;
 
@@ -73,7 +76,7 @@ let currentZoom = null;
 let geolocationZoom = 15;
 let markerRequestZoom = 15;
 let requestedMarker = null;
-const loadMapMulti = (requested_id = null) => {
+const loadMapMulti = (requested_id = null, isHomePage = false) => {
   const url = window.location.href;
   const urlpaths = new URL(url).pathname.split("/");
   const tourid = urlpaths.pop() || urlpaths.pop();
@@ -83,6 +86,10 @@ const loadMapMulti = (requested_id = null) => {
   const isSecure = window.location.protocol == "https:" ? true : false;
   const mapfigure = document.querySelector("figure#multi-map");
   const map_title = container.getAttribute("aria-label");
+  const dataSource = isHomePage
+    ? url + "/items/browse" + jsonPath
+    : url + jsonPath;
+
   if (mapfigure && mapped == 0) {
     const map_attr = mapfigure.dataset;
     let loader = null;
@@ -96,10 +103,10 @@ const loadMapMulti = (requested_id = null) => {
           mapped++;
           // Map init
           map = L.map("curatescape-map-canvas", {
-            scrollWheelZoom: true,
+            scrollWheelZoom: !isHomePage,
             tap: false,
           });
-          pauseInteraction(map);
+          pauseInteraction(map, isHomePage);
           map.setView([map_attr.lat, map_attr.lon], map_attr.zoom);
           // Title / Loading
           if (map_title) {
@@ -115,7 +122,7 @@ const loadMapMulti = (requested_id = null) => {
             titleControl.addTo(map);
           }
           // Get Tour Items & Add Markers
-          fetch(url + jsonPath)
+          fetch(dataSource)
             .then((response) => response.json())
             .then((data) => {
               if (data.items.length) {
@@ -200,7 +207,7 @@ const loadMapMulti = (requested_id = null) => {
                   if (!requestedMarker) {
                     map.fitBounds(bounds);
                   }
-                  resumeInteraction(map);
+                  resumeInteraction(map, !isHomePage, isHomePage);
                 });
               } else {
                 // No Clusters...
@@ -211,21 +218,21 @@ const loadMapMulti = (requested_id = null) => {
                 if (!requestedMarker) {
                   map.fitBounds(bounds);
                 }
-                resumeInteraction(map);
+                resumeInteraction(map, !isHomePage, isHomePage);
               }
               // Remove Loading
               loader.classList.remove("spin");
               // Open Requested Marker
               if (requestedMarker) {
-                pauseInteraction(map);
+                pauseInteraction(map, isHomePage);
                 map.flyTo(requestedMarker._latlng, markerRequestZoom);
                 map.once("moveend", () => {
                   requestedMarker.openPopup();
                   setMarkerFocus(requestedMarker, map);
-                  resumeInteraction(map);
+                  resumeInteraction(map, !isHomePage, isHomePage);
                 });
               } else {
-                setMapFocus(map);
+                if (!isHomePage) setMapFocus(map);
               }
             });
           // Fit Bounds controls
@@ -246,10 +253,10 @@ const loadMapMulti = (requested_id = null) => {
             a.setAttribute("aria-label", map_attr.fitboundsLabel);
             a.addEventListener("click", (e) => {
               e.preventDefault();
-              pauseInteraction(map);
+              pauseInteraction(map, isHomePage);
               map.flyTo(bounds.getCenter(), map.getBoundsZoom(bounds));
               map.once("moveend", () => {
-                resumeInteraction(map);
+                resumeInteraction(map, !isHomePage, isHomePage);
               });
             });
             return div;
@@ -275,7 +282,7 @@ const loadMapMulti = (requested_id = null) => {
               a.setAttribute("aria-label", "Geolocation");
               a.addEventListener("click", (e) => {
                 e.preventDefault();
-                pauseInteraction(map);
+                pauseInteraction(map, isHomePage);
                 navigator.geolocation.getCurrentPosition((pos) => {
                   let userLocation = [
                     pos.coords.latitude,
@@ -300,13 +307,13 @@ const loadMapMulti = (requested_id = null) => {
                     map.flyTo(userLocation, geolocationZoom);
                     map.once("moveend", () => {
                       userMarker.addTo(map);
-                      resumeInteraction(map);
+                      resumeInteraction(map, !isHomePage, isHomePage);
                     });
                   } else {
                     userMarker.setLatLng(userLocation);
                     map.flyTo(userLocation, geolocationZoom);
                     map.once("moveend", () => {
-                      resumeInteraction(map);
+                      resumeInteraction(map, !isHomePage, isHomePage);
                     });
                   }
                 });
@@ -359,39 +366,61 @@ const loadMapMulti = (requested_id = null) => {
         });
         let marker = req ? req[0] : null;
         if (marker && marker.options.item_id == requested_id) {
-          pauseInteraction(map);
+          pauseInteraction(map, isHomePage);
           map.flyTo(marker._latlng, markerRequestZoom);
           map.once("moveend", () => {
             marker.openPopup();
             setMarkerFocus(marker, map);
-            resumeInteraction(map);
+            resumeInteraction(map, !isHomePage, isHomePage);
           });
         } else if (bounds) {
           map.fitBounds(bounds);
-          setMapFocus(map);
+          if (!isHomePage) setMapFocus(map);
         }
       } else {
-        setMapFocus(map);
+        if (!isHomePage) setMapFocus(map);
       }
     }
   }
 };
 // MAIN
-overlay.addEventListener("click", (e) => {
-  if (e.srcElement.classList.contains("open")) {
-    closeMultiMap();
-  }
-});
-showmap.addEventListener("click", (e) => {
-  if (e.srcElement.classList.contains("open")) {
-    closeMultiMap();
-  } else {
-    openMultiMap();
-  }
-});
-showmap_with_marker.forEach((link) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    openMultiMap(e.srcElement.dataset.id);
+if (!(container.getAttribute("id") === "home-map-container")) {
+  // not homepage...
+  overlay.addEventListener("click", (e) => {
+    if (e.srcElement.classList.contains("open")) {
+      closeMultiMap();
+    }
   });
-});
+  showmap.addEventListener("click", (e) => {
+    if (e.srcElement.classList.contains("open")) {
+      closeMultiMap();
+    } else {
+      openMultiMap();
+    }
+  });
+  showmap_with_marker.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      openMultiMap(e.srcElement.dataset.id);
+    });
+  });
+} else {
+  // homepage...
+  document.onreadystatechange = () => {
+    var loaded = false;
+    if ("IntersectionObserver" in window) {
+      const scrollEvents = (entries, observer) => {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !loaded) {
+            loadMapMulti(null, true);
+            loaded = true;
+          }
+        });
+      };
+      let observer = new IntersectionObserver(scrollEvents, {});
+      observer.observe(document.querySelector("#home-map .query-header"));
+    } else {
+      loadMapMulti(null, true);
+    }
+  };
+}

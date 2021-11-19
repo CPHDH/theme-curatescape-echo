@@ -12,6 +12,7 @@ echo head(
     <?php 
     echo rl_homepage_featured();
     echo rl_homepage_recent_random();
+    echo rl_homepage_map();
     echo rl_homepage_tours();
     echo rl_homepage_tags();
     echo rl_homepage_about();

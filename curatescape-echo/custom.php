@@ -516,7 +516,7 @@ function rl_icon($name=null, $variant="-sharp")
 /*
 ** Global header
 */
-function rl_global_header($html=null, $includeMap=false)
+function rl_global_header($html=null)
 {
     ?>
     <nav id="top-navigation" class="" aria-label="<?php echo __('Main Navigation'); ?>">
@@ -526,7 +526,7 @@ function rl_global_header($html=null, $includeMap=false)
         <div id="nav-desktop">
             <?php echo '<a class="button transparent" href="'.url('items/browse').'">'.rl_icon("location").rl_item_label('plural').'</a>'; ?>
             <?php echo '<a class="button transparent" href="'.url('tours/browse').'">'.rl_icon("compass").rl_tour_label('plural').'</a>'; ?>
-            <?php echo ($includeMap) ? '<a class="button transparent" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>' : null; ?>
+            <?php echo '<a class="button transparent" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>'; ?>
         </div>
         <div id="nav-interactive">
             <!-- Search -->
@@ -616,6 +616,28 @@ function rl_story_map_multi($tour=false)
             <div id="curatescape-map-canvas"></div>
         </div>
     </figure>
+    <?php
+}
+
+/*
+** Story Map - HOME
+*/
+function rl_homepage_map()
+{
+    $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
+    $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
+    $zoom=(get_option('geolocation_default_zoom_level')) ? get_option('geolocation_default_zoom_level') : 12; ?>
+    <section id="home-map" class="inner-padding browse">
+      <h2 class="query-header"><?php echo __('%s Map',rl_item_label());?></h2>
+      <div id="home-map-container" aria-label="All Stories: 783">
+        <figure id="multi-map" data-json-source="/items/browse?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-default-layer="<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo $tour && get_theme_option('tour_clustering') ? '1' : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>">
+             <div class="curatescape-map">
+                <div id="curatescape-map-canvas"></div>
+            </div>
+        </figure>
+      </div>
+      <div class="view-more-link"><a class="button" href=""><?php echo __('View Map Page');?></a></div>
+    </section>
     <?php
 }
 

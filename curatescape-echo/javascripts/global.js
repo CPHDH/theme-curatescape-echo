@@ -29,16 +29,16 @@ const safeText = (value) => {
 };
 
 // MAP PAUSE/RESUME FUNCTIONS
-const pauseInteraction = (map) => {
-  if (map) {
+const pauseInteraction = (map, ignore = false) => {
+  if (map && !ignore) {
     map.dragging.disable();
     map.doubleClickZoom.disable();
     map.scrollWheelZoom.disable();
   }
 };
 
-const resumeInteraction = (map, scrollable = true) => {
-  if (map) {
+const resumeInteraction = (map, scrollable = true, ignore = false) => {
+  if (map && !ignore) {
     map.dragging.enable();
     map.doubleClickZoom.enable();
     if (scrollable) map.scrollWheelZoom.enable();
