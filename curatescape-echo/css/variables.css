@@ -144,7 +144,8 @@
 
 /* DARK MODE */
 /* @TODO: needs more testing and config options */
-/* @media screen and (prefers-color-scheme: dark) {
+@media screen and (prefers-color-scheme: dark) {
+  /*   
   :root {
     --link-text: var(--link-text-on-dark) !important;
     --link-text-hover: var(--link-text-on-dark-hover) !important;
@@ -171,4 +172,17 @@
       rgba(34, 34, 34, 0.5)
     );
   }
-} */
+  article header .background-image {
+    filter: grayscale(1) brightness(0.8);
+  }
+  .gallery-image {
+    filter: brightness(0.8);
+  }
+  .browse .item-image {
+    filter: brightness(0.8);
+  }
+  .item-result.tour .tour-image {
+    filter: brightness(0.8);
+  } 
+  */
+}

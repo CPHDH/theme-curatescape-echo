@@ -584,11 +584,7 @@ article header .background-image {
   z-index: 0;
   filter: grayscale(1);
 }
-@media (prefers-color-scheme: dark) {
-  article header .background-image {
-    filter: grayscale(1) brightness(0.8);
-  }
-}
+
 article header .background-image.portrait {
   background-position: center 35%;
 }
@@ -647,11 +643,7 @@ figure.image-figure,
   display: block;
   transition: filter 0.15s linear, height 0.15s linear, box-shadow 0.15s linear;
 }
-@media (prefers-color-scheme: dark) {
-  .gallery-image {
-    filter: brightness(0.8);
-  }
-}
+
 .gallery-image:hover,
 .gallery-image:focus {
   box-shadow: var(--shadow-big-hover);
@@ -1409,11 +1401,7 @@ ul.pagination .button {
   box-shadow: var(--shadow-big);
   transition: filter 0.15s linear, box-shadow 0.15s linear, height 0.15s linear;
 }
-@media (prefers-color-scheme: dark) {
-  .browse .item-image {
-    filter: brightness(0.8);
-  }
-}
+
 .browse .item-image:hover,
 .browse .item-image:focus {
   box-shadow: var(--shadow-big-hover);
@@ -1600,11 +1588,7 @@ ul.pagination .button {
   flex-shrink: 0;
   transition: filter 0.15s linear, box-shadow 0.15s linear;
 }
-@media (prefers-color-scheme: dark) {
-  .item-result.tour .tour-image {
-    filter: brightness(0.8);
-  }
-}
+
 .item-result.tour .tour-image:hover,
 .item-result.tour .tour-image:focus {
   box-shadow: var(--shadow-big-hover);
