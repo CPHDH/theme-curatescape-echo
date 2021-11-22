@@ -10,7 +10,7 @@ echo head(array('maptype'=>'none','title' => html_escape(metadata('simple_pages_
         $text = metadata('simple_pages_page', 'text', array('no_escape' => true));
         echo $this->shortcodes($text);
         ?>
-
+        
     </article>
 
 </div> <!-- end content -->
