@@ -57,6 +57,10 @@ function rl_admin_message($which=null, $roles=array('admin','super','contributor
           $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Tags. <a href="%s">Add some tags to each of your items now</a>.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';   
           break;       
         
+        case 'home-cta':
+          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for the Call to Action. Create a Call to Action in <a href="%s">theme settings</a>.', admin_url('themes')).'</span> '.$ps.'</div></div>';   
+          break;  
+        
         default:
         $html = null;
       }
@@ -1658,6 +1662,8 @@ function rl_homepage_cta($html=null){
       $html .= '</div>';
     $html .= '</div>';
     $html .= '<div class="cta-link"><a '.$cta_button_url_target.' class="button" href="'.$cta_button_url.'">'.$cta_button_label.'</a></div>';
+  }else{
+    $html .= rl_admin_message('home-cta',array('admin','super'));
   }
   return '<aside id="home-cta" class="inner-padding">'.$html.'</aside>';
 }

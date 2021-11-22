@@ -43,6 +43,7 @@
 .message {
   font-family: var(--font-ui);
   font-size: 0.833em;
+  color: var(--text-base);
   padding: 1em;
   display: flex;
   flex-direction: row;
