@@ -546,6 +546,27 @@ header.primary nav #nav-interactive a > i {
   }
 }
 
+@media all and (min-width: 1100px) {
+  .home-tours-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .home-tours-container article {
+    max-width: calc(50% - 0.5em);
+    align-self: stretch;
+  }
+  .home-tours-container article:nth-child(odd) {
+    margin-right: 1em;
+    padding-right: 1em;
+    border-right: var(--deco-border);
+  }
+  .home-tours-container article:nth-child(odd):last-child {
+    max-width: none;
+    margin-right: 0;
+  }
+}
+
 /* Header Article */
 article header {
   background: var(--bg-body);

@@ -1664,7 +1664,7 @@ function rl_homepage_cta($html=null){
 /*
 ** Display the Tours list
 */
-function rl_homepage_tours($html=null, $num=3, $scope='featured')
+function rl_homepage_tours($html=null, $num=4, $scope='featured')
 {
   if(plugin_is_active('TourBuilder')){
     // Build query
@@ -1696,7 +1696,7 @@ function rl_homepage_tours($html=null, $num=3, $scope='featured')
     // output
     if ($tours) {
       $html .= '<h2 class="query-header">'.$heading.'</h2>';
-      $html .= '<div>';
+      $html .= '<div class="home-tours-container">';
       for ($i = 0; $i < min(count($tours),$num); $i++) {
         set_current_record('tour', $tours[$i]);
         $tour=get_current_tour();
