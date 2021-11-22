@@ -15,8 +15,7 @@ echo head(
     echo rl_homepage_map();
     echo rl_homepage_tours();
     echo rl_homepage_tags();
-    echo rl_homepage_about();
-    echo rl_homepage_cta();         
+    echo rl_homepage_projectmeta();
     ?>
     
 </div>

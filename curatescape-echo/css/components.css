@@ -567,6 +567,34 @@ header.primary nav #nav-interactive a > i {
   }
 }
 
+.home-project-meta {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 0 !important;
+  background: var(--site-header-bg-color-1);
+  color: var(--text-base-on-dark);
+}
+#home-about-main,
+#home-cta {
+  flex: 1 1 50%;
+  position: relative;
+  z-index: 1;
+}
+
+.home-project-meta h3 {
+  color: var(--text-heading-on-dark);
+  border-bottom: none;
+}
+#home-cta {
+  background: var(--site-header-bg-color-2);
+}
+
+@media all and (max-width: 700px) {
+  .home-project-meta {
+    flex-direction: column;
+  }
+}
+
 /* Header Article */
 article header {
   background: var(--bg-body);
