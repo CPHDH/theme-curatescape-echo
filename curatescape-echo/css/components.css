@@ -816,6 +816,19 @@ figure#story-map {
   border: var(--deco-frame);
   box-shadow: var(--shadow-big);
 }
+body#map.item-map .curatescape-map {
+  min-height: 400px;
+  height: calc(100vh - 85px - 4em);
+  margin-top: 1em;
+}
+body#map.item-map .query-header {
+  font-size: 0;
+  height: 0;
+  width: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
 #curatescape-map-canvas {
   height: 100%;
   width: 100%;

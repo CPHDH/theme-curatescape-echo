@@ -67,14 +67,14 @@
     </style>
     
     <!-- Preconnect to Map JSON -->
-    <?php if (0 === strpos(current_url(), '/items/show') || 0 === strpos(current_url(), '/tours/show')):?>
-    <link rel="preconnect" href="?output=mobile-json">
-    <?php elseif(0 === strpos(current_url(), '/')):?>
-    <link rel="preconnect" href="/items/browse?output=mobile-json">
-    <?php elseif(0 === strpos(current_url(), '/items/browse') && $_SERVER['QUERY_STRING']):?>
-    <link rel="preconnect" href="?<?php echo $_SERVER['QUERY_STRING'];?>&output=mobile-json">
-    <?php elseif(0 === strpos(current_url(), '/items/browse')):?>
-    <link rel="preconnect" href="?output=mobile-json">
+    <?php if (is_current_url('/items/show') || is_current_url('/tours/show')):?>
+        <link rel="preconnect" href="?output=mobile-json">
+    <?php elseif(is_current_url('/') || is_current_url('/items/map')):?>
+        <link rel="preconnect" href="/items/browse?output=mobile-json">
+    <?php elseif(is_current_url('/items/browse') && $_SERVER['QUERY_STRING']):?>
+        <link rel="preconnect" href="?<?php echo $_SERVER['QUERY_STRING'];?>&output=mobile-json">
+    <?php elseif(is_current_url('/items/browse')):?>
+        <link rel="preconnect" href="?output=mobile-json">
     <?php endif;?>
 
     <!-- Async Assets -->
@@ -144,10 +144,10 @@
 
     // Async JS 
     loadJS('<?php echo src('global.js', 'javascripts');?>');
-    <?php if (0 === strpos(current_url(), '/items/show')):?>
-    loadJS('<?php echo src('items-show.js', 'javascripts');?>');
-    <?php elseif (0 === strpos(current_url(), '/tours/show') || 0 === strpos(current_url(), '/items/browse') || 0 === strpos(current_url(), '/')):?>
-    loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
+    <?php if (is_current_url('/items/show')):?>
+        loadJS('<?php echo src('items-show.js', 'javascripts');?>');
+    <?php elseif (is_current_url('/tours/show') || is_current_url('/items/browse') || is_current_url('/') || is_current_url('/items/map')):?>
+        loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
     <?php endif;?>
     </script>
     

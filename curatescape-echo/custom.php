@@ -626,7 +626,7 @@ function rl_story_map_multi($tour=false)
 /*
 ** Story Map - HOME
 */
-function rl_homepage_map()
+function rl_homepage_map($ishome=true)
 {
     $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
     $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
@@ -640,7 +640,9 @@ function rl_homepage_map()
             </div>
         </figure>
       </div>
-      <div class="view-more-link"><a class="button" href=""><?php echo __('View Map Page');?></a></div>
+      <?php if($ishome):?>
+      <div class="view-more-link"><a class="button" href="/items/map"><?php echo __('View Map Page');?></a></div>
+      <?php endif;?>
     </section>
     <?php
 }

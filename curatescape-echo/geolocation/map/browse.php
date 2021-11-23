@@ -1,5 +1,10 @@
 <?php
+echo head(array('title'=>__('Map'),'bodyid'=>'map','bodyclass'=>'item-map')); ?>
 
-// We don't need to use the Geolocation plugin on the front-end
-$path=realpath(__DIR__ . '/../..')."/error/404.php";
-include_once($path);
+<div id="content" role="main" class="wide">
+	<div id="primary" class="show">
+		<?php echo rl_homepage_map(false);?>
+	</div>
+</div> <!-- end content -->
+<?php echo foot(); ?>
+

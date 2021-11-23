@@ -31,6 +31,11 @@
   animation: pulse-shadow-big 1s 5;
   animation-delay: 1s;
 }
+.fade {
+  animation: fadeOut 1s;
+  animation-fill-mode: forwards;
+  animation-delay: 3s;
+}
 
 @keyframes pulse {
   0% {
@@ -57,6 +62,14 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

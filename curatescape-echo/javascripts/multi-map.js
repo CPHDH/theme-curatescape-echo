@@ -86,10 +86,14 @@ const loadMapMulti = (requested_id = null, isHomePage = false) => {
   const isSecure = window.location.protocol == "https:" ? true : false;
   const mapfigure = document.querySelector("figure#multi-map");
   const map_title = container.getAttribute("aria-label");
-  const dataSource = isHomePage
-    ? url + "/items/browse" + jsonPath
-    : url + jsonPath;
 
+  const dataSource = isHomePage
+    ? window.location.protocol +
+      "//" +
+      window.location.hostname +
+      "/items/browse" +
+      jsonPath
+    : url + jsonPath;
   if (mapfigure && mapped == 0) {
     const map_attr = mapfigure.dataset;
     let loader = null;
@@ -222,6 +226,7 @@ const loadMapMulti = (requested_id = null, isHomePage = false) => {
               }
               // Remove Loading
               loader.classList.remove("spin");
+              loader.parentElement.parentElement.classList.add("fade");
               // Open Requested Marker
               if (requestedMarker) {
                 pauseInteraction(map, isHomePage);
