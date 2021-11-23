@@ -568,50 +568,36 @@ function rl_global_header($html=null)
 
 
 /*
-** Map Type
-** Uses variable set in each page template
-*/
-function rl_map_type($maptype='none', $item=null, $tour=null)
-{
-    if ($maptype == 'focusarea') {
-        return rl_display_map('focusarea', null, null);
-    } elseif ($maptype == 'story') {
-        return rl_display_map('story', $item, null, null);
-    } elseif ($maptype == 'queryresults') {
-        return rl_display_map('queryresults', null, null);
-    } elseif ($maptype == 'tour') {
-        return rl_display_map('tour', null, $tour);
-    } elseif ($maptype == 'collection') {
-        return rl_display_map('queryresults', null, null);
-    } elseif ($maptype == 'none') {
-        return null;
-    } else {
-        return null;
-    }
-}
-
-
-/*
 ** Story Map - Single
 */
-function rl_story_map_single($title=null, $location=null, $address=null, $hero_img=null, $hero_orientation=null) { ?>
-<nav aria-label="<?php echo __('Skip Interactive Map');?>"><a id="skip-map" href="#map-actions"><?php echo __('Skip Interactive Map');?></a></nav>
-<figure id="story-map" data-default-layer="<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER';?>" data-lat="<?php echo $location[ 'latitude' ];?>" data-lon="<?php echo $location[ 'longitude' ];?>" data-zoom="<?php echo $location['zoom_level'];?>" data-title="<?php echo strip_tags($title);?>" data-image="<?php echo $hero_img;?>" data-orientation="<?php echo $hero_orientation;?>" data-address="<?php echo strip_tags($address);?>" data-color="<?php echo get_theme_option('marker_color');?>" data-featured-color="<?php echo get_theme_option('featured_marker_color');?>" data-featured-star="<?php echo get_theme_option('featured_marker_star');?>" data-root-url="<?php echo WEB_ROOT;?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts');?>" data-providers="<?php echo src('providers.js', 'javascripts');?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts');?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts');?>">
-    <div class="curatescape-map">
-        <div id="curatescape-map-canvas"></div>
-    </div>
-    <figcaption><?php echo rl_map_caption();?></figcaption>
-</figure>
-<div id="map-actions"><a class="button directions" target="_blank" rel="noopener" href="https://maps.google.com/maps?location&daddr=<?php echo $address ? urlencode(strip_tags($address)) : $location[ 'latitude' ].','.$location[ 'longitude' ];?>"><?php echo rl_icon("logo-google", null);?>
-    <span class="label">
-        <?php echo __('Open in Google Maps');?></span></a></div>
-<?php }
+function rl_story_map_single($title=null, $location=null, $address=null, $hero_img=null, $hero_orientation=null) 
+{ 
+if(plugin_is_active('Geolocation')):
+?>
+  <nav aria-label="<?php echo __('Skip Interactive Map');?>"><a id="skip-map" href="#map-actions"><?php echo __('Skip Interactive Map');?></a></nav>
+  <figure id="story-map" data-default-layer="<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER';?>" data-lat="<?php echo $location[ 'latitude' ];?>" data-lon="<?php echo $location[ 'longitude' ];?>" data-zoom="<?php echo $location['zoom_level'];?>" data-title="<?php echo strip_tags($title);?>" data-image="<?php echo $hero_img;?>" data-orientation="<?php echo $hero_orientation;?>" data-address="<?php echo strip_tags($address);?>" data-color="<?php echo get_theme_option('marker_color');?>" data-featured-color="<?php echo get_theme_option('featured_marker_color');?>" data-featured-star="<?php echo get_theme_option('featured_marker_star');?>" data-root-url="<?php echo WEB_ROOT;?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts');?>" data-providers="<?php echo src('providers.js', 'javascripts');?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts');?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts');?>">
+      <div class="curatescape-map">
+          <div id="curatescape-map-canvas"></div>
+      </div>
+      <figcaption><?php echo rl_map_caption();?></figcaption>
+  </figure>
+  <div id="map-actions">
+    <a class="button directions" target="_blank" rel="noopener" href="https://maps.google.com/maps?location&daddr=<?php echo $address ? urlencode(strip_tags($address)) : $location[ 'latitude' ].','.$location[ 'longitude' ];?>">
+      <?php echo rl_icon("logo-google", null);?>
+      <span class="label">
+          <?php echo __('Open in Google Maps');?></span>
+    </a>
+  </div>
+<?php 
+endif;
+}
 
 /*
 ** Story Map - Multi
 */
 function rl_story_map_multi($tour=false)
 {
+  if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
     $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
     $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
     $zoom=(get_option('geolocation_default_zoom_level')) ? get_option('geolocation_default_zoom_level') : 12; ?>
@@ -621,6 +607,7 @@ function rl_story_map_multi($tour=false)
         </div>
     </figure>
     <?php
+  endif;
 }
 
 /*
@@ -628,6 +615,7 @@ function rl_story_map_multi($tour=false)
 */
 function rl_homepage_map($ishome=true)
 {
+  if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
     $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
     $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
     $zoom=(get_option('geolocation_default_zoom_level')) ? get_option('geolocation_default_zoom_level') : 12; ?>
@@ -645,6 +633,7 @@ function rl_homepage_map($ishome=true)
       <?php endif;?>
     </section>
     <?php
+  endif;
 }
 
 /*
@@ -652,6 +641,7 @@ function rl_homepage_map($ishome=true)
 */
 function multimap_markup($tour=false, $map_label=null, $button_label=null)
 {
+  if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
     if (!$button_label) {
         $button_label = __('Show Results on Map');
     }
@@ -667,6 +657,7 @@ function multimap_markup($tour=false, $map_label=null, $button_label=null)
     </a>
     <noscript><?php echo rl_nojs_map();?></noscript>
     <?php
+  endif;
 }
 
 

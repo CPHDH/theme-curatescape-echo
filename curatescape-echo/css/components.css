@@ -590,7 +590,7 @@ header.primary nav #nav-interactive a > i {
   background: var(--site-header-bg-color-2);
 }
 
-@media all and (max-width: 700px) {
+@media all and (max-width: 950px) {
   .home-project-meta {
     flex-direction: column;
   }
