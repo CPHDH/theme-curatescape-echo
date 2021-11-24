@@ -358,6 +358,9 @@ header.primary nav #nav-interactive a > i {
 #home section > div {
   padding-bottom: 1rem;
 }
+#home section > div[class^="leaflet-"] {
+  padding-bottom: 0;
+}
 #home section .view-more-link .button {
   margin: 0;
 }
@@ -577,9 +580,18 @@ header.primary nav #nav-interactive a > i {
 }
 #home-about-main,
 #home-cta {
-  flex: 1 1 50%;
+  flex-grow: 1;
+  flex-shrink: 1;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#home-about-main .button,
+#home-cta .button {
+  margin-bottom: 1rem;
 }
 
 .home-project-meta h3 {
@@ -2036,4 +2048,44 @@ body.exhibits.summary .exhibit-summary-link a {
 }
 .additional-elements h3 {
   margin: 1em 0 0 0;
+}
+
+/* Simple Pages */
+.page-inner-sidebar .empty-cta {
+  display: none !important;
+}
+.page-inner-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.page-inner-content {
+  flex-shrink: 0;
+}
+
+.page-inner-sidebar {
+  margin: 0 0 0 2em;
+  color: var(--text-base-on-dark);
+  align-self: stretch;
+}
+
+.page-inner-sidebar .query-header {
+  border: none;
+  color: var(--text-heading-on-dark);
+}
+
+.page-inner-sidebar .cta-main {
+  font-size: 0.833em;
+}
+@media all and (max-width: 1150px) {
+  .page-inner-container {
+    flex-direction: column;
+  }
+  .page-inner-sidebar {
+    margin: 2em 0 0 0;
+  }
+  .page-inner-container p {
+    max-width: none;
+  }
 }

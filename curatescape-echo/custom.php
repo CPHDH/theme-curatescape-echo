@@ -1618,17 +1618,17 @@ function rl_homepage_tags($num=25)
 /*
 ** Homepage Project Meta Text 
 */
-function rl_homepage_projectmeta($length=800)
+function rl_homepage_projectmeta($html=null,$length=800)
 {
   $cta = rl_homepage_cta();
   $text = get_theme_option('about') 
-    ? strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u><br><img><video><iframe>') 
+    ? strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u>') 
     : __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile app framework available for both Android and iOS devices.', option('site_title'));
-  $html = '<h2 class="query-header">'.__('Project Meta').'</h2>';
+  $html .= '<h2 class="query-header">'.__('Project Meta').'</h2>';
   $html .= '<div class="home-project-meta">';
     $html .= '<div id="home-about-main" class="inner-padding">'; 
       $html .= '<h3 class="query-header">'.__('About').'</h3>';
-      $html .= '<p>'.substr($text, 0, $length).(($length < strlen($text)) ? '... ' : null).'</p>';
+      $html .= '<p>'.substr($text, 0, $length).(($length < strlen($text)) ? '&hellip;. ' : null).'</p>';
       $html .= '<div class="about-link"><a class="button" href="'.url('about').'">'.__('Read More About Us').'</a></div>';
     $html .= '</div>';
     $html .= $cta;
@@ -1641,9 +1641,9 @@ function rl_homepage_projectmeta($length=800)
 /*
 ** Homepage Call to Action 
 */
-function rl_homepage_cta($html=null){
+function rl_homepage_cta($html=null,$length=800){
   $cta_title=get_theme_option('cta_title');
-  $cta_text=get_theme_option('cta_text');
+  $cta_text=strip_tags(get_theme_option('cta_text'),'<a><em><i><cite><strong><b><u>');
   $cta_button_label=get_theme_option('cta_button_label');
   $cta_button_url=get_theme_option('cta_button_url');
   $cta_button_url_target=get_theme_option('cta_button_url_target') ? ' target="_blank" rel="noreferrer noopener"' : null;
@@ -1651,14 +1651,16 @@ function rl_homepage_cta($html=null){
     $html = '<h3 class="query-header">'.$cta_title.'</h3>';
     $html .= '<div class="cta-main">';
       $html .= '<div class="cta-text">'; 
-        $html .= '<p>'.$cta_text.'</p>';
+        $html .= '<p>'.substr($cta_text, 0, $length).(($length < strlen($cta_text)) ? '&hellip; ' : null).'</p>';
       $html .= '</div>';
     $html .= '</div>';
     $html .= '<div class="cta-link"><a '.$cta_button_url_target.' class="button" href="'.$cta_button_url.'">'.$cta_button_label.'</a></div>';
+    $display_class = null;
   }else{
+    $display_class = 'empty-cta';
     $html .= rl_admin_message('home-cta',array('admin','super'));
   }
-  return '<aside id="home-cta" class="inner-padding">'.$html.'</aside>';
+  return '<aside id="home-cta" class="inner-padding '.$display_class.'">'.$html.'</aside>';
 }
 
 /*
