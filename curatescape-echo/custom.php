@@ -410,17 +410,21 @@ function rl_global_nav($nested=false)
 {
     $curatenav=get_theme_option('default_nav');
     if ($curatenav==1 || !isset($curatenav)) {
-        return nav(array(
-             array('label'=>__('Home'),'uri' => url('/')),
-             array('label'=>rl_item_label('plural'),'uri' => url('items/browse')),
-             array('label'=>rl_tour_label('plural'),'uri' => url('tours/browse/')),
-             array('label'=>__('Map'),'uri' => url('items/map/')),
-             array('label'=>__('About'),'uri' => url('about/')),
-         ));
+      $navArray = array();
+      $navArray[] = array('label'=>__('Home'),'uri' => url('/'));
+      $navArray[] = array('label'=>rl_item_label('plural'),'uri' => url('items/browse'));
+      if(plugin_is_active('TourBuilder')){
+        $navArray[] = array('label'=>rl_tour_label('plural'),'uri' => url('tours/browse/'));
+      }
+      if(plugin_is_active('Geolocation')){
+        $navArray[] = array('label'=>__('Map'),'uri' => url('items/map/'));
+      }
+      $navArray[] = array('label'=>__('About'),'uri' => url('about/'));
+      return nav($navArray);
     } elseif ($nested) {
-        return '<div class="custom nested">'.public_nav_main()->setMaxDepth(1).'</div>';
+      return '<div class="custom nested">'.public_nav_main()->setMaxDepth(1).'</div>';
     } else {
-        return '<div class="custom">'.public_nav_main()->setMaxDepth(0).'</div>';
+      return '<div class="custom">'.public_nav_main()->setMaxDepth(0).'</div>';
     }
 }
 
@@ -528,9 +532,9 @@ function rl_global_header($html=null)
         <!-- Home / Logo -->
         <?php echo link_to_home_page(rl_the_logo(), array('id'=>'home-logo', 'aria-label'=>'Home')); ?>
         <div id="nav-desktop">
-            <?php echo '<a class="button transparent" href="'.url('items/browse').'">'.rl_icon("location").rl_item_label('plural').'</a>'; ?>
-            <?php echo '<a class="button transparent" href="'.url('tours/browse').'">'.rl_icon("compass").rl_tour_label('plural').'</a>'; ?>
-            <?php echo '<a class="button transparent" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>'; ?>
+            <?php echo get_theme_option('quicklink_story') ? '<a class="button transparent '.((is_current_url('/items/browse')) ? 'active' : null).'" href="'.url('items/browse').'">'.rl_icon("location").rl_item_label('plural').'</a>' : null; ?>
+            <?php echo get_theme_option('quicklink_tour') && plugin_is_active('TourBuilder') ? '<a class="button transparent '.((is_current_url('/tours/browse')) ? 'active' : null).'" href="'.url('tours/browse').'">'.rl_icon("compass").rl_tour_label('plural').'</a>' : null; ?>
+            <?php echo get_theme_option('quicklink_map') && plugin_is_active('Geolocation') ? '<a class="button transparent '.((is_current_url('/items/map')) ? 'active' : null).'" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>' : null; ?>
         </div>
         <div id="nav-interactive">
             <!-- Search -->

@@ -14,8 +14,8 @@
 	        <div class="funlinks">
 	            <?php echo rl_find_us('transparent-on-dark');?>
 	            <?php if (rl_appstore_downloads()) {
-    echo '<div class="footer-appstore-links">'.rl_appstore_downloads().'</div>';
-};?>
+    				echo '<div class="footer-appstore-links">'.rl_appstore_downloads().'</div>';
+				};?>
 	        </div>
 
 	        <nav id="footer-nav" aria-label="<?php echo __('Footer Navigation');?>">
