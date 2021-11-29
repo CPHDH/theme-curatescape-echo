@@ -63,6 +63,7 @@
   --site-header-bg-menu: var(--site-header-bg-color-2);
   --site-header-bg-logo: transparent;
   --site-header-height: 85px;
+  --site-header-height-tall: 110px;
 
   /* Site Footer */
   --site-footer-nav-color: var(--text-base-on-dark);

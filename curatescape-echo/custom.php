@@ -2071,7 +2071,7 @@ function rl_browser_icon_url()
 
 
 /*
-** Custom CSS
+** Custom/Configured CSS
 */
 function rl_configured_css($vars=null, $output=null)
 {
@@ -2086,7 +2086,7 @@ function rl_configured_css($vars=null, $output=null)
   $vars .= get_theme_option('cluster_medium_color') ? '--cluster-medium-color:'.get_theme_option('cluster_medium_color').';' : null; 
   $vars .= get_theme_option('cluster_small_color') ? '--cluster-small-color:'.get_theme_option('cluster_small_color').';' : null;
   $vars .= get_theme_option('header_footer_color') ? '--featured-one: '.get_theme_option('header_footer_color').';' : null;
-  $vars .= get_theme_option('logo_size_adjust') ? '--site-header-height: 110px;' : null;
+  $vars .= get_theme_option('logo_size_adjust') ? '--site-header-height: var(--site-header-height-tall)' : null;
   $vars .= get_theme_option('logo_background_color') ? '--site-header-bg-logo: '.get_theme_option('logo_background_color').';' : null;
   
   if ($vars) {
