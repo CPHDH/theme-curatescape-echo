@@ -137,10 +137,11 @@ header.primary nav {
 header.primary a#home-logo {
   display: flex;
   max-width: calc(50% - 1em);
-  height: 85px;
+  height: var(--site-header-height);
+  background-color: var(--site-header-bg-logo, transparent);
 }
 header.primary a#home-logo img {
-  max-height: 85px;
+  max-height: var(--site-header-height);
   padding: 10px 1em;
   flex-grow: 0;
   align-self: center;
@@ -150,7 +151,7 @@ header.primary nav #nav-interactive {
 }
 header.primary nav #nav-desktop,
 header.primary nav #nav-interactive {
-  height: 85px;
+  height: var(--site-header-height);
   padding: 10px 1em;
   display: flex;
   flex-direction: row;
@@ -172,8 +173,8 @@ header.primary nav #nav-interactive a > i {
   display: flex;
   position: absolute;
   width: 100%;
-  height: calc(100vh - 85px);
-  top: 85px;
+  height: calc(100vh - var(--site-header-height, 85px));
+  top: var(--site-header-height);
   right: 0;
   bottom: 0;
   left: 0;
@@ -830,7 +831,7 @@ figure#story-map {
 }
 body#map.item-map .curatescape-map {
   min-height: 400px;
-  height: calc(100vh - 85px - 4em);
+  height: calc(100vh - var(--site-header-height, 85px) - 4em);
   margin-top: 1em;
 }
 body#map.item-map .query-header {
