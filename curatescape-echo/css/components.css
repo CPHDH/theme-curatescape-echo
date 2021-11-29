@@ -2090,3 +2090,10 @@ body.exhibits.summary .exhibit-summary-link a {
     max-width: none;
   }
 }
+/* Stealth Mode */
+body#home.stealth header,
+body#home.stealth footer,
+body#home.stealth section:not(#home-about),
+body#home.stealth .about-link {
+  display: none !important;
+}
