@@ -21,7 +21,7 @@ echo head(
                 <?php echo rl_tour_browse_subnav(rl_tour_label('plural'), null); ?>
             </nav>
             <div id="helper-links">
-                <span class="helper-label"><?php echo rl_icon('information-circle').'&nbsp;'.__("%s are self-guided.", rl_tour_label('plural')); ?></span>
+                <span class="helper-label"><?php echo rl_icon('information-circle').'&nbsp;'.(get_theme_option('tour_info') ? strip_tags(get_theme_option('tour_info'),'<a>') :  __("%s are self-guided.", rl_tour_label('plural'))); ?></span>
             </div>
         </div>
         <div id="primary" class="browse">
