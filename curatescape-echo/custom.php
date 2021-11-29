@@ -1477,8 +1477,8 @@ function rl_tour_preview($s)
         $html.=  '<span class="tour-thumbs-container">';
         foreach ($record->Items as $mini_thumb) {
             $html.=  metadata($mini_thumb, 'has thumbnail') ?
-                     '<div class="mini-thumb">'.item_image('square_thumbnail', array('height'=>'40','width'=>'40'), null, $mini_thumb).'</div>' :
-                     null;
+              '<div class="mini-thumb">'.item_image('square_thumbnail', array('height'=>'40','width'=>'40'), null, $mini_thumb).'</div>' :
+              null;
         }
         $html.=  '</span>';
     }
@@ -1491,15 +1491,92 @@ function rl_tour_preview($s)
 */ 
 function rl_homepage_featured($num=4,$html=null,$index=1)
 {
-  $items=get_records('Item', array('featured'=>true,'hasImage'=>true,'sort_field' => 'modified', 'sort_dir' => 'd','public'=>true), $num);
-  if(count($items)){
-    $html = '<h2 class="query-header">'.__('Featured %s',rl_item_label('plural')).'</h2>';
-    $html .= '<div class="featured-card-container">';
-      $primary=null;
-      $secondary=null;
-      foreach($items as $item){
-        set_current_record('item', $item);
-        if($index == 1){
+  if(get_theme_option("homepage_featured_order") !== "none"){
+    $orderby = get_theme_option("homepage_featured_order") ? get_theme_option("homepage_featured_order") : "modified";
+    $items=get_records('Item', array('featured'=>true,'hasImage'=>true,'sort_field' => $orderby, 'sort_dir' => 'd','public'=>true), $num);
+    if(count($items)){
+      $html = '<h2 class="query-header">'.__('Featured %s',rl_item_label('plural')).'</h2>';
+      $html .= '<div class="featured-card-container">';
+        $primary=null;
+        $secondary=null;
+        foreach($items as $item){
+          set_current_record('item', $item);
+          if($index == 1){
+            if ($item_image = rl_get_first_image_src($item)) {
+              $size=getimagesize($item_image);
+              $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+            } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
+              $img = item_image('fullsize');
+              preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
+              $item_image = array_pop($result);
+              $size=getimagesize($item_image);
+              $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
+            }else{
+              $orientation=null;
+              $item_image=null;
+            }          
+            $primary .= '<article class="featured-card featured-'.$index.'">';
+              $primary .= '<div class="background-image '.$orientation.'" style="background-image:url('.$item_image.')"></div>';
+              $primary .= '<div class="background-gradient"></div>';
+              $primary .= '<div class="featured-card-inner inner-padding">';
+                $primary .= '<div class="featured-card-image">';
+                  $primary .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container'));
+                $primary .= '</div>';
+                $primary .= '<div class="featured-card-content">';
+                  $primary .= rl_filed_under($item);
+                  $primary .= '<div class="separator wide thin flush-top"></div>';
+                  $primary .= rl_the_title_expanded($item).'<div class="separator"></div>';
+                  $primary .= rl_the_byline($item, false);
+                $primary .= '</div>';
+              $primary .= '</div>';
+            $primary .= '</article>';          
+          }else{
+            $secondary .= '<article class="featured-card featured-'.$index.'">';
+                $secondary .= '<div class="featured-card-inner inner-padding">';
+                  $secondary .= '<div class="featured-card-content">';
+                    $secondary .= rl_filed_under($item);
+                    $secondary .= rl_the_title_expanded($item);
+                    $secondary .= rl_the_byline($item, false);
+                  $secondary .= '</div>';
+                $secondary .= '</div>';
+            $secondary .= '</article>';          
+          }
+          $index++;
+        }
+      $html .= $primary.'<div class="secondary">'.$secondary.'</div>';
+      $html .= '</div>';
+      $html .= '<div class="view-more-link"><a class="button" href="/items/browse?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></div>';
+      return '<section id="home-featured" class="inner-padding browse">'.$html.'</section>';
+    }else{
+      return rl_admin_message('home-featured',array('admin','super'));
+    }    
+  }      
+}
+
+/*
+** Homepage Recent/Random Items
+*/ 
+function rl_homepage_recent_random($num=3,$html=null,$index=1)
+{
+  if(get_theme_option("random_or_recent") !== "none"){
+    $mode = get_theme_option("random_or_recent");
+    switch ($mode) {
+      case 'recent':
+        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
+        $param=__("Recent");
+        break;
+      case 'random':
+        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
+        $param=__("Discover");
+        break;
+    }
+    if(count($items)){
+      $html = '<h2 class="query-header">'.$param.' '.rl_item_label('plural').'</h2>';
+      $html .= '<div class="browse-items">';
+        foreach($items as $item){
+          set_current_record('item', $item);
+          $tags=tag_string(get_current_record('item'), url('items/browse'));
+          $hasImage=metadata($item, 'has thumbnail');
           if ($item_image = rl_get_first_image_src($item)) {
             $size=getimagesize($item_image);
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
@@ -1512,95 +1589,24 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
           }else{
             $orientation=null;
             $item_image=null;
-          }          
-          $primary .= '<article class="featured-card featured-'.$index.'">';
-            $primary .= '<div class="background-image '.$orientation.'" style="background-image:url('.$item_image.')"></div>';
-            $primary .= '<div class="background-gradient"></div>';
-            $primary .= '<div class="featured-card-inner inner-padding">';
-              $primary .= '<div class="featured-card-image">';
-                $primary .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container'));
-              $primary .= '</div>';
-              $primary .= '<div class="featured-card-content">';
-                $primary .= rl_filed_under($item);
-                $primary .= '<div class="separator wide thin flush-top"></div>';
-                $primary .= rl_the_title_expanded($item).'<div class="separator"></div>';
-                $primary .= rl_the_byline($item, false);
-              $primary .= '</div>';
-            $primary .= '</div>';
-          $primary .= '</article>';          
-        }else{
-          $secondary .= '<article class="featured-card featured-'.$index.'">';
-              $secondary .= '<div class="featured-card-inner inner-padding">';
-                $secondary .= '<div class="featured-card-content">';
-                  $secondary .= rl_filed_under($item);
-                  $secondary .= rl_the_title_expanded($item);
-                  $secondary .= rl_the_byline($item, false);
-                $secondary .= '</div>';
-              $secondary .= '</div>';
-          $secondary .= '</article>';          
+          }
+          $html .= '<article class="item-result '.($hasImage ? 'has-image' : 'no-image').'">';
+          $html .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container')); 
+          $html .= '<div class="result-details">';
+          $html .= rl_filed_under($item);
+          $html .= rl_the_title_expanded($item);
+          $html .= rl_the_byline($item, false);
+          //$html .= link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore'));
+          $html .= '</div>';
+          $html .= '</article>';
         }
-        $index++;
-      }
-    $html .= $primary.'<div class="secondary">'.$secondary.'</div>';
-    $html .= '</div>';
-    $html .= '<div class="view-more-link"><a class="button" href="/items/browse?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></div>';
-    return '<section id="home-featured" class="inner-padding browse">'.$html.'</section>';
-  }else{
-    return rl_admin_message('home-featured',array('admin','super'));
-  }          
-}
-
-/*
-** Homepage Recent/Random Items
-*/ 
-function rl_homepage_recent_random($mode='recent',$num=3,$html=null,$index=1)
-{
-  switch ($mode) {
-    case 'recent':
-      $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
-      $param=__("Recent");
-      break;
-    case 'random':
-      $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
-      $param=__("Discover");
-      break;
-  }
-  if(count($items)){
-    $html = '<h2 class="query-header">'.$param.' '.rl_item_label('plural').'</h2>';
-    $html .= '<div class="browse-items">';
-      foreach($items as $item){
-        set_current_record('item', $item);
-        $tags=tag_string(get_current_record('item'), url('items/browse'));
-        $hasImage=metadata($item, 'has thumbnail');
-        if ($item_image = rl_get_first_image_src($item)) {
-          $size=getimagesize($item_image);
-          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
-        } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
-          $img = item_image('fullsize');
-          preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
-          $item_image = array_pop($result);
-          $size=getimagesize($item_image);
-          $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
-        }else{
-          $orientation=null;
-          $item_image=null;
-        }
-        $html .= '<article class="item-result '.($hasImage ? 'has-image' : 'no-image').'">';
-        $html .= link_to_item('<span class="item-image '.$orientation.'" style="background-image:url('.$item_image.');" role="img" aria-label="Image: '.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')),'class'=>'image-container')); 
-        $html .= '<div class="result-details">';
-        $html .= rl_filed_under($item);
-        $html .= rl_the_title_expanded($item);
-        $html .= rl_the_byline($item, false);
-        //$html .= link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore'));
-        $html .= '</div>';
-        $html .= '</article>';
-      }
-    $html .= '</div>';
-    $html .= '<div class="view-more-link"><a class="button" href="/items/browse/">'.__('Browse All %2s', rl_item_label('plural')).'</a></div>';
-    return '<section id="home-recent-random" class="browse inner-padding">'.$html.'</section>';
-  }else{
-    return rl_admin_message('home-recent-random',array('admin','super'));
-  }          
+      $html .= '</div>';
+      $html .= '<div class="view-more-link"><a class="button" href="/items/browse/">'.__('Browse All %2s', rl_item_label('plural')).'</a></div>';
+      return '<section id="home-recent-random" class="browse inner-padding">'.$html.'</section>';
+    }else{
+      return rl_admin_message('home-recent-random',array('admin','super'));
+    }
+  }     
 }
 
 /*
@@ -1608,6 +1614,7 @@ function rl_homepage_recent_random($mode='recent',$num=3,$html=null,$index=1)
 */
 function rl_homepage_tags($num=25)
 {
+  if(get_theme_option("homepage_tags") == "1"){
     $tags=get_records('Tag', array('sort_field' => 'count', 'sort_dir' => 'd'), $num);
     if(count($tags)){
       $html = '<h2 class="query-header">'.__('Popular Tags').'</h2>';
@@ -1617,6 +1624,7 @@ function rl_homepage_tags($num=25)
     }else{
       return rl_admin_message('home-tags',array('admin','super'));
     }
+  }
 }
 
 /*
@@ -1624,11 +1632,13 @@ function rl_homepage_tags($num=25)
 */
 function rl_homepage_projectmeta($html=null,$length=800)
 {
+  $isStealthMode = (get_theme_option('stealth_mode')==1)&&(is_allowed('Items', 'edit')!==true) ? true : false;
   $cta = rl_homepage_cta();
   $text = get_theme_option('about') 
     ? strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u>') 
     : __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile app framework available for both Android and iOS devices.', option('site_title'));
-  $html .= '<h2 class="query-header">'.__('Project Meta').'</h2>';
+  $html .= '<h2 class="query-header">'.(!$isStealthMode ? __('Project Meta') : __("Check Back Soon")).'</h2>';
+  $html .= $isStealthMode ? '<p>'.__('%s is currently unavailable. Check back soon!',option('site_title')).'</p>' : null;
   $html .= '<div class="home-project-meta">';
     $html .= '<div id="home-about-main" class="inner-padding">'; 
       $html .= '<h3 class="query-header">'.__('About').'</h3>';
@@ -1672,7 +1682,7 @@ function rl_homepage_cta($html=null,$length=800){
 */
 function rl_homepage_tours($html=null, $num=4, $scope='featured')
 {
-  if(plugin_is_active('TourBuilder')){
+  if(plugin_is_active('TourBuilder') && (get_theme_option('homepage_tours_scope') !== "none")){
     // Build query
     $scope=get_theme_option('homepage_tours_scope') ? get_theme_option('homepage_tours_scope') : $scope;
     $db = get_db();
@@ -2003,62 +2013,6 @@ function rl_owner_link()
    return $authname;
 }
 
-/*
-** Get recent/random items for use in mobile slideshow on homepage
-*/
-function rl_random_or_recent($mode='recent', $num=6)
-{
-   switch ($mode) {
-      case 'random':
-         $items=get_records('Item', array('hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
-         $param="Random";
-      break;
-      case 'recent':
-         $items=get_records('Item', array('hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
-         $param="Recent";
-      break;
-   }
-    set_loop_records('items', $items);
-    $html='<section id="random-recent">';
-    $labelcount='<span>'.total_records('Item').' '.rl_item_label('plural').'</span>';
-    $html.='<h3 class="result-type-header">'.ucfirst($mode).' '.rl_item_label('plural').'</h3>';
-
-    if (has_loop_records('items')) {
-        $html.='<div class="browse-items flex">';
-        foreach (loop('Items') as $item) {
-            $item_image=null;
-            $description = rl_snippet_expanded($item);
-            $tags=tag_string(get_current_record('item'), url('items/browse'));
-            $titlelink=link_to_item(rl_the_title_expanded($item), array('class'=>'permalink'));
-            $hasImage=metadata($item, 'has thumbnail');
-            if ($hasImage) {
-                preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', item_image('fullsize'), $result);
-                $item_image = array_pop($result);
-            }
-
-            $html.='<article class="item-result'.($hasImage ? ' has-image' : null).'">';
-            $html.=(isset($item_image) ? link_to_item('<span class="item-image" style="background-image:url('.$item_image.');" role="img" aria-label="'.metadata($item, array('Dublin Core', 'Title')).'"></span>', array('title'=>metadata($item, array('Dublin Core','Title')))) : null);
-            $html.='<h3 class="title">'.$titlelink.'</h3>';
-            $html.='<div class="browse-meta-top">'.rl_the_byline($item, false).'</div>';
-
-
-            if ($description) {
-                $html.='<div class="item-description">';
-                $html.=strip_tags($description);
-                $html.='</div>';
-            }
-
-            $html.='</article> ';
-        }
-
-        $html.='</div>';
-        $html.='<p class="view-more-link"><a class="button" href="/items/browse/">'.__('Browse all %s', $labelcount).'</a></p>';
-    } else {
-        $html.='<p>'.__('No items are available. Publish some now.').'</p>';
-    }
-    $html.='</section>';
-    return $html;
-}
 /*
 ** Icon file for mobile devices
 */
