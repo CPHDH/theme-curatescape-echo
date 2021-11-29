@@ -2093,7 +2093,28 @@ body.exhibits.summary .exhibit-summary-link a {
 /* Stealth Mode */
 body#home.stealth header,
 body#home.stealth footer,
-body#home.stealth section:not(#home-about),
-body#home.stealth .about-link {
+body#home.stealth section:not(#home-stealth) {
   display: none !important;
+}
+#home-stealth {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--site-footer-bg-color);
+  color: var(--text-base-on-dark);
+  justify-content: center;
+}
+#home-stealth p {
+  text-align: center;
+  margin: 0 auto;
+}
+#home-stealth .query-header {
+  color: var(--text-heading-on-dark);
+  border-bottom: none;
+  text-align: center;
+}
+#home-stealth a,
+#home-stealth img {
+  height: 130px;
+  margin: 0 auto;
 }

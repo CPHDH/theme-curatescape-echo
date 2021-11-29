@@ -24,6 +24,9 @@ echo head(
         echo rl_homepage_map();
     }
     echo rl_homepage_projectmeta();
+    if($stealthMode){
+        echo rl_homepage_stealthmode();
+    }
     ?>
     
 </div>
