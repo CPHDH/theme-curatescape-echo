@@ -1403,7 +1403,7 @@ function rl_disquss_comments($shortname)
    if ($shortname) {
       ?>
       <div id="disqus_thread" class="inner-padding max-content-width">
-       <a class="load-comments button button-wide" title="Click to load the comments section" href="javascript:void(0)" onclick="disqus();return false;"><i aria-hidden="true" class="fa fa-comments"></i>Show Comments</a>
+       <a class="load-comments button" title="Click to load the comments section" href="javascript:void(0)" onclick="disqus();return false;"><i aria-hidden="true" class="fa fa-comments"></i>Show Comments</a>
       </div>
       <script async defer>
       var disqus_shortname = "<?php echo $shortname; ?>";

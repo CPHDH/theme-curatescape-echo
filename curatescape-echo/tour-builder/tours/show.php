@@ -81,9 +81,11 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
 
         </div>
 
-        <div class="comments">
-            <?php echo (get_theme_option('tour_comments') ==1) ? rl_display_comments() : null;?>
-        </div>
+        <?php if (get_theme_option('comments_id')):?>
+        <section id="comments-section">
+            <?php echo rl_display_comments();?>
+        </section>
+        <?php endif;?>
 
         <?php echo multimap_markup(true, $tourTitle, __('Show %s Map', rl_tour_label()));?>
 

@@ -1332,7 +1332,7 @@ div.meta-style > .related-resources {
 
 /* Comments */
 #comments-section {
-  background-color: var(--light-secondary);
+  background-color: var(--site-header-active-menu-bg);
   padding-bottom: 0.5em;
   margin-bottom: -2rem;
   border-top: var(--deco-border);
