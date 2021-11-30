@@ -30,11 +30,11 @@ enableContributionAjaxForm( <?php echo js_escape(url($contributionPath.'/type-fo
 // ]]>
 </script>
 <div id="content" role="main">
-    <article class="page show">
+    <article class="page show contribution">
         <div id="primary">
             <?php echo flash(); ?>
 
-            <h1><?php echo $head['title']; ?></h1>
+            <h2><?php echo $head['title']; ?></h2>
 
             <?php if (!get_option('contribution_simple') && !$user = current_user()) :?>
             <?php $session = new Zend_Session_Namespace();

@@ -2090,6 +2090,12 @@ body.exhibits.summary .exhibit-summary-link a {
     max-width: none;
   }
 }
+
+/* Guest User */
+a#menu-admin-bar-welcome + ul {
+  width: 200% !important;
+}
+
 /* Stealth Mode */
 body#home.stealth header,
 body#home.stealth footer,

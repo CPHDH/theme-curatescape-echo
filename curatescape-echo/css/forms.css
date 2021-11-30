@@ -31,6 +31,8 @@ form .legend {
   color: var(--text-caption);
 }
 form input[type="text"],
+form input[type="password"],
+form input[type="username"],
 input[type="search"],
 form input[type="email"] {
   width: 100%;
@@ -110,6 +112,8 @@ input[type="file"]:focus::file-selector-button {
 }
 
 input[type="text"],
+input[type="password"],
+input[type="username"],
 input[type="email"],
 input[type="search"],
 textarea,
@@ -136,6 +140,8 @@ form input[type="button"],
 form input[type="reset"],
 form input[type="submit"],
 form input[type="email"],
+form input[type="password"],
+form input[type="username"],
 form input[type="text"] form button,
 form .button,
 textarea {

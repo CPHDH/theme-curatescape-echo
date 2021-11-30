@@ -53,7 +53,7 @@
 
     <!-- Assets -->
     <?php
-    $includeJQuery = (0 === strpos(current_url(), '/items/search')) ? true : false;
+    $includeJQuery = ((0 === strpos(current_url(), '/items/search')) || (0 === strpos(current_url(), '/guest-user/')) || (0 === strpos(current_url(), '/contribution/'))) ? true : false;
     fire_plugin_hook('public_head', array('view'=>$this));
     rl_assets_blacklist($this, array('/plugins/Geolocation','admin-bar','family=Arvo:400'));
     rl_theme_css();

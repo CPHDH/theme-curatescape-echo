@@ -7,17 +7,19 @@ $pageTitle = get_option('guest_user_register_text') ? get_option('guest_user_reg
 echo head(array('bodyclass' => 'register', 'title' => $pageTitle));
 ?>
 
-<article class="page show" id="content" role="main">
-    <h1><?php echo $pageTitle; ?></h1>
-    <div id='primary'>
-        <div id='capabilities'>
-            <p>
-                <?php echo get_option('guest_user_capabilities'); ?>
-            </p>
+<div id="content" role="main">
+    <article class="page show guest-user">
+        <h2 class="page_title"><?php echo $pageTitle; ?></h2>
+        <div id='primary'>
+            <div id='capabilities'>
+                <p>
+                    <?php echo get_option('guest_user_capabilities'); ?>
+                </p>
+            </div>
+            <?php echo flash(); ?>
+            <?php echo $this->form; ?>
+            <p id='confirm'></p>
         </div>
-        <?php echo flash(); ?>
-        <?php echo $this->form; ?>
-        <p id='confirm'></p>
-    </div>
-</article>
+    </article>
+</div>
 <?php echo foot(); ?>

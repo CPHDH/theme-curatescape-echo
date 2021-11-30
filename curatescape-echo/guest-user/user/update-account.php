@@ -14,11 +14,13 @@ $pageTitle = __('Update Account');
 echo head(array('bodyclass' => 'update-account', 'title' => $pageTitle));
 ?>
 
-<article class="page show" id="content" role="main">
-    <h1><?php echo $pageTitle; ?></h1>
-    <div id='primary'>
-        <?php echo flash(); ?>
-        <?php echo $this->form; ?>
-    </div>
-</article>
+<div id="content" role="main">
+    <article class="page show guest-user">
+        <h2 class="page_title"><?php echo $pageTitle; ?></h2>
+        <div id='primary'>
+            <?php echo flash(); ?>
+            <?php echo $this->form; ?>
+        </div>
+    </article>
+</div>
 <?php echo foot(); ?>
