@@ -50,6 +50,9 @@
 
     <!-- RSS -->
     <?php echo auto_discovery_link_tags(); ?>
+    
+    <!-- CSS var() polyfill for IE 11 -->
+    <script>window.MSInputMethodContext && document.documentMode && document.write('<script src="https://cdn.jsdelivr.net/gh/nuxodin/ie11CustomProperties@4.1.0/ie11CustomProperties.min.js"><\/script>');</script>
 
     <!-- Assets -->
     <?php
