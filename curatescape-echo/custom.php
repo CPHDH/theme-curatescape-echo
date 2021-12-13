@@ -652,7 +652,7 @@ function multimap_markup($tour=false, $map_label=null, $button_label=null)
     if (!$map_label) {
         $map_label = __('Map');
     } ?>
-    <div id="multi-map-container" aria-label="<?php echo htmlentities(strip_tags($map_label)); ?>">
+    <div id="multi-map-container" data-label="<?php echo htmlentities(strip_tags($map_label)); ?>">
         <?php echo rl_story_map_multi($tour); ?>
     </div>
     <div id="multi-map-overlay"></div>
@@ -1878,7 +1878,7 @@ function rl_item_files_by_type($item=null, $output=null)
 }
 
 /*
-These images load via js unless the $class is set to "featured" (i.e. in header)
+These images load via js unless the $class is set to "featured" (i.e. in article header)
 Should be used with rl_nojs_images() for users w/o js
 */
 function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)

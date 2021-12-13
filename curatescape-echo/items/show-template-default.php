@@ -50,7 +50,7 @@ echo head(array(
                 <?php echo rl_the_byline($item, true);?>
             </div>
             <div class="title-card-image">
-                <?php echo rl_gallery_figure($filesforitem['images'][0], 'featured', 'javascript:void(0)');?>
+                <?php echo rl_gallery_figure($filesforitem['images'][0], 'featured', '#images');?>
             </div>
         </div>
     </header>

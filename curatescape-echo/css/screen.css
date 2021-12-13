@@ -1645,7 +1645,7 @@ header.primary nav #nav-interactive a > i {
 .featured-card.featured-1 .title-card-subject a {
   color: var(--text-caption-on-dark);
 }
-.featured-card.featured-1 .title-card-subject a:first-child::before {
+.featured-card.featured-1 .title-card-subject a::before {
   background: var(--link-text-on-dark);
 }
 .featured-card.featured-1 .title {
@@ -1892,7 +1892,7 @@ article header .title-card-image figcaption .file-description {
 .title-card-subject {
   padding-bottom: 0.25em;
 }
-.title-card-subject a:first-child::before {
+.title-card-subject a::before {
   background: var(--link-text);
   width: 2em;
   height: 0.7em;
