@@ -526,7 +526,7 @@ p {
 .home a .subtitle,
 .browse a .subtitle {
   font-size: 1rem;
-  margin: 0 0 0.15em;
+  margin: 0 0 0.5em;
 }
 .home a .title,
 .browse a .title {
