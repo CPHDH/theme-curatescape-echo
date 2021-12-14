@@ -970,6 +970,7 @@ function rl_get_first_image_src($item, $size='fullsize')
       $select->where('item_id = '.$item->id);
       $select->where('has_derivative_image = 1');
       $select->where('mime_type LIKE "image%"');
+      $select->order('order ASC');
       $q = $select->query();
       $results = $q->fetchAll();
       if ($results) {
