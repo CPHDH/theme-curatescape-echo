@@ -1189,7 +1189,7 @@ function rl_file_caption($file, $includeTitle=true)
     $caption=array();
 
     $title = metadata($file, array( 'Dublin Core', 'Title' ));
-    $caption[] = '<span class="file-title"><cite><a itemprop="contentUrl" title="'.__('View File Record').'" href="/files/show/'.$file->id.'">'.($title ? $title : __('Untitled')).'</a></cite></span>';
+    $caption[] = '<span class="file-title" itemprop="name"><cite><a itemprop="contentUrl" title="'.__('View File Record').'" href="/files/show/'.$file->id.'">'.($title ? $title : __('Untitled')).'</a></cite></span>';
 
     if ($description = metadata($file, array( 'Dublin Core', 'Description' ))) {
         $caption[]= '<span class="file-description">'.strip_tags($description, '<a><u><strong><em><i><cite>').'</span>';
@@ -1223,14 +1223,16 @@ function rl_streaming_files($filesArray=null, $type=null, $openFirst=false)
    $audioTypes = array('audio/mp3'); // @todo: in_array($file['mime'],$videoTypes)
    foreach ($filesArray as $file) {
       $index++;
-      $html.='<div>';
+      $html.='<div itemscope itemtype="http://schema.org/'.ucfirst($type).'Object">';
       $html.='<div class="media-player '.$type.' '.($openFirst && $index==1 ? 'active' : '').'" data-type="'.$type.'" data-index="'.$index.'" data-src="'.WEB_ROOT.'/files/original/'.$file['src'].'">';
       if ($type == 'audio') {
+        $thumb = WEB_PUBLIC_THEME.'/'.Theme::getCurrentThemeName().'/images/ionicons/headset-sharp.svg';
         $html.='<audio itemprop="associatedMedia" controls preload="auto">
             <source src="'.WEB_ROOT.'/files/original/'.$file['src'].'" type="audio/mp3">
             <p class="media-no-support">'.__('Your web browser does not support HTML5 audio').'</p>
         </audio>';
       } elseif ($type="video") {
+        $thumb = WEB_PUBLIC_THEME.'/'.Theme::getCurrentThemeName().'/images/ionicons/film-sharp.svg';
         $html.='<video itemprop="associatedMedia" playsinline controls preload="auto">
             <source src="'.WEB_ROOT.'/files/original/'.$file['src'].'" type="video/mp4">
             <p class="media-no-support">'.__('Your web browser does not support HTML5 video').'</p>
@@ -1239,12 +1241,14 @@ function rl_streaming_files($filesArray=null, $type=null, $openFirst=false)
       $html .='</div>';
       $html.='<div class="media-select">';
       $html.='<div class="media-thumb"><a tabindex="0" data-type="'.$type.'" data-index="'.$index.'" title="play" class="button icon-round media-button"></a></div>';
-      $html.='<div class="media-caption">'.$file['caption'].'</div>';
+      $html.='<div class="media-caption" itemprop="description">'.$file['caption'].'</div>';
+      $html.='<meta itemprop="uploadDate" content="'.$file['date'].'">';
+      $html.='<meta itemprop="thumbnailUrl" content="'.$thumb.'">';
       $html.='</div>';
       $html.='</div>';
    };
     if ($html): ?>
-   <figure class="item-media <?php echo $type; ?>" itemscope itemtype="http://schema.org/<?php echo ucfirst($type);?>Object">
+   <figure class="item-media <?php echo $type; ?>">
        <div class="media-container">
            <div class="media-list">
                <?php echo $html; ?>
@@ -1865,10 +1869,10 @@ function rl_item_files_by_type($item=null, $output=null)
                );
                break;
                case strpos($mime, 'audio') !== false:
-               array_push($output['audio'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file)));
+               array_push($output['audio'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file), 'date'=>$file->added));
                break;
                case strpos($mime, 'video') !== false:
-               array_push($output['video'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file)));
+               array_push($output['video'], array('id'=>$file->id, 'src'=>$file->filename,'caption'=>rl_file_caption($file), 'date'=>$file->added));
                break;
                default:
                array_push($output['other'], array('id'=>$file->id, 'src'=>$file->filename,'size'=>$file->size,'title'=>metadata($file, array('Dublin Core','Title')),'filename'=>$file->original_filename));
