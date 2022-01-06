@@ -734,7 +734,7 @@ input[type="submit"].button-primary:focus,
   background-color: transparent;
   border-color: transparent;
   box-shadow: none;
-  color: var(--site-header-nav-color);
+  color: #4E4E4E;
 }
 .transparent-on-light .button {
   color: var(--text-caption);
@@ -1342,35 +1342,36 @@ hr {
 /* Header Primary */
 header.primary {
   width: 100%;
-  background: var(--site-header-bg);
+  background: #E5E5E5;
   position: relative;
 }
 header.primary nav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   position: relative;
 }
 header.primary a#home-logo {
   display: flex;
-  max-width: calc(50% - 1em);
-  height: var(--site-header-height);
   background-color: var(--site-header-bg-logo, transparent);
 }
 header.primary a#home-logo img {
-  max-height: var(--site-header-height);
+  max-height: 5rem;
   padding: 10px 1em;
   flex-grow: 0;
   align-self: center;
 }
 header.primary nav #nav-interactive {
-  background: var(--site-header-bg-menu);
+  background: #E5E5E5;
+  padding-right: 3rem;
+}
+header.primary nav #nav-desktop {
+  padding-right: 2.5rem;
 }
 header.primary nav #nav-desktop,
 header.primary nav #nav-interactive {
   height: var(--site-header-height);
-  padding: 10px 1em;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
