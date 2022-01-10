@@ -38,26 +38,32 @@ echo head(array(
 
 <article class="story item show wide <?php echo $hero_class;?>" role="main" id="content">
     <header id="story-header">
-        <div class="background-image <?php echo $hero_orientation;?>" style="background-image:url(<?php echo $hero_img;?>)"></div>
-        <div class="background-gradient"></div>
+        <!-- <div class="background-image <?php echo $hero_orientation;?>" style="background-image:url(<?php echo $hero_img;?>)"></div>
+        <div class="background-gradient"></div> -->
         <div class="title-card inner-padding max-content-width">
-            <div class="title-card-main">
-                <?php echo rl_filed_under($item);?>
-                <div class="separator wide thin flush-top"></div>
-                <?php echo rl_the_title();?>
-                <?php echo rl_the_subtitle();?>
-                <div class="separator"></div>
-                <?php echo rl_the_byline($item, true);?>
-            </div>
             <div class="title-card-image">
                 <?php echo rl_gallery_figure($filesforitem['images'][0], 'featured', '#images');?>
             </div>
         </div>
+        <div class="title-card inner-padding max-content-width">
+            <div class="title-card-main">
+                <!-- <?php echo rl_filed_under($item);?>
+                <div class="separator wide thin flush-top"></div> -->
+                <?php echo rl_the_title();?>
+                <!-- <?php echo rl_the_subtitle();?> -->
+                <div class="flex-item">
+                    <?php echo rl_the_byline($item, true);?>
+                    <div>-</div>
+                    <?php echo rl_get_publish_date($item, true);?>
+                </div>
+                <?php echo rl_tags($item);?>
+            </div>
+        </div>
     </header>
-    <aside id="social-actions" class="max-content-width inner-padding-flush">
+<!--     <aside id="social-actions" class="max-content-width inner-padding-flush">
         <?php echo rl_story_actions('transparent-on-light', rl_seo_pagetitle(metadata($item, array('Dublin Core', 'Title')), $item), $item->id);?>
-    </aside>
-    <div class="separator wide thin"></div>
+    </aside> -->
+    <!-- <div class="separator wide thin"></div> -->
     <div class="story-columns inner-padding max-content-width">
         <div class="column">
             <div class="sticky">
@@ -71,7 +77,7 @@ echo head(array(
                 <?php echo rl_the_text(); ?>
                 <?php echo rl_factoid();?>
             </section>
-            <div class="separator"></div>
+            <!-- <div class="separator"></div> -->
 
             <?php if (metadata($item, 'has files')):?>
             <section aria-label="<?php echo __('Media Files');?>" id="media-section">
@@ -92,11 +98,12 @@ echo head(array(
 
                 <?php if ($has_image_count):?>
                 <div itemscope itemtype="http://schema.org/ImageGallery" id="images" data-toc="#images" data-pswp="<?php echo src('photoswipe.min.js', 'javascripts/pswp');?>" data-pswp-ui="<?php echo src('photoswipe-ui-default.min.js', 'javascripts/pswp');?>" data-pswp-css="<?php echo src('photoswipe.css', 'javascripts/pswp');?>" data-pswp-skin-css="<?php echo src('default-skin.css', 'javascripts/pswp/default-skin');?>">
-                    <h2><?php echo __('Images');?></h2>
-
-                    <?php foreach ($filesforitem['images'] as $image) {
-                        echo rl_gallery_figure($image, 'border');
-                    }?>
+                    <div class="block-images"> 
+                        <h2><?php echo __('Images');?></h2>
+                        <?php foreach ($filesforitem['images'] as $image) {
+                            echo rl_gallery_figure($image, 'border');
+                        }?>
+                    </div>
                 </div>
                 <?php endif;?>
 
@@ -107,7 +114,7 @@ echo head(array(
                 </div>
                 <?php endif;?>
             </section>
-            <div class="separator"></div>
+            <!-- <div class="separator"></div> -->
             <?php endif;?>
 
             <?php if ($has_location && plugin_is_active('Geolocation')): ?>
@@ -115,10 +122,9 @@ echo head(array(
                 <h2><?php echo __('Location');?></h2>
                 <?php echo rl_story_map_single(rl_the_title(), $location, $address, $hero_img, $hero_orientation);?>
             </section>
-            <div class="separator"></div>
             <?php endif;?>
 
-            <section aria-label="<?php echo __('Metadata');?>" id="metadata-section" data-toc="#metadata-section">
+            <!-- <section aria-label="<?php echo __('Metadata');?>" id="metadata-section" data-toc="#metadata-section">
                 <h2><?php echo __('Metadata');?></h2>
                 <?php if ($res = rl_meta_style(__('Related Resources'), array(rl_related_links()))) {
                     echo $res;
@@ -135,7 +141,7 @@ echo head(array(
                 <?php if ($cats = rl_meta_style(__('Filed Under'), array(rl_collection($item),rl_subjects(),rl_tags($item)))) {
                     echo $cats;
                 }?>
-            </section>
+            </section> -->
 
         </div>
     </div>

@@ -585,13 +585,13 @@ if(plugin_is_active('Geolocation')):
       </div>
       <figcaption><?php echo rl_map_caption();?></figcaption>
   </figure>
-  <div id="map-actions">
+  <!-- <div id="map-actions">
     <a class="button directions" target="_blank" rel="noopener" href="https://maps.google.com/maps?location&daddr=<?php echo $address ? urlencode(strip_tags($address)) : $location[ 'latitude' ].','.$location[ 'longitude' ];?>">
       <?php echo rl_icon("logo-google", null);?>
       <span class="label">
           <?php echo __('Open in Google Maps');?></span>
     </a>
-  </div>
+  </div> -->
 <?php 
 endif;
 }
@@ -907,7 +907,7 @@ function rl_tags($item)
           $link = WEB_ROOT;
           $link .= htmlentities('/items/browse?tags=');
           $link .= urlencode($tag);
-          $node = '<li><a title="'.__('Tag').': '.$tag.'" class="tag" href="'.$link.'">'.$tag.'</a></li>';
+          $node = '<li><a title="'.__('Tag').': '.$tag.'" class="tag" href="'.$link.'">'.'#'.$tag.'</a></li>';
           array_push($array, $node);
       }
       $html .= '<div id="tags">';
@@ -1126,7 +1126,7 @@ function w3_valid_url($string){
 */
 function rl_the_byline($itemObj='item', $include_sponsor=false)
 {
-    $html='<div class="byline">'.__('By').' ';
+    $html='<div class="byline custom-link">'.'';
     if (metadata($itemObj, array('Dublin Core', 'Creator'))) {
         $authors=metadata($itemObj, array('Dublin Core', 'Creator'), array('all'=>true));
         $total=count($authors);
@@ -1160,7 +1160,6 @@ function rl_the_byline($itemObj='item', $include_sponsor=false)
     return $html;
 }
 
-
 /*
 ** Custom item citation
 */
@@ -1179,6 +1178,13 @@ function rl_post_date()
       $m=format_date(metadata('item', 'modified'));
       return '<div class="item-post-date">'.__('Published on %s.', $a).(($a!==$m) ? ' '.__('Last updated on %s.', $m) : null).'</div>';
    }
+}
+
+function rl_get_publish_date()
+{
+  $a=format_date(metadata('item', 'added'));
+  return '<div class="item-title-date">'.__(' %s.', $a).'</div>';
+
 }
 
 /*
@@ -1781,21 +1787,21 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
 // return story navigation and (when applicable) tour navigation
 function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $has_location=false, $tour=false, $tour_index=false)
 {
-    $totop = '<li class="foot"><a title="'.__('Return to Top').'" class="icon-capsule no-bg" href="#site-content">'.rl_icon("arrow-up").'<span class="label">'.__('Top').'</span></a></li>';
+    $totop = '<li class="foot"><a title="'.__('Return to Top').'" class="icon-capsule no-bg" href="#site-content">'.'<span class="label">'.__('Top').'</span>'.rl_icon("arrow-up").'</a></li>';
 
     // Media List HTML
     $media_list = null;
     if ($has_video) {
-        $media_list .= '<li><a title="'.__('Skip to %s', __('Video')).'" class="icon-capsule" href="#video">'.rl_icon("film").'<span class="label">'.__('Video').' ('.$has_video.')</span></a></li>';
+        $media_list .= '<li><a title="'.__('Skip to %s', __('Video')).'" class="icon-capsule" href="#video">'.'<span class="label">'.__('Video').' ('.$has_video.')</span>'.rl_icon("film").'</a></li>';
     }
     if ($has_audio) {
-        $media_list .= '<li><a title="'.__('Skip to %s', __('Audio')).'" class="icon-capsule" href="#audio">'.rl_icon("headset").'<span class="label">'.__('Audio').' ('.$has_audio.')</span></a></li>';
+        $media_list .= '<li><a title="'.__('Skip to %s', __('Audio')).'" class="icon-capsule" href="#audio">'.'<span class="label">'.__('Audio').' ('.$has_audio.')</span>'.rl_icon("headset").'</a></li>';
     }
     if ($has_images) {
-        $media_list .= '<li><a title="'.__('Skip to %s', __('Images')).'" class="icon-capsule" href="#images">'.rl_icon("images").'<span class="label">'.__('Images').' ('.$has_images.')</span></a></li>';
+        $media_list .= '<li><a title="'.__('Skip to %s', __('Images')).'" class="icon-capsule" href="#images">'.'<span class="label">'.__('Images').' ('.$has_images.')</span>'.rl_icon("images").'</a></li>';
     }
     if ($has_other) {
-        $media_list .= '<li><a title="'.__('Skip to %s', __('Documents')).'" class="icon-capsule" href="#documents">'.rl_icon("documents").'<span class="label">'.__('Documents').' ('.$has_other.')</span></a></li>';
+        $media_list .= '<li><a title="'.__('Skip to %s', __('Documents')).'" class="icon-capsule" href="#documents">'.'<span class="label">'.__('Documents').' ('.$has_other.')</span>'.rl_icon("documents").'</a></li>';
     }
 
     $tournav = null;
@@ -1823,16 +1829,16 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
     // Location HTML
     $location = null;
     if ($has_location && plugin_is_active('Geolocation')) {
-        $location .= '<li><a title="'.__('Skip to %s', __('Map Location')).'" class="icon-capsule" href="#map-section">'.rl_icon("location").'<span class="label">'.__('Location').'</span></a></li>';
+        $location .= '<li><a title="'.__('Skip to %s', __('Map Location')).'" class="icon-capsule" href="#map-section">'.'<span class="label">'.__('Location').'</span>'.rl_icon("location").'</a></li>';
     }
 
     // Output HTML
     $html .= '<nav class="rl-toc"><ul>'.
-      '<li class="head"><span title="'.__('%s Contents', rl_item_label('singular')).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label('singular')).'</span></span></li>'.
-      '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.__('Main Text').'</span></a></li>'.
+      // '<li class="head"><span title="'.__('%s Contents', rl_item_label('singular')).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label('singular')).'</span></span></li>'.
+      '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.'<span class="label">'.__('Main Text').'</span>'.rl_icon("book").'</a></li>'.
       $media_list.
       $location.
-      '<li><a title="'.__('Skip to %s', __('Metadata')).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.__('Metadata').'</span></a></li>'.
+      // '<li><a title="'.__('Skip to %s', __('Metadata')).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.__('Metadata').'</span></a></li>'.
       $totop.
       '</ul>'.$tournav.'</nav>';
 
@@ -1892,18 +1898,17 @@ function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)
         $src = WEB_ROOT.'/files/fullsize/'.$image['src'];
         $url = WEB_ROOT.'/files/show/'.$image['id'];
         $data_or_style_attr = $class == 'featured' ? 'style' : 'data-style';
-        $html = '<figure class="image-figure '.$class.'" itemscope itemtype="http://schema.org/ImageObject">';
+        $html = '<figure class="image-figure '.$class.'"">';
           if($hrefOverride){
             $html .= '<div itemprop="associatedMedia" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" '.$data_or_style_attr.'="background-image:url('.$src.')" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"></div>';
           }else{
             $html .= '<a itemprop="associatedMedia" aria-label="Image: '.$image['title'].'" href="'.$src.'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" '.$data_or_style_attr.'="background-image:url('.$src.')" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"></a>';
           }
-          $html .= '<figcaption>'.$image['caption'].'</figcaption>';
+        // $html .= '<figcaption>'.$image['caption'].'</figcaption>';
         $html .= '</figure>';
         return $html;
     }
 }
-
 /*
 These fallback styles load in a <noscript> tag
 */
