@@ -50,7 +50,7 @@ function rl_admin_message($which=null, $roles=array('admin','super','contributor
           break;
         
         case 'home-recent-random':
-          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Recent/Random Items. <a href="%s">Publish some now</a>. Note that Featured Items will be omitted in this section.', admin_url('items/browse')).'</span> '.$ps.'<div></div>';
+          $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('This section is reserved for Recent/Random Items. <a href="%s">Publish some now</a>. Note that Featured Items will be omitted in this section.', admin_url('items/browse')).'</span> '.$ps.'</div></div>';
           break;
         
         case 'home-tags':
