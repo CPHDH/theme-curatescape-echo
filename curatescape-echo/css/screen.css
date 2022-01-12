@@ -3347,7 +3347,7 @@ body#home.stealth section:not(#home-stealth) {
 }
 #home-stealth a,
 #home-stealth img {
-  height: 130px;
+  max-height: 130px;
   margin: 0 auto;
 }
 
