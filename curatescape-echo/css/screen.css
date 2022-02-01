@@ -2016,6 +2016,8 @@ figure .gallery-image + figcaption {
     margin-left: 1em;
   }
 }
+figure.item-media .media-caption > span > cite,
+figure.item-media .media-caption > span > span,
 figure .gallery-image + figcaption cite,
 figure .gallery-image + figcaption > span > span {
   font-weight: 800;
