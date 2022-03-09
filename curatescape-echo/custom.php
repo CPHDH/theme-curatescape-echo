@@ -1200,7 +1200,7 @@ function rl_file_caption($file, $includeTitle=true)
     $caption=array();
 
     $title = metadata($file, array( 'Dublin Core', 'Title' ));
-    $caption[] = '<span class="file-title" itemprop="name"><cite><a itemprop="contentUrl" title="'.__('View File Record').'" href='.url('files/show/').$file->id.'>'.($title ? $title : __('Untitled')).'</a></cite></span>';
+    $caption[] = '<span class="file-title" itemprop="name"><cite><a itemprop="contentUrl" title="'.__('View File Record').'" href="'.url('files/show/').$file->id.'">'.($title ? $title : __('Untitled')).'</a></cite></span>';
 
     if ($description = metadata($file, array( 'Dublin Core', 'Description' ))) {
         $caption[]= '<span class="file-description">'.strip_tags($description, '<a><u><strong><em><i><cite>').'</span>';
