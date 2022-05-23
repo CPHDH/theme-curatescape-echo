@@ -1,0 +1,1242 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2022-05-23 14:44-0400\n"
+"PO-Revision-Date: 2022-05-23 16:00-0400\n"
+"Last-Translator: CPHDH @ CSU <digitalhumanities@csuohio.edu>\n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: collections/browse.php:7
+msgid "Browse Collections"
+msgstr ""
+
+# (e.g. Sort by: Title, Date Added)
+#: collections/browse.php:19 exhibit-builder/exhibits/browse.php:60
+#: exhibit-builder/exhibits/tags.php:35 items/browse.php:63 items/tags.php:18
+#: search/index.php:32
+msgid "Sort by: "
+msgstr "Sortieren nach: "
+
+# NUMBER, ITEM LABEL PLURAL
+#: collections/browse.php:29 collections/show.php:14 custom.php:167
+#, php-format
+msgid "%1s %2s"
+msgstr "%1s %2s"
+
+#: collections/show.php:9 custom.php:939
+msgid "Collection"
+msgstr "Sammlung"
+
+# NUMBER, ITEM LABEL PLURAL
+#: collections/show.php:24
+#, php-format
+msgid "Browse %1s %2s in this collection."
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: collections/show.php:29
+#, php-format
+msgid "This collection currently has no %s."
+msgstr ""
+
+# (admin bar navigation)
+#: common/admin-bar.php:6
+msgid "Account"
+msgstr ""
+
+# (admin bar navigation)
+#: common/admin-bar.php:10
+msgid "Site Admin"
+msgstr ""
+
+# (admin bar navigation)
+#: common/admin-bar.php:14
+msgid "Log Out"
+msgstr "Abmelden"
+
+# (admin bar navigation)
+#: common/admin-bar.php:23
+msgid "Edit Record"
+msgstr ""
+
+# (aria-label)
+#: common/footer.php:7
+msgid "Search - Footer"
+msgstr ""
+
+# ITEM LABEL
+#: common/footer.php:9 custom.php:551
+#, php-format
+msgid "Advanced %s Search"
+msgstr ""
+
+#: common/footer.php:10 custom.php:450 custom.php:553 search/index.php:3
+msgid "Sitewide Search"
+msgstr ""
+
+# (aria label)
+#: common/footer.php:21
+msgid "Footer Navigation"
+msgstr ""
+
+# (footer)
+#: common/footer.php:32
+msgid ""
+"Powered by <a href=\"http://omeka.org/\">Omeka</a> + <a href=\"http://"
+"curatescape.org\">Curatescape</a>"
+msgstr ""
+"Erstellt mit <a href=\"http://omeka.org/\">Omeka</a> + <a href=\"http://"
+"curatescape.org\">Curatescape</a>"
+
+# (aria label)
+#: common/header.php:169
+msgid "Skip Navigation"
+msgstr ""
+
+# (aria label)
+#: common/header.php:169
+msgid "Skip to main content"
+msgstr ""
+
+# (aria label)
+#: common/pagination_control.php:12
+msgid "Pagination"
+msgstr ""
+
+# (navigation)
+#: common/pagination_control.php:18 custom.php:1828
+#: exhibit-builder/exhibits/show.php:28 exhibit-builder/exhibits/show.php:32
+msgid "Previous"
+msgstr ""
+
+# (navigation)
+#: common/pagination_control.php:26 custom.php:1830
+#: exhibit-builder/exhibits/show.php:37
+msgid "Next"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/contribute.php:48
+msgid "What type of item do you want to contribute?"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/contribute.php:70
+msgid "Publish my contribution on the web."
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/contribute.php:75
+msgid "Contribute anonymously."
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/contribute.php:78
+msgid "Terms and Conditions"
+msgstr ""
+
+# TERMS OF SERVICE LABEL (Contribution plugin)
+#: contribution/contribution/contribute.php:78
+#, php-format
+msgid "In order to contribute, you must read and agree to the %s"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/contribute.php:82
+msgid "I agree to the Terms and Conditions."
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/contribute.php:85
+msgid "Contribute"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/my-contributions.php:5
+msgid "My Contributions"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/my-contributions.php:11
+msgid "Public"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/my-contributions.php:12
+msgid "Anonymous"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/my-contributions.php:13
+msgid "Item"
+msgstr "Objekt"
+
+# (Contribution plugin)
+#: contribution/contribution/my-contributions.php:14
+msgid "Added"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/terms.php:2
+msgid "Contribution Terms of Service"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/thankyou.php:6
+msgid "Thank you for contributing!"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/thankyou.php:7
+msgid "make another contribution"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/thankyou.php:7
+msgid "browse the archive"
+msgstr ""
+
+# MAKE ANOTHER CONTRIBUTION, BROWSE THE ARCHIVE (Contribution plugin)
+#: contribution/contribution/thankyou.php:7
+#, php-format
+msgid ""
+"Your contribution will show up in the archive once an administrator approves "
+"it. Meanwhile, feel free to %s or %s ."
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/thankyou.php:10
+msgid "this page"
+msgstr ""
+
+# URL (Contribution plugin)
+#: contribution/contribution/thankyou.php:10
+#, php-format
+msgid ""
+"If you would like to interact with the site further, you can use an account "
+"that is ready for you. Visit %s, and request a new password for the email "
+"you used"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:2
+msgid "You must choose a contribution type to continue."
+msgstr ""
+
+# ITEM TYPE LABEL (Contribution plugin)
+#: contribution/contribution/type-form.php:4
+#, php-format
+msgid "Contribute a %s"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:13
+msgid "Upload a file"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:33
+msgid "Upload a file (Optional)"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:45
+msgid "Email (Required)"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:60
+#, php-format
+msgid "You are logged in as: %s"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:77
+#, php-format
+msgid "Your %s profile"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:80
+#: contribution/contribution/type-form.php:84
+msgid "Show"
+msgstr ""
+
+# (Contribution plugin)
+#: contribution/contribution/type-form.php:82
+#: contribution/contribution/type-form.php:86
+msgid "Hide"
+msgstr ""
+
+# (Simple Pages plugin)
+#: custom.php:17 custom.php:255
+msgid "Page"
+msgstr "Seite"
+
+#: custom.php:33
+msgid "Admin Notice"
+msgstr ""
+
+#: custom.php:34
+msgid ""
+"This message is visible only to site administrators, and only while Stealth "
+"Mode is active."
+msgstr ""
+
+#: custom.php:40
+#, php-format
+msgid ""
+"To ensure the optimal user experience at all screen sizes, please <a href="
+"\"%s\">update your site settings</a> so that the value of <em>Results Per "
+"Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or "
+"18)."
+msgstr ""
+
+#: custom.php:44
+#, php-format
+msgid ""
+"This section is reserved for Featured Items. <a href=\"%s\">Publish some "
+"now</a>."
+msgstr ""
+
+# FEATURED/RECENT
+#: custom.php:49
+#, php-format
+msgid ""
+"This section is reserved for %1$s Tours. <a href=\"%2$s\">Publish some now</"
+"a>."
+msgstr ""
+
+#: custom.php:53
+#, php-format
+msgid ""
+"This section is reserved for Recent/Random Items. <a href=\"%s\">Publish "
+"some now</a>. Note that Featured Items will be omitted in this section."
+msgstr ""
+
+#: custom.php:57
+#, php-format
+msgid ""
+"This section is reserved for Tags. <a href=\"%s\">Add some tags to each of "
+"your items now</a>."
+msgstr ""
+
+#: custom.php:61
+#, php-format
+msgid ""
+"This section is reserved for the Call to Action. Create a Call to Action in "
+"<a href=\"%s\">theme settings</a>."
+msgstr ""
+
+# (aria label)
+#: custom.php:122
+msgid "Result Type"
+msgstr ""
+
+#: custom.php:128
+msgid "Preview text unavailable."
+msgstr ""
+
+# ITEM TITLE
+#: custom.php:163
+#, php-format
+msgid "This file appears in: %s"
+msgstr ""
+
+# TOUR LABEL
+#: custom.php:165 custom.php:1776 tour-builder/tours/browse.php:51
+#: tour-builder/tours/show.php:19 tour-builder/tours/show.php:39
+#, php-format
+msgid "%s Locations"
+msgstr ""
+
+#: custom.php:257
+msgid "Exhibit Page"
+msgstr ""
+
+#: custom.php:383 custom.php:387
+msgid "Story"
+msgstr ""
+
+#: custom.php:385
+msgid "Stories"
+msgstr ""
+
+#: custom.php:397 custom.php:401
+msgid "Tour"
+msgstr ""
+
+#: custom.php:399
+msgid "Tours"
+msgstr ""
+
+#: custom.php:414
+msgid "Home"
+msgstr ""
+
+#: custom.php:420 custom.php:537 custom.php:664 geolocation/map/browse.php:2
+msgid "Map"
+msgstr "Karte"
+
+#: custom.php:422 custom.php:1671
+msgid "About"
+msgstr ""
+
+# (e.g. All Items, All Tours)
+#: custom.php:437 custom.php:462 custom.php:470
+#: exhibit-builder/exhibits/browse.php:45 exhibit-builder/exhibits/tags.php:19
+msgid "All"
+msgstr ""
+
+# (e.g. Featured Items, Featured Tours)
+#: custom.php:438 custom.php:463 custom.php:471
+#: exhibit-builder/exhibits/browse.php:49 exhibit-builder/exhibits/tags.php:23
+msgid "Featured"
+msgstr "Hervorgehoben"
+
+#: custom.php:439 exhibit-builder/exhibits/browse.php:53
+#: exhibit-builder/exhibits/tags.php:27 items/tags.php:24
+msgid "Tags"
+msgstr "Schlagwörter"
+
+# ITEM LABEL
+#: custom.php:449
+#, php-format
+msgid "%s Search"
+msgstr ""
+
+# (aria label)
+#: custom.php:489
+msgid "Logo"
+msgstr ""
+
+# ITEM LABEL
+#: custom.php:498 custom.php:565
+#, php-format
+msgid "View a Random %s"
+msgstr ""
+
+#: custom.php:504
+msgid "Publish some items to activate this link"
+msgstr ""
+
+#: custom.php:530
+msgid "Main Navigation"
+msgstr ""
+
+#: custom.php:541 custom.php:549 search/search-form.php:2
+msgid "Search"
+msgstr "Suchen"
+
+#: custom.php:543
+msgid "Menu"
+msgstr ""
+
+# (aria label)
+#: custom.php:581
+msgid "Skip Interactive Map"
+msgstr ""
+
+# (button)
+#: custom.php:592
+msgid "Open in Google Maps"
+msgstr ""
+
+#: custom.php:608 custom.php:640
+msgid "Zoom to fit all locations"
+msgstr ""
+
+# ITEM LABEL
+#: custom.php:638
+#, php-format
+msgid "%s Map"
+msgstr ""
+
+#: custom.php:647
+msgid "View Map Page"
+msgstr ""
+
+#: custom.php:661
+msgid "Show Results on Map"
+msgstr ""
+
+#: custom.php:670
+msgid "Close Map or Press ESC Key"
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: custom.php:691
+#, php-format
+msgid "Search for %s"
+msgstr ""
+
+# (button)
+#: custom.php:717 users/forgot-password.php:20
+msgid "Submit"
+msgstr ""
+
+# Apple App Store (button)
+#: custom.php:735
+msgid "App Store"
+msgstr ""
+
+# Google Play app store (button)
+#: custom.php:742
+msgid "Google Play"
+msgstr ""
+
+# SPONSOR NAME (appended to byline)
+#: custom.php:844
+#, php-format
+msgid "with research support from %s"
+msgstr ""
+
+# (aria label)
+#: custom.php:875 items/show-template-default.php:135
+msgid "Filed Under"
+msgstr ""
+
+#: custom.php:896
+msgid "Subject"
+msgstr ""
+
+#: custom.php:921
+msgid "Tag"
+msgstr "Schlagwort"
+
+#: custom.php:1055
+msgid "Access Information"
+msgstr ""
+
+#: custom.php:1092
+msgid "Factoids"
+msgstr ""
+
+# e.g. By AUTHOR NAME
+#: custom.php:1140
+msgid "By"
+msgstr "Nach"
+
+# DATE
+#: custom.php:1191
+#, php-format
+msgid "Published on %s."
+msgstr ""
+
+# DATE
+#: custom.php:1191
+#, php-format
+msgid "Last updated on %s."
+msgstr ""
+
+#: custom.php:1203
+msgid "View File Record"
+msgstr ""
+
+# (used for records having no title)
+#: custom.php:1203 files/show.php:2
+msgid "Untitled"
+msgstr ""
+
+# (e.g. an archival source for a file)
+#: custom.php:1210 files/show.php:31
+msgid "Source"
+msgstr ""
+
+# (e.g. the creator or author of an item or other record)
+#: custom.php:1214 files/show.php:29
+msgid "Creator"
+msgstr "Urheber"
+
+# (i.e. a calendar date)
+#: custom.php:1218 files/show.php:30
+msgid "Date"
+msgstr ""
+
+#: custom.php:1243
+msgid "Your web browser does not support HTML5 audio"
+msgstr ""
+
+#: custom.php:1249
+msgid "Your web browser does not support HTML5 video"
+msgstr ""
+
+#: custom.php:1285
+msgid "View File Details"
+msgstr ""
+
+#: custom.php:1397 custom.php:1407 custom.php:1417
+msgid "View File Details Page"
+msgstr ""
+
+# (e.g. locations on a tour route)
+#: custom.php:1497
+msgid "Locations"
+msgstr ""
+
+# TOUR TITLE, AUTHOR NAME
+#: custom.php:1499 custom.php:1501
+#, php-format
+msgid "%1s curated by %2s"
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: custom.php:1527 custom.php:1971 items/browse.php:32
+#, php-format
+msgid "Featured %s"
+msgstr "Hervorgehoben %s"
+
+# ITEM LABEL PLURAL
+#: custom.php:1577
+#, php-format
+msgid "Browse All Featured %2s"
+msgstr ""
+
+# (e.g. Recent Items)
+#: custom.php:1595
+msgid "Recent"
+msgstr ""
+
+# (e.g. Discover ITEM LABEL PLURAL)
+#: custom.php:1599
+msgid "Discover"
+msgstr ""
+
+# ITEM LABEL
+#: custom.php:1633
+#, php-format
+msgid "Browse All %2s"
+msgstr ""
+
+#: custom.php:1649
+msgid "Popular Tags"
+msgstr ""
+
+#: custom.php:1651
+msgid "Browse All Tags"
+msgstr ""
+
+# IGNORE
+#: custom.php:1667
+#, php-format
+msgid ""
+"%s is powered by <a href=\"http://omeka.org/\">Omeka</a> + <a href=\"http://"
+"curatescape.org/\">Curatescape</a>, a humanities-centered web and mobile app "
+"framework available for both Android and iOS devices."
+msgstr ""
+
+# (header label for homepage section containing about text snippet, call to action, etc)
+#: custom.php:1668
+msgid "Project Meta"
+msgstr ""
+
+#: custom.php:1673
+msgid "Read More About Us"
+msgstr ""
+
+# (stealth screen/maintenance mode)
+#: custom.php:1713
+msgid "Check Back Soon"
+msgstr ""
+
+# SITE TITLE
+#: custom.php:1716
+#, php-format
+msgid "%s is temporarily unavailable."
+msgstr ""
+
+# (e.g. Take a Tour)
+#: custom.php:1749
+msgid "Take a"
+msgstr ""
+
+# TOUR LABEL PLURAL
+#: custom.php:1782
+#, php-format
+msgid "Browse All <span>%s</span>"
+msgstr ""
+
+# (aria-label, navigation)
+#: custom.php:1795
+msgid "Return to Top"
+msgstr ""
+
+# (navigation)
+#: custom.php:1795
+msgid "Top"
+msgstr ""
+
+#: custom.php:1800 items/show-template-default.php:81
+msgid "Video"
+msgstr ""
+
+# SECTION NAME (navigation, aria label)
+#: custom.php:1800 custom.php:1803 custom.php:1806 custom.php:1809
+#: custom.php:1837 custom.php:1846
+#, php-format
+msgid "Skip to %s"
+msgstr ""
+
+#: custom.php:1803 items/show-template-default.php:88
+msgid "Audio"
+msgstr ""
+
+#: custom.php:1806 items/show-template-default.php:95
+msgid "Images"
+msgstr ""
+
+#: custom.php:1809 items/show-template-default.php:105
+msgid "Documents"
+msgstr ""
+
+# TOUR LABEL
+#: custom.php:1827
+#, php-format
+msgid "%s Navigation"
+msgstr ""
+
+#: custom.php:1828
+msgid "Previous Loction"
+msgstr ""
+
+# TOUR LABEL
+#: custom.php:1829
+#, php-format
+msgid "%s Info"
+msgstr ""
+
+#: custom.php:1830
+msgid "Next Location"
+msgstr ""
+
+#: custom.php:1837
+msgid "Map Location"
+msgstr ""
+
+#: custom.php:1837 items/show-template-default.php:115
+msgid "Location"
+msgstr ""
+
+# TOUR LABEL
+#: custom.php:1842
+#, php-format
+msgid "%s Contents"
+msgstr ""
+
+#: custom.php:1843
+msgid "Skip to Main Text"
+msgstr ""
+
+#: custom.php:1843 items/show-template-default.php:69
+msgid "Main Text"
+msgstr ""
+
+#: custom.php:1846 items/show-template-default.php:121
+#: items/show-template-default.php:122
+msgid "Metadata"
+msgstr ""
+
+#: custom.php:1953
+msgid "Preview text not available."
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: custom.php:1978
+#, php-format
+msgid "Browse Featured %s"
+msgstr ""
+
+#: custom.php:1981
+msgid "No featured items are available. Publish some now."
+msgstr ""
+
+# IGNORE
+#: custom.php:2206
+#, php-format
+msgid ""
+"%s is powered by <a href=\"http://omeka.org/\">Omeka</a> + <a href=\"http://"
+"curatescape.org/\">Curatescape</a>, a humanities-centered web and mobile "
+"framework available for both Android and iOS devices."
+msgstr ""
+
+#: custom.php:2240
+msgid "This work is licensed by "
+msgstr ""
+
+# IGNORE
+#: custom.php:2242
+#, php-format
+msgid "&copy; %1$s %2$s"
+msgstr ""
+
+#: error/403.php:10
+msgid "Sorry. Access Forbidden!"
+msgstr ""
+
+#: error/404.php:10
+msgid "Sorry. The page you are looking for does not exist!"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/browse.php:11
+#, php-format
+msgid "Exhibits tagged \"%s\""
+msgstr ""
+
+# SUBJECT TERM
+#: exhibit-builder/exhibits/browse.php:15 items/browse.php:22
+#, php-format
+msgid "Results for subject term \"%s\""
+msgstr ""
+
+# SEARCH TERM
+#: exhibit-builder/exhibits/browse.php:19 items/browse.php:36
+#: search/index.php:3
+#, php-format
+msgid "Search Results for \"%s\""
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/browse.php:19
+msgid "Advanced Search Results"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/browse.php:23
+msgid "Featured Exhibits"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/browse.php:27
+msgid "All Exhibits"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/browse.php:80
+#, php-format
+msgid "Curated by %2s"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/browse.php:87
+msgid "There are no exhibits available yet."
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/show.php:15 exhibit-builder/exhibits/summary.php:26
+msgid "Exhibit Summary"
+msgstr ""
+
+# CREATOR NAME
+#: exhibit-builder/exhibits/summary.php:7 tour-builder/tours/show.php:19
+#, php-format
+msgid "Curated by %s"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/summary.php:17
+msgid "View Exhibit"
+msgstr ""
+
+# (Exhibit Builder plugin)
+#: exhibit-builder/exhibits/tags.php:2
+msgid "Browse Exhibits by Tag"
+msgstr ""
+
+# (e.g. This file appears in ITEM TITLE)
+#: files/show.php:15
+msgid "This file appears in"
+msgstr ""
+
+# (e.g. a copyright statement)
+#: files/show.php:32
+msgid "Rights"
+msgstr ""
+
+#: files/show.php:37
+msgid "Download Original File"
+msgstr ""
+
+# (e.g. FILE TITLE appears in ITEM TITLE)
+#: files/show.php:47
+#, php-format
+msgid "\"%s\" appears in"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/confirm.php:2
+msgid "Confirmation Error"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/register.php:6
+msgid "Register"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/stale-token.php:2
+msgid "Stale Token"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/stale-token.php:11
+msgid ""
+"Your temporary access to the site has expired. Please check your email for "
+"the link to follow to confirm your registration."
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/stale-token.php:13
+msgid "You have been logged out, but can continue browsing the site."
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/update-account.php:4
+msgid "Password again for match"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/update-account.php:5
+msgid "Passwords match!"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/update-account.php:6
+msgid "Passwords do not match!"
+msgstr ""
+
+# (Guest User plugin)
+#: guest-user/user/update-account.php:13
+msgid "Update Account"
+msgstr ""
+
+# ITEM LABEL PLURAL, TAG NAME
+#: items/browse.php:14
+#, php-format
+msgid "%1$s tagged \"%2$s\""
+msgstr ""
+
+# ITEM LABEL PLURAL, AUTHOR NAME
+#: items/browse.php:18
+#, php-format
+msgid "%1$s by author %2$s"
+msgstr ""
+
+# ITEM LABEL PLURAL, COLLECTION TITLE
+#: items/browse.php:28
+#, php-format
+msgid "%1s in \"%2s\""
+msgstr ""
+
+#: items/browse.php:40 items/search.php:28 search/index.php:27
+msgid "Search Results"
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: items/browse.php:44
+#, php-format
+msgid "All %s"
+msgstr ""
+
+# ITEM LABEL/TOUR LABEL
+#: items/browse.php:99 tour-builder/tours/browse.php:52
+#: tour-builder/tours/show.php:54
+#, php-format
+msgid "View %s"
+msgstr ""
+
+#: items/browse.php:99 tour-builder/tours/show.php:54
+msgid "Show on Map"
+msgstr ""
+
+#: items/browse.php:107
+msgid "Your query returned <strong>no results.</strong>"
+msgstr ""
+
+# URL, ITEM LABEL, URL
+#: items/browse.php:107
+#, php-format
+msgid ""
+"Try using <a href=\"%1$s\">Advanced %2$s Search</a> or <a href=\"%3$s"
+"\">Sitewide Search</a>."
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: items/search.php:4
+#, php-format
+msgid "Search %s"
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: items/search.php:23
+#, php-format
+msgid ""
+"Use the form below to search for %s. For other record types, use <a href=\"/"
+"search\">Sitewide Search</a>."
+msgstr ""
+
+# (search form)
+#: items/search.php:41
+msgid "Search for Keywords"
+msgstr "Nach Stichwörtern suchen"
+
+# (search form)
+#: items/search.php:53
+msgid "Narrow by Specific Fields"
+msgstr "Über bestimmte Felder eingrenzen"
+
+# (search operator, aria-label)
+#: items/search.php:72
+msgid "Search Joiner"
+msgstr ""
+
+# (search operator)
+#: items/search.php:77
+msgid "AND"
+msgstr "UND"
+
+# (search operator)
+#: items/search.php:78
+msgid "OR"
+msgstr "ODER"
+
+# (search form)
+#: items/search.php:85
+msgid "Search Field"
+msgstr ""
+
+# (search form)
+#: items/search.php:101
+msgid "Search Type"
+msgstr ""
+
+# (search operator)
+#: items/search.php:107
+msgid "contains"
+msgstr "enthält"
+
+# (search operator)
+#: items/search.php:108
+msgid "does not contain"
+msgstr "enthält nicht"
+
+# (search operator)
+#: items/search.php:109
+msgid "is exactly"
+msgstr "ist genau"
+
+# (search operator)
+#: items/search.php:110
+msgid "is empty"
+msgstr "ist leer"
+
+# (search operator)
+#: items/search.php:111
+msgid "is not empty"
+msgstr "ist nicht leer"
+
+# (search operator)
+#: items/search.php:112
+msgid "starts with"
+msgstr "beginnt mit"
+
+# (search operator)
+#: items/search.php:113
+msgid "ends with"
+msgstr "endet mit"
+
+# (search fom)
+#: items/search.php:121
+msgid "Search Terms"
+msgstr ""
+
+# (search form)
+#: items/search.php:127
+msgid "Remove field"
+msgstr "Feld hinzufügen"
+
+# (button, search form)
+#: items/search.php:131
+msgid "Add a Field"
+msgstr "Feld hinzufügen"
+
+# (search form)
+#: items/search.php:137
+msgid "Search By User"
+msgstr "Nach Benutzern suchen"
+
+# (search form)
+#: items/search.php:152
+msgid "Search By Tags"
+msgstr "Nach Schlagwörtern durchsuchen"
+
+# (search form)
+#: items/search.php:166
+msgid "Featured/Non-Featured"
+msgstr "Hervorgehoben / nicht hervorgehoben"
+
+# (search form)
+#: items/search.php:174
+msgid "Only Featured Items"
+msgstr "Nur hervorgehobene Objekte"
+
+# (search form)
+#: items/search.php:175
+msgid "Only Non-Featured Items"
+msgstr "Nur nicht-hervorgehobene Objekte"
+
+# (search form, button) ITEM LABEL
+#: items/search.php:185
+#, php-format
+msgid "Submit %s Search"
+msgstr ""
+
+# (aria label)
+#: items/show-template-default.php:77
+msgid "Media Files"
+msgstr ""
+
+#: items/show-template-default.php:123
+msgid "Related Resources"
+msgstr ""
+
+#: items/show-template-default.php:126
+msgid "Official Website"
+msgstr ""
+
+#: items/show-template-default.php:129
+msgid "Citation Info"
+msgstr ""
+
+#: items/show-template-default.php:133
+msgid "Related Tours"
+msgstr ""
+
+#: items/show-template-default.php:144
+msgid "Comments"
+msgstr ""
+
+# NUMBER
+#: items/tags.php:12
+#, php-format
+msgid "Tags: %s"
+msgstr ""
+
+# ITEM LABEL PLURAL
+#: search/index.php:22
+#, php-format
+msgid ""
+"Use the form below to search for the selected record types. Or use advanced "
+"options to <a href=\"/items/search\">Search %s</a>."
+msgstr ""
+
+#: search/index.php:40
+msgid "Your query returned <strong>no results</strong>."
+msgstr ""
+
+#: search/search-form.php:6
+msgid "Search using this query type:"
+msgstr ""
+
+#: search/search-form.php:11
+msgid "Search only these record types:"
+msgstr ""
+
+# TOUR LABEL PLURAL, NUMBER
+#: tour-builder/tours/browse.php:4
+#, php-format
+msgid "Featured %1$s: %2$s"
+msgstr "Hervorgehoben %1$s: %2$s"
+
+# TOUR LABEL PLURAL, NUMBER
+#: tour-builder/tours/browse.php:6
+#, php-format
+msgid "All %1$s: %2$s"
+msgstr ""
+
+# TOUR LABEL PLURAL
+#: tour-builder/tours/browse.php:24
+#, php-format
+msgid "%s are self-guided."
+msgstr ""
+
+#: tour-builder/tours/browse.php:57
+msgid "No tours are available. Publish some now."
+msgstr ""
+
+# TOUR LABEL
+#: tour-builder/tours/show.php:31
+#, php-format
+msgid "%s Description"
+msgstr ""
+
+# TOUR LABEL
+#: tour-builder/tours/show.php:77
+#, php-format
+msgid "%s Postscript"
+msgstr ""
+
+# TOUR LABEL
+#: tour-builder/tours/show.php:90
+#, php-format
+msgid "Show %s Map"
+msgstr ""
+
+#: users/activate.php:2
+msgid "User Activation"
+msgstr ""
+
+# NAME, USERNAME
+#: users/activate.php:10
+#, php-format
+msgid "Hello %s. Your username is %s"
+msgstr ""
+
+#: users/activate.php:15
+msgid "Create a Password"
+msgstr ""
+
+#: users/activate.php:21
+msgid "Re-type the Password"
+msgstr ""
+
+#: users/activate.php:28
+msgid "Activate"
+msgstr ""
+
+#: users/forgot-password.php:2
+msgid "Forgot Password"
+msgstr ""
+
+#: users/forgot-password.php:9
+msgid "Back to Log In"
+msgstr ""
+
+#: users/forgot-password.php:12
+msgid "Enter your email address to retrieve your password."
+msgstr ""
+
+#: users/forgot-password.php:16
+msgid "Email"
+msgstr ""
+
+#: users/login.php:3
+msgid "Log In"
+msgstr "Anmelden"
+
+#: users/login.php:11
+msgid "Go to Home Page"
+msgstr ""
+
+#: users/login.php:11
+msgid "Lost your password?"
+msgstr "Passwort vergessen?"
