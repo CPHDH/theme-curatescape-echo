@@ -104,7 +104,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
 
                     <?php if ($query && !$total_results) {?>
                     <div id="no-results">
-                        <p><?php echo ($query) ? '<em>'.__('Your query returned <strong>no results.</strong>').'</em><br><span class="caption">'.rl_icon('information-circle').__('Try using <a href="'.url('items/search').'">Advanced %s Search</a> or <a href="'.url('search').'">Sitewide Search</a>.</span>',rl_item_label()) : null;?></p>
+                        <p><?php echo ($query) ? '<em>'.__('Your query returned <strong>no results.</strong>').'</em><br><span class="caption">'.rl_icon('information-circle').__('Try using <a href="%1$s">Advanced %2$s Search</a> or <a href="%3$s">Sitewide Search</a>.',url('items/search'),rl_item_label(),url('search')).'</span>' : null;?></p>
                     </div>
                     <?php }else{ ?>
                     <article class="item-result" style="visibility:hidden"></article>
