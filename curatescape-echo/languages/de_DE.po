@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2022-05-23 14:44-0400\n"
-"PO-Revision-Date: 2022-05-23 16:00-0400\n"
+"PO-Revision-Date: 2022-05-24 11:53-0400\n"
 "Last-Translator: CPHDH @ CSU <digitalhumanities@csuohio.edu>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -77,11 +77,11 @@ msgstr ""
 #: common/footer.php:9 custom.php:551
 #, php-format
 msgid "Advanced %s Search"
-msgstr ""
+msgstr "Erweiterte %s Suche"
 
 #: common/footer.php:10 custom.php:450 custom.php:553 search/index.php:3
 msgid "Sitewide Search"
-msgstr ""
+msgstr "Globale Suche"
 
 # (aria label)
 #: common/footer.php:21
@@ -381,7 +381,7 @@ msgstr ""
 
 #: custom.php:414
 msgid "Home"
-msgstr ""
+msgstr "Startseite"
 
 #: custom.php:420 custom.php:537 custom.php:664 geolocation/map/browse.php:2
 msgid "Map"
@@ -439,7 +439,7 @@ msgstr "Suchen"
 
 #: custom.php:543
 msgid "Menu"
-msgstr ""
+msgstr "Menü"
 
 # (aria label)
 #: custom.php:581
@@ -459,7 +459,7 @@ msgstr ""
 #: custom.php:638
 #, php-format
 msgid "%s Map"
-msgstr ""
+msgstr "%s Karte"
 
 #: custom.php:647
 msgid "View Map Page"
@@ -637,7 +637,7 @@ msgstr ""
 # (header label for homepage section containing about text snippet, call to action, etc)
 #: custom.php:1668
 msgid "Project Meta"
-msgstr ""
+msgstr "Projekt Meta"
 
 #: custom.php:1673
 msgid "Read More About Us"
