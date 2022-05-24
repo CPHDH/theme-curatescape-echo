@@ -1,5 +1,17 @@
 <?php
 /*
+** Translations
+*/
+add_translation_source(dirname(__FILE__) . '/languages');
+if(get_theme_option('stealth_mode')=='1' && get_html_lang() !== 'en_US'){
+  // disable the translations cache while in stealth mode
+  try{
+    $cache = Zend_Registry::get('Zend_Translate');
+    $cache::clearCache();
+  }catch(exception $e){}
+}
+
+/*
 ** Fallback images
 */
 add_file_fallback_image('audio', 'ionicons/headset-sharp.svg');
