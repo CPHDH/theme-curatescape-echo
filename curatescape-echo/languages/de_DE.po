@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2022-05-23 14:44-0400\n"
-"PO-Revision-Date: 2022-05-24 11:53-0400\n"
+"PO-Revision-Date: 2022-06-15 15:53+0200\n"
 "Last-Translator: CPHDH @ CSU <digitalhumanities@csuohio.edu>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: collections/browse.php:7
 msgid "Browse Collections"
-msgstr ""
+msgstr "Sammlungen durchsuchen"
 
 # (e.g. Sort by: Title, Date Added)
 #: collections/browse.php:19 exhibit-builder/exhibits/browse.php:60
@@ -40,23 +40,23 @@ msgstr "Sammlung"
 #: collections/show.php:24
 #, php-format
 msgid "Browse %1s %2s in this collection."
-msgstr ""
+msgstr "Nach %1s %2s in dieser Sammlung suchen."
 
 # ITEM LABEL PLURAL
 #: collections/show.php:29
 #, php-format
 msgid "This collection currently has no %s."
-msgstr ""
+msgstr "Diese Sammlung hat derzeit keine %s."
 
 # (admin bar navigation)
 #: common/admin-bar.php:6
 msgid "Account"
-msgstr ""
+msgstr "Benutzerkonto"
 
 # (admin bar navigation)
 #: common/admin-bar.php:10
 msgid "Site Admin"
-msgstr ""
+msgstr "Admin"
 
 # (admin bar navigation)
 #: common/admin-bar.php:14
@@ -66,12 +66,12 @@ msgstr "Abmelden"
 # (admin bar navigation)
 #: common/admin-bar.php:23
 msgid "Edit Record"
-msgstr ""
+msgstr "Datensatz bearbeiten"
 
 # (aria-label)
 #: common/footer.php:7
 msgid "Search - Footer"
-msgstr ""
+msgstr "Suche - Footer"
 
 # ITEM LABEL
 #: common/footer.php:9 custom.php:551
@@ -81,12 +81,12 @@ msgstr "Erweiterte %s Suche"
 
 #: common/footer.php:10 custom.php:450 custom.php:553 search/index.php:3
 msgid "Sitewide Search"
-msgstr "Globale Suche"
+msgstr "Ganze Seite durchsuchen"
 
 # (aria label)
 #: common/footer.php:21
 msgid "Footer Navigation"
-msgstr ""
+msgstr "Footer-Navigation"
 
 # (footer)
 #: common/footer.php:32
@@ -100,80 +100,80 @@ msgstr ""
 # (aria label)
 #: common/header.php:169
 msgid "Skip Navigation"
-msgstr ""
+msgstr "Sprunglink"
 
 # (aria label)
 #: common/header.php:169
 msgid "Skip to main content"
-msgstr ""
+msgstr "Hauptregion der Seite anspringen"
 
 # (aria label)
 #: common/pagination_control.php:12
 msgid "Pagination"
-msgstr ""
+msgstr "Seitennummerierung"
 
 # (navigation)
 #: common/pagination_control.php:18 custom.php:1828
 #: exhibit-builder/exhibits/show.php:28 exhibit-builder/exhibits/show.php:32
 msgid "Previous"
-msgstr ""
+msgstr "Zurück"
 
 # (navigation)
 #: common/pagination_control.php:26 custom.php:1830
 #: exhibit-builder/exhibits/show.php:37
 msgid "Next"
-msgstr ""
+msgstr "Vor"
 
 # (Contribution plugin)
 #: contribution/contribution/contribute.php:48
 msgid "What type of item do you want to contribute?"
-msgstr ""
+msgstr "Welche Art von Objekt möchten Sie einreichen?"
 
 # (Contribution plugin)
 #: contribution/contribution/contribute.php:70
 msgid "Publish my contribution on the web."
-msgstr ""
+msgstr "Meinen Beitrag im Web veröffentlichen."
 
 # (Contribution plugin)
 #: contribution/contribution/contribute.php:75
 msgid "Contribute anonymously."
-msgstr ""
+msgstr "Anonym beitragen."
 
 # (Contribution plugin)
 #: contribution/contribution/contribute.php:78
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Nutzungsbedingungen"
 
 # TERMS OF SERVICE LABEL (Contribution plugin)
 #: contribution/contribution/contribute.php:78
 #, php-format
 msgid "In order to contribute, you must read and agree to the %s"
-msgstr ""
+msgstr "Um einen Beitrag zu schreiben, müssen Sie die %s lesen und akzeptieren"
 
 # (Contribution plugin)
 #: contribution/contribution/contribute.php:82
 msgid "I agree to the Terms and Conditions."
-msgstr ""
+msgstr "Ich akzeptiere die Nutzungsbedingungen."
 
 # (Contribution plugin)
 #: contribution/contribution/contribute.php:85
 msgid "Contribute"
-msgstr ""
+msgstr "Beitragen"
 
 # (Contribution plugin)
 #: contribution/contribution/my-contributions.php:5
 msgid "My Contributions"
-msgstr ""
+msgstr "Meine Beiträge"
 
 # (Contribution plugin)
 #: contribution/contribution/my-contributions.php:11
 msgid "Public"
-msgstr ""
+msgstr "Veröffentlicht"
 
 # (Contribution plugin)
 #: contribution/contribution/my-contributions.php:12
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonym"
 
 # (Contribution plugin)
 #: contribution/contribution/my-contributions.php:13
@@ -183,27 +183,27 @@ msgstr "Objekt"
 # (Contribution plugin)
 #: contribution/contribution/my-contributions.php:14
 msgid "Added"
-msgstr ""
+msgstr "Hinzugefügt"
 
 # (Contribution plugin)
 #: contribution/contribution/terms.php:2
 msgid "Contribution Terms of Service"
-msgstr ""
+msgstr "Beitragsbedingungen"
 
 # (Contribution plugin)
 #: contribution/contribution/thankyou.php:6
 msgid "Thank you for contributing!"
-msgstr ""
+msgstr "Vielen Dank für Ihren Beitrag!"
 
 # (Contribution plugin)
 #: contribution/contribution/thankyou.php:7
 msgid "make another contribution"
-msgstr ""
+msgstr "Neuer Beitrag"
 
 # (Contribution plugin)
 #: contribution/contribution/thankyou.php:7
 msgid "browse the archive"
-msgstr ""
+msgstr "Archiv durchsuchen"
 
 # MAKE ANOTHER CONTRIBUTION, BROWSE THE ARCHIVE (Contribution plugin)
 #: contribution/contribution/thankyou.php:7
@@ -212,11 +212,13 @@ msgid ""
 "Your contribution will show up in the archive once an administrator approves "
 "it. Meanwhile, feel free to %s or %s ."
 msgstr ""
+"Ihr Beitrag wird im Archiv erscheinen, sobald ein Admin ihn freigibt. In der "
+"Zwischenzeit können Sie gerne %s oder %s."
 
 # (Contribution plugin)
 #: contribution/contribution/thankyou.php:10
 msgid "this page"
-msgstr ""
+msgstr "diese Seite"
 
 # URL (Contribution plugin)
 #: contribution/contribution/thankyou.php:10
@@ -226,56 +228,59 @@ msgid ""
 "that is ready for you. Visit %s, and request a new password for the email "
 "you used"
 msgstr ""
+"Wenn Sie weiter auf der Website arbeiten möchten, können Sie ein Konto "
+"verwenden, das für Sie bereitsteht. Besuchen Sie %s, und fordern Sie ein "
+"neues Passwort für die von Ihnen verwendete E-Mail an"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:2
 msgid "You must choose a contribution type to continue."
-msgstr ""
+msgstr "Wählen Sie eine Beitragsart um fortzufahren."
 
 # ITEM TYPE LABEL (Contribution plugin)
 #: contribution/contribution/type-form.php:4
 #, php-format
 msgid "Contribute a %s"
-msgstr ""
+msgstr "%s beitragen"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:13
 msgid "Upload a file"
-msgstr ""
+msgstr "Datei hochladen"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:33
 msgid "Upload a file (Optional)"
-msgstr ""
+msgstr "Datei hochladen (optional)"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:45
 msgid "Email (Required)"
-msgstr ""
+msgstr "Email (erforderlich)"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:60
 #, php-format
 msgid "You are logged in as: %s"
-msgstr ""
+msgstr "Sie sind als %s eingeloggt"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:77
 #, php-format
 msgid "Your %s profile"
-msgstr ""
+msgstr "Ihr %s Profil"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:80
 #: contribution/contribution/type-form.php:84
 msgid "Show"
-msgstr ""
+msgstr "Anzeigen"
 
 # (Contribution plugin)
 #: contribution/contribution/type-form.php:82
 #: contribution/contribution/type-form.php:86
 msgid "Hide"
-msgstr ""
+msgstr "Ausblenden"
 
 # (Simple Pages plugin)
 #: custom.php:17 custom.php:255
@@ -284,13 +289,13 @@ msgstr "Seite"
 
 #: custom.php:33
 msgid "Admin Notice"
-msgstr ""
+msgstr "Admin-Hinweis"
 
 #: custom.php:34
 msgid ""
 "This message is visible only to site administrators, and only while Stealth "
 "Mode is active."
-msgstr ""
+msgstr "Diese Meldung ist nur bei aktivem Inkognito-Modus für Admins sichtbar."
 
 #: custom.php:40
 #, php-format
@@ -300,6 +305,10 @@ msgid ""
 "Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or "
 "18)."
 msgstr ""
+"Um eine optimale Nutzererfahrung zu gewährleisten, <a href=\"%s\">passen Sie "
+"bitte Ihre Seiteneinstellungen an</a>, sodass die Anzahl der <em>Ergebnisse "
+"pro Seite (öffentlich)</em> eine Zahl ist, die durch 2 und 3 teilbar ist (z. "
+"B. 12 oder 18)."
 
 #: custom.php:44
 #, php-format
@@ -307,6 +316,8 @@ msgid ""
 "This section is reserved for Featured Items. <a href=\"%s\">Publish some "
 "now</a>."
 msgstr ""
+"Dieser Bereich ist reserviert für empfohlene Beiträge. <a href=\"%s\">Jetzt "
+"Beiträge veröffentlichen</a>."
 
 # FEATURED/RECENT
 #: custom.php:49
@@ -315,6 +326,8 @@ msgid ""
 "This section is reserved for %1$s Tours. <a href=\"%2$s\">Publish some now</"
 "a>."
 msgstr ""
+"Dieser Bereich ist reserviert für %1$s-Touren. <a href=\"%2$s\">Jetzt Touren "
+"veröffentlichen</a>."
 
 #: custom.php:53
 #, php-format
@@ -322,6 +335,9 @@ msgid ""
 "This section is reserved for Recent/Random Items. <a href=\"%s\">Publish "
 "some now</a>. Note that Featured Items will be omitted in this section."
 msgstr ""
+"Dieser Bereich ist reserviert für neueste / zufällige Objekte. <a href=\"%s"
+"\">Jetzt Objekte veröffentlichen</a>. Beachten Sie, dass empfohlene Beiträge "
+"hier nicht erscheinen."
 
 #: custom.php:57
 #, php-format
@@ -329,6 +345,8 @@ msgid ""
 "This section is reserved for Tags. <a href=\"%s\">Add some tags to each of "
 "your items now</a>."
 msgstr ""
+"Dieser Bereich ist reserviert für Tags. <a href=\"%s\">Ergänzen Sie Tags in "
+"Ihren Objekten</a>."
 
 #: custom.php:61
 #, php-format
@@ -336,48 +354,50 @@ msgid ""
 "This section is reserved for the Call to Action. Create a Call to Action in "
 "<a href=\"%s\">theme settings</a>."
 msgstr ""
+"Dieser Bereich ist reserviert für Call-to-Action. Erstellen Sie eine Call-to-"
+"Action in den <a href=\"%s\">Theme-Einstellungen</a>."
 
 # (aria label)
 #: custom.php:122
 msgid "Result Type"
-msgstr ""
+msgstr "Ergebnistyp"
 
 #: custom.php:128
 msgid "Preview text unavailable."
-msgstr ""
+msgstr "Textvorschau nicht verfügbar."
 
 # ITEM TITLE
 #: custom.php:163
 #, php-format
 msgid "This file appears in: %s"
-msgstr ""
+msgstr "Diese Datei erscheint in: %s"
 
 # TOUR LABEL
 #: custom.php:165 custom.php:1776 tour-builder/tours/browse.php:51
 #: tour-builder/tours/show.php:19 tour-builder/tours/show.php:39
 #, php-format
 msgid "%s Locations"
-msgstr ""
+msgstr "%s Orte"
 
 #: custom.php:257
 msgid "Exhibit Page"
-msgstr ""
+msgstr "Ausstellungsseite"
 
 #: custom.php:383 custom.php:387
 msgid "Story"
-msgstr ""
+msgstr "Story"
 
 #: custom.php:385
 msgid "Stories"
-msgstr ""
+msgstr "Stories"
 
 #: custom.php:397 custom.php:401
 msgid "Tour"
-msgstr ""
+msgstr "Tour"
 
 #: custom.php:399
 msgid "Tours"
-msgstr ""
+msgstr "Touren"
 
 #: custom.php:414
 msgid "Home"
@@ -389,53 +409,53 @@ msgstr "Karte"
 
 #: custom.php:422 custom.php:1671
 msgid "About"
-msgstr ""
+msgstr "Über uns"
 
 # (e.g. All Items, All Tours)
 #: custom.php:437 custom.php:462 custom.php:470
 #: exhibit-builder/exhibits/browse.php:45 exhibit-builder/exhibits/tags.php:19
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 # (e.g. Featured Items, Featured Tours)
 #: custom.php:438 custom.php:463 custom.php:471
 #: exhibit-builder/exhibits/browse.php:49 exhibit-builder/exhibits/tags.php:23
 msgid "Featured"
-msgstr "Hervorgehoben"
+msgstr "Empfohlen"
 
 #: custom.php:439 exhibit-builder/exhibits/browse.php:53
 #: exhibit-builder/exhibits/tags.php:27 items/tags.php:24
 msgid "Tags"
-msgstr "Schlagwörter"
+msgstr "Tags"
 
 # ITEM LABEL
 #: custom.php:449
 #, php-format
 msgid "%s Search"
-msgstr ""
+msgstr "%s Suche"
 
 # (aria label)
 #: custom.php:489
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 # ITEM LABEL
 #: custom.php:498 custom.php:565
 #, php-format
 msgid "View a Random %s"
-msgstr ""
+msgstr "Zufällige %s ansehen"
 
 #: custom.php:504
 msgid "Publish some items to activate this link"
-msgstr ""
+msgstr "Veröffentlichen Sie Objekte, um diesen Link zu aktivieren"
 
 #: custom.php:530
 msgid "Main Navigation"
-msgstr ""
+msgstr "Hauptnavigation"
 
 #: custom.php:541 custom.php:549 search/search-form.php:2
 msgid "Search"
-msgstr "Suchen"
+msgstr "Suche"
 
 #: custom.php:543
 msgid "Menu"
@@ -444,16 +464,16 @@ msgstr "Menü"
 # (aria label)
 #: custom.php:581
 msgid "Skip Interactive Map"
-msgstr ""
+msgstr "Interaktive Karte überspringen"
 
 # (button)
 #: custom.php:592
 msgid "Open in Google Maps"
-msgstr ""
+msgstr "In Google Maps öffnen"
 
 #: custom.php:608 custom.php:640
 msgid "Zoom to fit all locations"
-msgstr ""
+msgstr "Zoom auf alle Orte"
 
 # ITEM LABEL
 #: custom.php:638
@@ -463,167 +483,167 @@ msgstr "%s Karte"
 
 #: custom.php:647
 msgid "View Map Page"
-msgstr ""
+msgstr "Karte anzeigen"
 
 #: custom.php:661
 msgid "Show Results on Map"
-msgstr ""
+msgstr "Ergebnisse auf Karte anzeigen"
 
 #: custom.php:670
 msgid "Close Map or Press ESC Key"
-msgstr ""
+msgstr "Karte schließen oder ESC-Taste drücken"
 
 # ITEM LABEL PLURAL
 #: custom.php:691
 #, php-format
 msgid "Search for %s"
-msgstr ""
+msgstr "Suche nach %s"
 
 # (button)
 #: custom.php:717 users/forgot-password.php:20
 msgid "Submit"
-msgstr ""
+msgstr "Einreichen"
 
 # Apple App Store (button)
 #: custom.php:735
 msgid "App Store"
-msgstr ""
+msgstr "App Store"
 
 # Google Play app store (button)
 #: custom.php:742
 msgid "Google Play"
-msgstr ""
+msgstr "Google Play"
 
 # SPONSOR NAME (appended to byline)
 #: custom.php:844
 #, php-format
 msgid "with research support from %s"
-msgstr ""
+msgstr "Unterstützt durch %s"
 
 # (aria label)
 #: custom.php:875 items/show-template-default.php:135
 msgid "Filed Under"
-msgstr ""
+msgstr "Eingeordnet unter"
 
 #: custom.php:896
 msgid "Subject"
-msgstr ""
+msgstr "Thema"
 
 #: custom.php:921
 msgid "Tag"
-msgstr "Schlagwort"
+msgstr "Tag"
 
 #: custom.php:1055
 msgid "Access Information"
-msgstr ""
+msgstr "Zugangsinformation"
 
 #: custom.php:1092
 msgid "Factoids"
-msgstr ""
+msgstr "Faktoide"
 
 # e.g. By AUTHOR NAME
 #: custom.php:1140
 msgid "By"
-msgstr "Nach"
+msgstr "Von"
 
 # DATE
 #: custom.php:1191
 #, php-format
 msgid "Published on %s."
-msgstr ""
+msgstr "Veröffentlicht am %s."
 
 # DATE
 #: custom.php:1191
 #, php-format
 msgid "Last updated on %s."
-msgstr ""
+msgstr "Zuletzt geändert am %s."
 
 #: custom.php:1203
 msgid "View File Record"
-msgstr ""
+msgstr "Datensatz anzeigen"
 
 # (used for records having no title)
 #: custom.php:1203 files/show.php:2
 msgid "Untitled"
-msgstr ""
+msgstr "Unbenannt"
 
 # (e.g. an archival source for a file)
 #: custom.php:1210 files/show.php:31
 msgid "Source"
-msgstr ""
+msgstr "Quelle"
 
 # (e.g. the creator or author of an item or other record)
 #: custom.php:1214 files/show.php:29
 msgid "Creator"
-msgstr "Urheber"
+msgstr "Erstellt von"
 
 # (i.e. a calendar date)
 #: custom.php:1218 files/show.php:30
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: custom.php:1243
 msgid "Your web browser does not support HTML5 audio"
-msgstr ""
+msgstr "Ihr Webbrowser unterstützt keine HTML5-Audiodateien"
 
 #: custom.php:1249
 msgid "Your web browser does not support HTML5 video"
-msgstr ""
+msgstr "Ihr Webbrowser unterstützt keine HTML5-Videos"
 
 #: custom.php:1285
 msgid "View File Details"
-msgstr ""
+msgstr "Dateieigenschaften anzeigen"
 
 #: custom.php:1397 custom.php:1407 custom.php:1417
 msgid "View File Details Page"
-msgstr ""
+msgstr "Dateieigenschaften-Seite anzeigen"
 
 # (e.g. locations on a tour route)
 #: custom.php:1497
 msgid "Locations"
-msgstr ""
+msgstr "Orte"
 
 # TOUR TITLE, AUTHOR NAME
 #: custom.php:1499 custom.php:1501
 #, php-format
 msgid "%1s curated by %2s"
-msgstr ""
+msgstr "%1s erstellt von %2s"
 
 # ITEM LABEL PLURAL
 #: custom.php:1527 custom.php:1971 items/browse.php:32
 #, php-format
 msgid "Featured %s"
-msgstr "Hervorgehoben %s"
+msgstr "Empfohlene %s"
 
 # ITEM LABEL PLURAL
 #: custom.php:1577
 #, php-format
 msgid "Browse All Featured %2s"
-msgstr ""
+msgstr "Alle empfohlenen %2s browsen"
 
 # (e.g. Recent Items)
 #: custom.php:1595
 msgid "Recent"
-msgstr ""
+msgstr "Neueste"
 
 # (e.g. Discover ITEM LABEL PLURAL)
 #: custom.php:1599
 msgid "Discover"
-msgstr ""
+msgstr "Entdecken"
 
 # ITEM LABEL
 #: custom.php:1633
 #, php-format
 msgid "Browse All %2s"
-msgstr ""
+msgstr "Alle %2s durchsuchen"
 
 #: custom.php:1649
 msgid "Popular Tags"
-msgstr ""
+msgstr "Beliebte Tags"
 
 #: custom.php:1651
 msgid "Browse All Tags"
-msgstr ""
+msgstr "Alle Tags browsen"
 
 # IGNORE
 #: custom.php:1667
@@ -633,131 +653,135 @@ msgid ""
 "curatescape.org/\">Curatescape</a>, a humanities-centered web and mobile app "
 "framework available for both Android and iOS devices."
 msgstr ""
+"%s basiert auf <a href=\"http://omeka.org/\">Omeka</a> + <a href=\"http://"
+"curatescape.org/\">Curatescape</a>, einem geisteswissenschaftlich "
+"orientierten Web- und App-Framework für Android- und iOS-Geräte."
 
 # (header label for homepage section containing about text snippet, call to action, etc)
 #: custom.php:1668
 msgid "Project Meta"
-msgstr "Projekt Meta"
+msgstr "Über das Projekt"
 
 #: custom.php:1673
 msgid "Read More About Us"
-msgstr ""
+msgstr "Lesen Sie mehr über uns"
 
 # (stealth screen/maintenance mode)
 #: custom.php:1713
 msgid "Check Back Soon"
-msgstr ""
+msgstr "Schauen Sie bald wieder vorbei"
 
 # SITE TITLE
 #: custom.php:1716
 #, php-format
 msgid "%s is temporarily unavailable."
-msgstr ""
+msgstr "%s ist derzeit nicht verfügbar."
 
 # (e.g. Take a Tour)
 #: custom.php:1749
 msgid "Take a"
-msgstr ""
+msgstr "Machen Sie"
 
 # TOUR LABEL PLURAL
 #: custom.php:1782
 #, php-format
 msgid "Browse All <span>%s</span>"
-msgstr ""
+msgstr "Alle <span>%s</span> browsen"
 
 # (aria-label, navigation)
 #: custom.php:1795
 msgid "Return to Top"
-msgstr ""
+msgstr "Nach oben"
 
 # (navigation)
 #: custom.php:1795
 msgid "Top"
-msgstr ""
+msgstr "Anfang"
 
 #: custom.php:1800 items/show-template-default.php:81
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 # SECTION NAME (navigation, aria label)
 #: custom.php:1800 custom.php:1803 custom.php:1806 custom.php:1809
 #: custom.php:1837 custom.php:1846
 #, php-format
 msgid "Skip to %s"
-msgstr ""
+msgstr "Weiter zu %s"
 
 #: custom.php:1803 items/show-template-default.php:88
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: custom.php:1806 items/show-template-default.php:95
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: custom.php:1809 items/show-template-default.php:105
 msgid "Documents"
-msgstr ""
+msgstr "Dokumente"
 
 # TOUR LABEL
 #: custom.php:1827
 #, php-format
 msgid "%s Navigation"
-msgstr ""
+msgstr "%s Navigation"
 
 #: custom.php:1828
 msgid "Previous Loction"
-msgstr ""
+msgstr "Vorheriger Ort"
 
 # TOUR LABEL
 #: custom.php:1829
 #, php-format
 msgid "%s Info"
-msgstr ""
+msgstr "%s Info"
 
 #: custom.php:1830
 msgid "Next Location"
-msgstr ""
+msgstr "Nächster Ort"
 
 #: custom.php:1837
 msgid "Map Location"
-msgstr ""
+msgstr "Ort auf der Karte"
 
 #: custom.php:1837 items/show-template-default.php:115
 msgid "Location"
-msgstr ""
+msgstr "Ort"
 
 # TOUR LABEL
 #: custom.php:1842
 #, php-format
 msgid "%s Contents"
-msgstr ""
+msgstr "%s Inhalte"
 
 #: custom.php:1843
 msgid "Skip to Main Text"
-msgstr ""
+msgstr "Weiter zum Haupttext"
 
 #: custom.php:1843 items/show-template-default.php:69
 msgid "Main Text"
-msgstr ""
+msgstr "Haupttext"
 
 #: custom.php:1846 items/show-template-default.php:121
 #: items/show-template-default.php:122
 msgid "Metadata"
-msgstr ""
+msgstr "Metadaten"
 
 #: custom.php:1953
 msgid "Preview text not available."
-msgstr ""
+msgstr "Der Vorschautext ist nicht verfügbar."
 
 # ITEM LABEL PLURAL
 #: custom.php:1978
 #, php-format
 msgid "Browse Featured %s"
-msgstr ""
+msgstr "Empfohlene %s browsen"
 
 #: custom.php:1981
 msgid "No featured items are available. Publish some now."
 msgstr ""
+"Es sind keine empfohlenen Objekte verfügbar. Jetzt welche Veröffentlichen."
 
 # IGNORE
 #: custom.php:2206
@@ -767,125 +791,128 @@ msgid ""
 "curatescape.org/\">Curatescape</a>, a humanities-centered web and mobile "
 "framework available for both Android and iOS devices."
 msgstr ""
+"%s basiert auf <a href=\"http://omeka.org/\">Omeka</a> + <a href=\"http://"
+"curatescape.org/\">Curatescape</a>, einem geisteswissenschaftlich "
+"orientierten Web- und App-Framework für Android- und iOS-Geräte."
 
 #: custom.php:2240
 msgid "This work is licensed by "
-msgstr ""
+msgstr "Dieses Werk ist lizensiert von "
 
 # IGNORE
 #: custom.php:2242
 #, php-format
 msgid "&copy; %1$s %2$s"
-msgstr ""
+msgstr "%1$s %2$s kopieren"
 
 #: error/403.php:10
 msgid "Sorry. Access Forbidden!"
-msgstr ""
+msgstr "Entschuldigung. Zugang verweigert!"
 
 #: error/404.php:10
 msgid "Sorry. The page you are looking for does not exist!"
-msgstr ""
+msgstr "Entschuldigung. Die angeforderte Seite existiert nicht!"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:11
 #, php-format
 msgid "Exhibits tagged \"%s\""
-msgstr ""
+msgstr "Mit \"%s\" getaggte Ausstellungen"
 
 # SUBJECT TERM
 #: exhibit-builder/exhibits/browse.php:15 items/browse.php:22
 #, php-format
 msgid "Results for subject term \"%s\""
-msgstr ""
+msgstr "Ergebnisse für den Fachbegriff \"%s\""
 
 # SEARCH TERM
 #: exhibit-builder/exhibits/browse.php:19 items/browse.php:36
 #: search/index.php:3
 #, php-format
 msgid "Search Results for \"%s\""
-msgstr ""
+msgstr "Suchergebnisse für \"%s\""
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:19
 msgid "Advanced Search Results"
-msgstr ""
+msgstr "Ergebnisse der erweiterten Suche"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:23
 msgid "Featured Exhibits"
-msgstr ""
+msgstr "Empfohlene Ausstellungen"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:27
 msgid "All Exhibits"
-msgstr ""
+msgstr "Alle Ausstellungen"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:80
 #, php-format
 msgid "Curated by %2s"
-msgstr ""
+msgstr "Kuratiert von %2s"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:87
 msgid "There are no exhibits available yet."
-msgstr ""
+msgstr "Keine Ausstellungen vorhanden."
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/show.php:15 exhibit-builder/exhibits/summary.php:26
 msgid "Exhibit Summary"
-msgstr ""
+msgstr "Alle Ausstellungen"
 
 # CREATOR NAME
 #: exhibit-builder/exhibits/summary.php:7 tour-builder/tours/show.php:19
 #, php-format
 msgid "Curated by %s"
-msgstr ""
+msgstr "Kuratiert von %2s"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/summary.php:17
 msgid "View Exhibit"
-msgstr ""
+msgstr "Ausstellung anzeigen"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/tags.php:2
 msgid "Browse Exhibits by Tag"
-msgstr ""
+msgstr "Ausstellungen nach Tags browsen"
 
 # (e.g. This file appears in ITEM TITLE)
 #: files/show.php:15
 msgid "This file appears in"
-msgstr ""
+msgstr "Diese Datei wird angezeigt in"
 
 # (e.g. a copyright statement)
 #: files/show.php:32
 msgid "Rights"
-msgstr ""
+msgstr "Rechte"
 
 #: files/show.php:37
 msgid "Download Original File"
-msgstr ""
+msgstr "Originaldatei herunterladen"
 
 # (e.g. FILE TITLE appears in ITEM TITLE)
 #: files/show.php:47
 #, php-format
 msgid "\"%s\" appears in"
-msgstr ""
+msgstr "\"%s\" wird angezeigt in"
 
 # (Guest User plugin)
 #: guest-user/user/confirm.php:2
 msgid "Confirmation Error"
-msgstr ""
+msgstr "Fehler bei der Bestätigung"
 
 # (Guest User plugin)
 #: guest-user/user/register.php:6
 msgid "Register"
-msgstr ""
+msgstr "Registrieren"
 
 # (Guest User plugin)
 #: guest-user/user/stale-token.php:2
 msgid "Stale Token"
-msgstr ""
+msgstr "Veraltetes Sicherheits-Token"
 
 # (Guest User plugin)
 #: guest-user/user/stale-token.php:11
@@ -893,74 +920,76 @@ msgid ""
 "Your temporary access to the site has expired. Please check your email for "
 "the link to follow to confirm your registration."
 msgstr ""
+"Ihr vorübergehender Zugang zu dieser Website ist abgelaufen. Bitte "
+"überprüfen Sie Ihr Postfach, um Ihre Anmeldung zu bestätigen."
 
 # (Guest User plugin)
 #: guest-user/user/stale-token.php:13
 msgid "You have been logged out, but can continue browsing the site."
-msgstr ""
+msgstr "Sie wurden abgemeldet, können aber weiter auf der Website surfen."
 
 # (Guest User plugin)
 #: guest-user/user/update-account.php:4
 msgid "Password again for match"
-msgstr ""
+msgstr "Passwort bestätigen"
 
 # (Guest User plugin)
 #: guest-user/user/update-account.php:5
 msgid "Passwords match!"
-msgstr ""
+msgstr "Die Passwörter stimmen überein!"
 
 # (Guest User plugin)
 #: guest-user/user/update-account.php:6
 msgid "Passwords do not match!"
-msgstr ""
+msgstr "Die Passwörter stimmen nicht überein!"
 
 # (Guest User plugin)
 #: guest-user/user/update-account.php:13
 msgid "Update Account"
-msgstr ""
+msgstr "Account aktualisieren"
 
 # ITEM LABEL PLURAL, TAG NAME
 #: items/browse.php:14
 #, php-format
 msgid "%1$s tagged \"%2$s\""
-msgstr ""
+msgstr "%1$s getaggt \"%2$s\""
 
 # ITEM LABEL PLURAL, AUTHOR NAME
 #: items/browse.php:18
 #, php-format
 msgid "%1$s by author %2$s"
-msgstr ""
+msgstr "%1$s von Autor:in %2$s"
 
 # ITEM LABEL PLURAL, COLLECTION TITLE
 #: items/browse.php:28
 #, php-format
 msgid "%1s in \"%2s\""
-msgstr ""
+msgstr "%1s in \"%2s\""
 
 #: items/browse.php:40 items/search.php:28 search/index.php:27
 msgid "Search Results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 # ITEM LABEL PLURAL
 #: items/browse.php:44
 #, php-format
 msgid "All %s"
-msgstr ""
+msgstr "Alle %s"
 
 # ITEM LABEL/TOUR LABEL
 #: items/browse.php:99 tour-builder/tours/browse.php:52
 #: tour-builder/tours/show.php:54
 #, php-format
 msgid "View %s"
-msgstr ""
+msgstr "%s ansehen"
 
 #: items/browse.php:99 tour-builder/tours/show.php:54
 msgid "Show on Map"
-msgstr ""
+msgstr "Auf der Karte anzeigen"
 
 #: items/browse.php:107
 msgid "Your query returned <strong>no results.</strong>"
-msgstr ""
+msgstr "Ihre Anfrage ergab <strong>keine Ergebnisse.</strong>"
 
 # URL, ITEM LABEL, URL
 #: items/browse.php:107
@@ -969,12 +998,14 @@ msgid ""
 "Try using <a href=\"%1$s\">Advanced %2$s Search</a> or <a href=\"%3$s"
 "\">Sitewide Search</a>."
 msgstr ""
+"Versuchen Sie es mit <a href=\"%1$s\">Erweiterte %2$s Suche</a> oder <a href="
+"\"%3$s\">Gesamte Seite durchsuchen</a>."
 
 # ITEM LABEL PLURAL
 #: items/search.php:4
 #, php-format
 msgid "Search %s"
-msgstr ""
+msgstr "Suche %s"
 
 # ITEM LABEL PLURAL
 #: items/search.php:23
@@ -983,11 +1014,14 @@ msgid ""
 "Use the form below to search for %s. For other record types, use <a href=\"/"
 "search\">Sitewide Search</a>."
 msgstr ""
+"Verwenden Sie das untenstehende Formular für die Suche nach %s. Für andere "
+"Datensatztypen verwenden Sie <a href=\"/search\">Gesamte Seite durchsuchen</"
+"a>."
 
 # (search form)
 #: items/search.php:41
 msgid "Search for Keywords"
-msgstr "Nach Stichwörtern suchen"
+msgstr "Nach Schlagwörtern suchen"
 
 # (search form)
 #: items/search.php:53
@@ -997,7 +1031,7 @@ msgstr "Über bestimmte Felder eingrenzen"
 # (search operator, aria-label)
 #: items/search.php:72
 msgid "Search Joiner"
-msgstr ""
+msgstr "Suche Bindeglied"
 
 # (search operator)
 #: items/search.php:77
@@ -1012,12 +1046,12 @@ msgstr "ODER"
 # (search form)
 #: items/search.php:85
 msgid "Search Field"
-msgstr ""
+msgstr "Suchfeld"
 
 # (search form)
 #: items/search.php:101
 msgid "Search Type"
-msgstr ""
+msgstr "Art der Suche"
 
 # (search operator)
 #: items/search.php:107
@@ -1057,12 +1091,12 @@ msgstr "endet mit"
 # (search fom)
 #: items/search.php:121
 msgid "Search Terms"
-msgstr ""
+msgstr "Suchbegriffe"
 
 # (search form)
 #: items/search.php:127
 msgid "Remove field"
-msgstr "Feld hinzufügen"
+msgstr "Feld entfernen"
 
 # (button, search form)
 #: items/search.php:131
@@ -1077,59 +1111,59 @@ msgstr "Nach Benutzern suchen"
 # (search form)
 #: items/search.php:152
 msgid "Search By Tags"
-msgstr "Nach Schlagwörtern durchsuchen"
+msgstr "Mit Tags suchen"
 
 # (search form)
 #: items/search.php:166
 msgid "Featured/Non-Featured"
-msgstr "Hervorgehoben / nicht hervorgehoben"
+msgstr "Empfohlen/Nicht empfohlen"
 
 # (search form)
 #: items/search.php:174
 msgid "Only Featured Items"
-msgstr "Nur hervorgehobene Objekte"
+msgstr "Nur empfohlene Objekte"
 
 # (search form)
 #: items/search.php:175
 msgid "Only Non-Featured Items"
-msgstr "Nur nicht-hervorgehobene Objekte"
+msgstr "Nur nicht-empfohlene Objekte"
 
 # (search form, button) ITEM LABEL
 #: items/search.php:185
 #, php-format
 msgid "Submit %s Search"
-msgstr ""
+msgstr "Suche abschicken %s"
 
 # (aria label)
 #: items/show-template-default.php:77
 msgid "Media Files"
-msgstr ""
+msgstr "Mediendateien"
 
 #: items/show-template-default.php:123
 msgid "Related Resources"
-msgstr ""
+msgstr "Verwandte Ressourcen"
 
 #: items/show-template-default.php:126
 msgid "Official Website"
-msgstr ""
+msgstr "Offizielle Website"
 
 #: items/show-template-default.php:129
 msgid "Citation Info"
-msgstr ""
+msgstr "Zitierempfehlung"
 
 #: items/show-template-default.php:133
 msgid "Related Tours"
-msgstr ""
+msgstr "Verwandte Touren"
 
 #: items/show-template-default.php:144
 msgid "Comments"
-msgstr ""
+msgstr "Kommentare"
 
 # NUMBER
 #: items/tags.php:12
 #, php-format
 msgid "Tags: %s"
-msgstr ""
+msgstr "Tags: %s"
 
 # ITEM LABEL PLURAL
 #: search/index.php:22
@@ -1138,96 +1172,100 @@ msgid ""
 "Use the form below to search for the selected record types. Or use advanced "
 "options to <a href=\"/items/search\">Search %s</a>."
 msgstr ""
+"Verwenden Sie das unten stehende Formular, um nach den ausgewählten "
+"Kategorien zu suchen. Oder verwenden Sie die erweiterten Optionen der <a "
+"href=\"/items/search\">Suche %s</a>."
 
 #: search/index.php:40
 msgid "Your query returned <strong>no results</strong>."
 msgstr ""
+"Für Ihre Suchanfrage wurden leider <strong>keine Einträge</strong> gefunden."
 
 #: search/search-form.php:6
 msgid "Search using this query type:"
-msgstr ""
+msgstr "Suche mit diesem Suchtyp:"
 
 #: search/search-form.php:11
 msgid "Search only these record types:"
-msgstr ""
+msgstr "Suche nur mit diesen Datensatztypen:"
 
 # TOUR LABEL PLURAL, NUMBER
 #: tour-builder/tours/browse.php:4
 #, php-format
 msgid "Featured %1$s: %2$s"
-msgstr "Hervorgehoben %1$s: %2$s"
+msgstr "Empfohlene %1$s: %2$s"
 
 # TOUR LABEL PLURAL, NUMBER
 #: tour-builder/tours/browse.php:6
 #, php-format
 msgid "All %1$s: %2$s"
-msgstr ""
+msgstr "Alle %1$s: %2$s"
 
 # TOUR LABEL PLURAL
 #: tour-builder/tours/browse.php:24
 #, php-format
 msgid "%s are self-guided."
-msgstr ""
+msgstr "%s sind selbstgesteuert."
 
 #: tour-builder/tours/browse.php:57
 msgid "No tours are available. Publish some now."
-msgstr ""
+msgstr "Keine Touren verfügbar. Jetzt eine veröffentlichen."
 
 # TOUR LABEL
 #: tour-builder/tours/show.php:31
 #, php-format
 msgid "%s Description"
-msgstr ""
+msgstr "%s Beschreibung"
 
 # TOUR LABEL
 #: tour-builder/tours/show.php:77
 #, php-format
 msgid "%s Postscript"
-msgstr ""
+msgstr "%s Nachtrag"
 
 # TOUR LABEL
 #: tour-builder/tours/show.php:90
 #, php-format
 msgid "Show %s Map"
-msgstr ""
+msgstr "%s-Karte anzeigen"
 
 #: users/activate.php:2
 msgid "User Activation"
-msgstr ""
+msgstr "Benutzeraktivierung"
 
 # NAME, USERNAME
 #: users/activate.php:10
 #, php-format
 msgid "Hello %s. Your username is %s"
-msgstr ""
+msgstr "Guten Tag %s. Ihr Benutzername ist %s"
 
 #: users/activate.php:15
 msgid "Create a Password"
-msgstr ""
+msgstr "Passwort erstellen"
 
 #: users/activate.php:21
 msgid "Re-type the Password"
-msgstr ""
+msgstr "Passwort bestätigen"
 
 #: users/activate.php:28
 msgid "Activate"
-msgstr ""
+msgstr "Aktivieren"
 
 #: users/forgot-password.php:2
 msgid "Forgot Password"
-msgstr ""
+msgstr "Passwort vergessen"
 
 #: users/forgot-password.php:9
 msgid "Back to Log In"
-msgstr ""
+msgstr "Zurück zum Login"
 
 #: users/forgot-password.php:12
 msgid "Enter your email address to retrieve your password."
-msgstr ""
+msgstr "Geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort wiederherzustellen."
 
 #: users/forgot-password.php:16
 msgid "Email"
-msgstr ""
+msgstr "E-Mail-Adresse"
 
 #: users/login.php:3
 msgid "Log In"
@@ -1235,7 +1273,7 @@ msgstr "Anmelden"
 
 #: users/login.php:11
 msgid "Go to Home Page"
-msgstr ""
+msgstr "Zur Startseite"
 
 #: users/login.php:11
 msgid "Lost your password?"
