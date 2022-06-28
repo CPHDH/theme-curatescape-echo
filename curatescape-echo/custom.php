@@ -1850,7 +1850,7 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
     }
 
     // Output HTML
-    $html .= '<nav class="rl-toc"><ul>'.
+    $html = '<nav class="rl-toc"><ul>'.
       '<li class="head"><span title="'.__('%s Contents', rl_item_label('singular')).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label('singular')).'</span></span></li>'.
       '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.__('Main Text').'</span></a></li>'.
       $media_list.
@@ -1911,7 +1911,7 @@ Should be used with rl_nojs_images() for users w/o js
 */
 function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)
 {
-    if ($image['src']) {
+    if (isset($image) && $image['src']) {
         $src = WEB_ROOT.'/files/fullsize/'.$image['src'];
         $url = WEB_ROOT.'/files/show/'.$image['id'];
         $data_or_style_attr = $class == 'featured' ? 'style' : 'data-style';
@@ -1924,6 +1924,8 @@ function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)
           $html .= '<figcaption>'.$image['caption'].'</figcaption>';
         $html .= '</figure>';
         return $html;
+    }else{
+      return null;
     }
 }
 
