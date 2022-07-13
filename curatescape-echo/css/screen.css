@@ -2109,6 +2109,10 @@ body#map.item-map .query-header {
   min-width: 200px;
   max-width: 275px;
 }
+.leaflet-control-container .leaflet-top,
+.leaflet-control-container .leaflet-bottom {
+  will-change: transform;
+}
 .leaflet-control-layers label {
   margin-top: 0;
   font-size: 1em;
