@@ -2496,13 +2496,13 @@ div.meta-style > .related-resources {
 .tag:focus {
   color: var(--link-text-hover);
 }
-.hTagcloud ul li a span.count {
+ul li a > span.count {
   vertical-align: super;
   font-size: 0.833rem;
   color: var(--text-caption);
 }
 @media screen and (max-width: 600px) {
-  .hTagcloud ul li a span.count {
+  .hTagcloud ul li a > span.count {
     display: none;
   }
 }

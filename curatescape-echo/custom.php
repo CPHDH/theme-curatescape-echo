@@ -445,11 +445,15 @@ function rl_global_nav($nested=false)
 */
 function rl_item_browse_subnav()
 {
-   echo nav(array(
-      array('label'=>__('All') ,'uri'=> url('items/browse')),
-      array('label'=>__('Featured') ,'uri'=> url('items/browse?featured=1')),
-      array('label'=>__('Tags'), 'uri'=> url('items/tags')),
-   ));
+  $nav = array(
+    array('label'=>__('All') ,'uri'=> url('items/browse')),
+    array('label'=>__('Featured') ,'uri'=> url('items/browse?featured=1')),
+    array('label'=>__('Tags'), 'uri'=> url('items/tags')),
+  );
+  if(plugin_is_active('SubjectsBrowse')){
+    array_push($nav,array('label'=>__('Subjects'), 'uri'=> url('items/subjects')));
+  }
+  echo nav($nav);
 }
 
 /*
