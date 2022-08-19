@@ -1,8 +1,8 @@
 <?php
-    if (!$_GET["sort_field"]) {
+    if (!isset($_GET["sort_field"])) {
         $tags=get_records('Tag', array('sort_field' => 'count', 'sort_dir' => 'd'), 0);
     }
-    echo head(array('maptype'=>'none', 'title'=>'Browse by Tag','bodyid'=>'items','bodyclass'=>'browse tags'));
+    echo head(array('maptype'=>'none', 'title'=>__('Browse by Tag'),'bodyid'=>'items','bodyclass'=>'browse tags'));
     ?>
 
 

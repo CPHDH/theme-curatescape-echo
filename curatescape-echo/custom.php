@@ -50,6 +50,8 @@ function rl_admin_message($which=null, $roles=array('admin','super','contributor
         case 'items-browse':
           if (intval(option('per_page_public')) % 6 > 0) {
             $html = '<div class="warning message">'.$icon.'<div>'.$title.': <span>'.__('To ensure the optimal user experience at all screen sizes, please <a href="%s">update your site settings</a> so that the value of <em>Results Per Page (Public)</em> is a number divisible by both 2 and 3 (for example, 12 or 18).', admin_url('appearance/edit-settings')).'</span> '.$ps.'</div></div>';
+          }else{
+            $html = null;
           }
           break;
         case 'home-featured':
