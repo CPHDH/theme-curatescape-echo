@@ -1350,10 +1350,11 @@ function rl_single_file_show($file=null)
             $html.= $embeddable;
         } else {
             $html .= '<div class="item-file-container">';
-            $html .= '<video width="725" height="410" controls preload="auto" data-setup="{}">';
-            $html .= '<source src="'.$videoFile.'" type="video/mp4">';
-            $html .= '<p class="media-no-js">To listen to this audio please consider upgrading to a web browser that supports HTML5 video</p>';
-            $html .= '</video>';
+              $html .= '<video width="725" height="410" controls preload="auto" data-setup="{}">';
+                $html .= '<source src="'.$videoFile.'" type="video/mp4">';
+                $html .= '<p class="media-no-js">To listen to this audio please consider upgrading to a web browser that supports HTML5 video</p>';
+              $html .= '</video>';
+            $html .= '</div>';
         }
 
         return $html;
