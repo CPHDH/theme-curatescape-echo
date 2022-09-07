@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2022-09-02 10:47-0400\n"
-"PO-Revision-Date: 2022-09-02 10:48-0400\n"
+"PO-Revision-Date: 2022-09-07 12:04-0400\n"
 "Last-Translator: CPHDH @ CSU <digitalhumanities@csuohio.edu>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -437,7 +437,7 @@ msgstr "Tags"
 # Subjects Browse plugin
 #: custom.php:456
 msgid "Subjects"
-msgstr ""
+msgstr "Themen"
 
 # ITEM LABEL
 #: custom.php:467
@@ -861,12 +861,12 @@ msgstr "Alle Ausstellungen"
 # Sort by…
 #: exhibit-builder/exhibits/browse.php:62 items/browse.php:65
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 # Sort by…
 #: exhibit-builder/exhibits/browse.php:62 items/browse.php:65
 msgid "Date Added"
-msgstr ""
+msgstr "Erstellungsdatum"
 
 # (Exhibit Builder plugin)
 #: exhibit-builder/exhibits/browse.php:80
@@ -903,12 +903,12 @@ msgstr "Ausstellungen nach Tags browsen"
 # Sort by…
 #: exhibit-builder/exhibits/tags.php:37 items/tags.php:20
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 # Sort by…
 #: exhibit-builder/exhibits/tags.php:37 items/tags.php:20
 msgid "Count"
-msgstr ""
+msgstr "Trefferzahl"
 
 # (e.g. This file appears in ITEM TITLE)
 #: files/show.php:15
@@ -1186,7 +1186,7 @@ msgstr "Kommentare"
 
 #: items/tags.php:5
 msgid "Browse by Tag"
-msgstr ""
+msgstr "Nach Tags durchsuchen"
 
 # NUMBER
 #: items/tags.php:12
