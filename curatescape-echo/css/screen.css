@@ -3383,6 +3383,13 @@ body#home.stealth section:not(#home-stealth) {
 }
 
 @media print {
+  article header .title-card {
+    flex-direction: column;
+  }
+  article header .title-card-main,
+  article header .title-card-image {
+    width: 100%;
+  }
   .featured-image,
   figure > .file {
     -webkit-print-color-adjust: exact;
@@ -3400,7 +3407,10 @@ body#home.stealth section:not(#home-stealth) {
   .background-image,
   .title-card-subject,
   .separator,
-  .tour-image {
+  .tour-image,
+  .readmore,
+  .sep-bar,
+  #comments-section {
     display: none;
   }
   figcaption,
