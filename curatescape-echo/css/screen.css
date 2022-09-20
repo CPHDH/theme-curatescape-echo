@@ -2591,6 +2591,9 @@ ul li a > span.count {
 }
 
 /* Comments */
+#disqus_thread a:not(.button) {
+  color: #fff;
+}
 #comments-section {
   background-color: var(--site-header-active-menu-bg);
   padding-bottom: 0.5em;
