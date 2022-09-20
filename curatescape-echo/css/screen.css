@@ -436,6 +436,11 @@ small,
   font-family: var(--font-ui);
   letter-spacing: 0.015em;
 }
+.byline {
+  line-height: 1.25;
+  padding-top: 0.5em;
+  padding-right: 0.75em;
+}
 header,
 footer,
 .additional-elements,
