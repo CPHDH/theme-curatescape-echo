@@ -426,7 +426,7 @@ function rl_global_nav($nested=false)
     if ($curatenav==1 || !isset($curatenav)) {
       $navArray = array();
       $navArray[] = array('label'=>__('Home'),'uri' => url('/'));
-      $navArray[] = array('label'=>rl_item_label('plural'),'uri' => url('items/browse'));
+      $navArray[] = array('label'=>rl_item_label('plural'),'uri' => rl_stories_url());
       if(plugin_is_active('TourBuilder')){
         $navArray[] = array('label'=>rl_tour_label('plural'),'uri' => url('tours/browse/'));
       }
@@ -448,7 +448,7 @@ function rl_global_nav($nested=false)
 function rl_item_browse_subnav()
 {
   $nav = array(
-    array('label'=>__('All') ,'uri'=> url('items/browse')),
+    array('label'=>__('All') ,'uri'=> rl_stories_url()),
     array('label'=>__('Featured') ,'uri'=> url('items/browse?featured=1')),
     array('label'=>__('Tags'), 'uri'=> url('items/tags')),
   );
@@ -540,6 +540,14 @@ function rl_icon($name=null, $variant="-sharp")
 }
 
 /*
+** Stories link
+** theme option: default story sort by date modified
+*/
+function rl_stories_url(){
+  return get_theme_option('stories_modified') ? url('items/browse?sort_field=modified&sort_dir=d') : url('items/browse');
+}
+
+/*
 ** Global header
 */
 function rl_global_header($html=null)
@@ -550,7 +558,7 @@ function rl_global_header($html=null)
         <!-- Home / Logo -->
         <?php echo link_to_home_page(rl_the_logo(), array('id'=>'home-logo', 'aria-label'=>'Home')); ?>
         <div id="nav-desktop">
-            <?php echo get_theme_option('quicklink_story') ? '<a class="button transparent '.((is_current_url('/items/browse')) ? 'active' : null).'" href="'.url('items/browse').'">'.rl_icon("location").rl_item_label('plural').'</a>' : null; ?>
+            <?php echo get_theme_option('quicklink_story') ? '<a class="button transparent '.((is_current_url('/items/browse')) ? 'active' : null).'" href="'.rl_stories_url().'">'.rl_icon("location").rl_item_label('plural').'</a>' : null; ?>
             <?php echo get_theme_option('quicklink_tour') && plugin_is_active('TourBuilder') ? '<a class="button transparent '.((is_current_url('/tours/browse')) ? 'active' : null).'" href="'.url('tours/browse').'">'.rl_icon("compass").rl_tour_label('plural').'</a>' : null; ?>
             <?php echo get_theme_option('quicklink_map') && plugin_is_active('Geolocation') ? '<a class="button transparent '.((is_current_url('/items/map')) ? 'active' : null).'" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>' : null; ?>
         </div>
@@ -1617,6 +1625,10 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
         $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
         $param=__("Discover");
         break;
+      case 'modified':
+        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'modified', 'sort_dir' => 'd','public'=>true), $num);
+        $param=__("Discover");
+        break;
     }
     if(count($items)){
       $html = '<h2 class="query-header">'.$param.' '.rl_item_label('plural').'</h2>';
@@ -1649,7 +1661,7 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
           $html .= '</article>';
         }
       $html .= '</div>';
-      $html .= '<div class="view-more-link"><a class="button" href="'.url('items').'">'.__('Browse All %2s', rl_item_label('plural')).'</a></div>';
+      $html .= '<div class="view-more-link"><a class="button" href="'.rl_stories_url().'">'.__('Browse All %2s', rl_item_label('plural')).'</a></div>';
       return '<section id="home-recent-random" class="browse inner-padding">'.$html.'</section>';
     }else{
       return rl_admin_message('home-recent-random',array('admin','super'));
