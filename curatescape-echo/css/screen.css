@@ -2748,6 +2748,9 @@ footer form {
   transform: rotate(180deg);
   display: inline-block;
 }
+.helper-label {
+  display: inline-block;
+}
 
 /* Pagination */
 ul.pagination {

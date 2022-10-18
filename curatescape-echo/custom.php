@@ -482,6 +482,9 @@ function rl_collection_browse_subnav()
    ));
 }
 
+/*
+** Subnavigation for tours/browse
+*/ 
 function rl_tour_browse_subnav()
 {
    echo nav(array(

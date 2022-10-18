@@ -45,7 +45,7 @@ echo head(
         <div class="browse-header">
             <h2 class="query-header"><?php echo $title;?></h2>
             <nav class="tours-nav navigation secondary-nav">
-                <?php echo rl_tour_browse_subnav(rl_tour_label('plural'), null); ?>
+                <?php echo rl_tour_browse_subnav(); ?>
             </nav>
             <div id="helper-links">
                 <span class="helper-label"><?php echo rl_icon('funnel').'&nbsp;'.__("Sort by: "); ?>
@@ -63,27 +63,27 @@ echo head(
                     $html = null;
                     if (has_tours()) {
                         if (has_tours_for_loop()) {
-                        foreach ($tours as $tour) {
-                            set_current_record('tour', $tour);
-                            $bg=array();
-                            if ($touritems = $tour->getItems()) {
-                                foreach ($touritems as $ti) {
-                                    if (count($bg) == 4) {
-                                        break;
-                                    }
-                                    if ($src=rl_get_first_image_src($ti, 'square_thumbnails')) {
-                                        $bg[]='url('.$src.')';
+                            foreach ($tours as $tour) {
+                                set_current_record('tour', $tour);
+                                $bg=array();
+                                if ($touritems = $tour->getItems()) {
+                                    foreach ($touritems as $ti) {
+                                        if (count($bg) == 4) {
+                                            break;
+                                        }
+                                        if ($src=rl_get_first_image_src($ti, 'square_thumbnails')) {
+                                            $bg[]='url('.$src.')';
+                                        }
                                     }
                                 }
-                            }
-                            $html .= '<article class="item-result tour">';
-                            $html .= '<a aria-label="'.tour('title').'" class="tour-image '.(count($bg) < 4 ? 'single' : 'multi').'" style="background-image:'.implode(',', $bg).'" href="'.WEB_ROOT.'/tours/show/'.tour('id').'"></a><div class="separator thin flush-bottom flush-top"></div>';
-                            $html .= '<div class="tour-inner">';
-                            $html .= '<a class="permalink" href="' . WEB_ROOT . '/tours/show/'. tour('id').'"><h3 class="title">' . tour('title').'</h3></a>'.
-                                '<span class="byline">'.rl_icon('compass').__('%s Locations', rl_tour_total_items($tour)).'</span>';
-                            $html .= '<p class="tour-snip">'.snippet(strip_tags(htmlspecialchars_decode(tour('description'))), 0, 200).'<br><a class="readmore" href="'.WEB_ROOT . '/tours/show/'. tour('id').'">'.__('View %s', rl_tour_label('singular')).'</a></p>';
-                            $html .= '</div>';
-                            $html .= '</article>';
+                                $html .= '<article class="item-result tour">';
+                                $html .= '<a aria-label="'.tour('title').'" class="tour-image '.(count($bg) < 4 ? 'single' : 'multi').'" style="background-image:'.implode(',', $bg).'" href="'.WEB_ROOT.'/tours/show/'.tour('id').'"></a><div class="separator thin flush-bottom flush-top"></div>';
+                                $html .= '<div class="tour-inner">';
+                                $html .= '<a class="permalink" href="' . WEB_ROOT . '/tours/show/'. tour('id').'"><h3 class="title">' . tour('title').'</h3></a>'.
+                                    '<span class="byline">'.rl_icon('compass').__('%s Locations', rl_tour_total_items($tour)).'</span>';
+                                $html .= '<p class="tour-snip">'.snippet(strip_tags(htmlspecialchars_decode(tour('description'))), 0, 200).'<br><a class="readmore" href="'.WEB_ROOT . '/tours/show/'. tour('id').'">'.__('View %s', rl_tour_label('singular')).'</a></p>';
+                                $html .= '</div>';
+                                $html .= '</article>';
                         }
                     } else {
                         $html .= '<p>'.__('No tours are available. Publish some now.').'</p>';
