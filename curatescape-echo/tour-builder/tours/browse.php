@@ -5,6 +5,32 @@ if (isset($_GET['featured']) && $_GET['featured'] == 1) {
 } else {
     $title = __('All %1$s: %2$s', $label, total_tours());
 }
+$sort_field = (isset($_GET['sort_field']) ? htmlspecialchars($_GET['sort_field']) : null);
+$sort_dir = (isset($_GET['sort_dir']) ? htmlspecialchars($_GET['sort_dir']) : null);
+$sort=[$sort_field, $sort_dir];
+if($tours){
+    switch ($sort) {
+        // added
+        case $sort[0]=='id' && $sort[1]=='a':
+        case $sort[0]=='id' && $sort[1]==null:
+        case $sort[0]==null && $sort[1]==null:
+           rl_sort_objects_array($tours, 'id', true); 
+           break;
+        // added reverse
+        case $sort[0]=='id' && $sort[1]=='d':
+           rl_sort_objects_array($tours, 'id', false); 
+           break;
+        // title
+        case $sort[0]=='title' && $sort[1]=='a':
+        case $sort[0]=='title' && $sort[1]==null:
+           rl_sort_objects_array($tours, 'title', true); 
+           break;
+        // title reverse
+        case $sort[0]=='title' && $sort[1]=='d':
+           rl_sort_objects_array($tours, 'title', false); 
+           break;
+    }
+}
 echo head(
     array(
     'maptype'=>'none',
@@ -12,6 +38,7 @@ echo head(
     'bodyid'=>'tours',
     'bodyclass' => 'browse' )
 );
+
 ?>
 <div id="content" role="main">
     <article class="browse tour">
@@ -21,7 +48,12 @@ echo head(
                 <?php echo rl_tour_browse_subnav(rl_tour_label('plural'), null); ?>
             </nav>
             <div id="helper-links">
+                <span class="helper-label"><?php echo rl_icon('funnel').'&nbsp;'.__("Sort by: "); ?>
+                </span>
+                <?php echo rl_tours_browse_sort_links($sort); ?>
+                &nbsp;&nbsp;
                 <span class="helper-label"><?php echo rl_icon('information-circle').'&nbsp;'.(get_theme_option('tour_info') ? strip_tags(get_theme_option('tour_info'),'<a>') :  __("%s are self-guided.", rl_tour_label('plural'))); ?></span>
+                
             </div>
         </div>
         <div id="primary" class="browse">

@@ -491,6 +491,42 @@ function rl_tour_browse_subnav()
 }
 
 /*
+** filter browse_sort_links for tours/browse
+** prevents omission of /browse in urls
+** hacks in default active sorting class for 'added' as needed
+** makes reverse sort work on first click
+*/ 
+function rl_tours_browse_sort_links($sort=array(null,null)){
+  // add /browse to path
+  $nav = str_replace('tours?','tours/browse?',browse_sort_links(array(__('Title')=>'title',__('Date Added')=>'id')));
+  
+  if($sort[0]==null && $sort[1]==null){
+    $dom = new DOMDocument;
+    $dom->loadHTML($nav);
+    $li = $dom->getElementsByTagName('li')->item(1);
+    // add sorting class
+    $li->setAttribute('class', 'sorting asc');
+    // sort direction toggle fix
+    $href=$li->firstChild->getAttribute('href');
+    if($href){
+      $li->firstChild->setAttribute('href', $href.'&sort_dir=d');
+    }
+    return $dom->saveHTML();
+  }else{
+    return $nav;
+  }
+}
+
+/*
+** used on tours/browse
+*/ 
+function rl_sort_objects_array(&$array, $prop='id', $ascending=true) {
+    usort($array, function($a, $b) use ($prop, $ascending) {
+        return ($ascending) ? strcmp($a->$prop, $b->$prop) : -strcmp($a->$prop, $b->$prop);
+    });
+}
+
+/*
 ** Logo URL
 */
 function rl_the_logo_url()
