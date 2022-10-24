@@ -913,13 +913,24 @@ function rl_the_sponsor($item='item')
 /*
 ** Filed Under
 ** returns link to: (public) collection for item, or first subject, or first tag
+** configurable in theme settings
 */
 function rl_filed_under($item = null, $maxlength = 35)
 {
-    if ($collection = get_collection_for_item() && $collection->public) {
+    $useCollection = get_theme_option('item_topic_collection') !== null ?
+      get_theme_option('item_topic_collection') :
+      true;
+    $useSubject = get_theme_option('item_topic_subject') !== null ?
+      get_theme_option('item_topic_subject') :
+      true;
+    $useTag = get_theme_option('item_topic_tag') !== null ?
+      get_theme_option('item_topic_tag') :
+      true;
+    
+    if ($useCollection && $collection = get_collection_for_item() && $collection->public) {
         $label = trim($collection->display_name);
         $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>'Collection: '.$label, 'class'=>'tag tag-alt'), 'show');
-    } elseif ($subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
+    } elseif ($useSubject && $subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?term=');
         $link .= rawurlencode($subject);
@@ -927,7 +938,7 @@ function rl_filed_under($item = null, $maxlength = 35)
         $link .= urlencode(str_replace('&amp;', '&', $subject));
         $label = trim($subject);
         $node = '<a title="Subject: '.$label.'" class="tag tag-alt" href="'.w3_valid_url($link).'">'.snippet($label,0,$maxlength).'</a>';
-    } elseif (metadata($item, 'has tags') && $tag = $item->Tags[0]) {
+    } elseif ($useTag && metadata($item, 'has tags') && $tag = $item->Tags[0]) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?tags=');
         $link .= rawurlencode($tag);
