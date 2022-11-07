@@ -1,6 +1,8 @@
 <?php
 $label=rl_tour_label('plural');
-if (isset($_GET['featured']) && $_GET['featured'] == 1) {
+if (isset($_GET['tags'])) {
+   $title = __('%1$s tagged "%2$s"', rl_tour_label('plural'), htmlspecialchars($_GET['tags']));
+}elseif (isset($_GET['featured']) && $_GET['featured'] == 1) {
     $title = __('Featured %1$s: %2$s', $label, total_tours());
 } else {
     $title = __('All %1$s: %2$s', $label, total_tours());

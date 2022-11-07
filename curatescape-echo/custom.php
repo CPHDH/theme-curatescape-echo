@@ -490,6 +490,7 @@ function rl_tour_browse_subnav()
    echo nav(array(
       array('label'=>__('All') ,'uri'=> url('tours/browse')),
       array('label'=>__('Featured') ,'uri'=> url('tours/browse?featured=1')),
+      array('label'=>__('Tags'), 'uri'=> url('tours/tags')),
    ));
 }
 
