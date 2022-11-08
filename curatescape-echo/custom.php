@@ -1726,7 +1726,7 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
 function rl_homepage_tags($num=25)
 {
   if(get_theme_option("homepage_tags") == "1"){
-    $tags=get_records('Tag', array('sort_field' => 'count', 'sort_dir' => 'd'), $num);
+    $tags=get_records('Tag', array('sort_field' => 'count', 'sort_dir' => 'd','type'=>'item'), $num);
     if(count($tags)){
       $html = '<h2 class="query-header">'.__('Popular Tags').'</h2>';
       $html.=tag_cloud($tags, 'items/browse');
