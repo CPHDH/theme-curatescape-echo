@@ -1743,11 +1743,12 @@ function rl_homepage_tags($num=25)
 */
 function rl_homepage_projectmeta($html=null,$length=800)
 {
+  $heading = get_theme_option('homepage_meta_placement') == 'top' ? option('site_title') : __('Project Meta');
   $cta = rl_homepage_cta();
   $text = get_theme_option('about') 
     ? strip_tags(get_theme_option('about'), '<a><em><i><cite><strong><b><u>') 
     : __('%s is powered by <a href="http://omeka.org/">Omeka</a> + <a href="http://curatescape.org/">Curatescape</a>, a humanities-centered web and mobile app framework available for both Android and iOS devices.', option('site_title'));
-  $html .= '<h2 class="query-header">'.__('Project Meta').'</h2>';
+  $html .= '<h2 class="query-header">'.$heading.'</h2>';
   $html .= '<div class="home-project-meta">';
     $html .= '<div id="home-about-main" class="inner-padding">'; 
       $html .= '<h3 class="query-header">'.__('About').'</h3>';
