@@ -927,8 +927,8 @@ function rl_filed_under($item = null, $maxlength = 35)
     $useTag = get_theme_option('item_topic_tag') !== null ?
       get_theme_option('item_topic_tag') :
       true;
-    
-    if ($useCollection && $collection = get_collection_for_item() && $collection->public) {
+          
+    if ($useCollection && ($collection = get_collection_for_item()) && $collection->public) {
         $label = trim($collection->display_name);
         $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>'Collection: '.$label, 'class'=>'tag tag-alt'), 'show');
     } elseif ($useSubject && $subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
