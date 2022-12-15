@@ -2147,13 +2147,33 @@ function rl_owner_link()
 }
 
 /*
-** Icon file for mobile devices
+** Icon PNG file for mobile device bookmarks
 */
-function rl_browser_icon_url()
+function rl_touch_icon_url()
 {
-   $apple_icon_logo = get_theme_option('apple_icon_144');
-   $logo_img = $apple_icon_logo ? WEB_ROOT.'/files/theme_uploads/'.$apple_icon_logo : img('favicon.png');
-   return $logo_img;
+   $touch_icon = get_theme_option('apple_icon_144');
+   $url = $touch_icon ? WEB_ROOT.'/files/theme_uploads/'.$touch_icon : img('favicon.png');
+   return $url;
+}
+
+/*
+** Icon SVG file for modern browser tabs
+*/
+function rl_favicon_svg_url()
+{
+   $favicon_svg = get_theme_option('favicon_svg');
+   $url = $favicon_svg ? WEB_ROOT.'/files/theme_uploads/'.$favicon_svg : img('favicon.svg');
+   return $url;
+}
+
+/*
+** Icon ICO file for older browser tabs
+*/
+function rl_favicon_ico_url()
+{
+   $favicon = get_theme_option('favicon');
+   $url = $favicon ? WEB_ROOT.'/files/theme_uploads/'.$favicon : img('favicon.ico');
+   return $url;
 }
 
 

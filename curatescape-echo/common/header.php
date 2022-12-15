@@ -32,14 +32,10 @@
     <meta name="twitter:image" content="<?php echo rl_seo_pageimg($item, $file);?>">
     <?php echo ($twitter=get_theme_option('twitter_username')) ? '<meta name="twitter:site" content="@'.$twitter.'"> ' : '';?>
 
-    <!-- Browser Icon -->
-    <link rel="icon" type="image/svg+xml" href="<?php echo img('favicon.svg')?>">
-    <link rel="alternate icon" href="<?php echo img('favicon.ico')?>">
-
-    <!-- Touch Icon -->
-    <link rel="apple-touch-icon-precomposed" href="<?php echo rl_browser_icon_url();?>" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="<?php echo rl_browser_icon_url();?>" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="<?php echo rl_favicon_svg_url();?>">
+    <link rel="alternate icon" sizes="any" href="<?php echo rl_favicon_ico_url();?>">
+    <link rel="apple-touch-icon" href="<?php echo rl_touch_icon_url();?>" />
 
     <!-- iOS Smart Banner -->
     <?php echo rl_ios_smart_banner(); ?>
