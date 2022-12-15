@@ -930,7 +930,7 @@ function rl_filed_under($item = null, $maxlength = 35)
           
     if ($useCollection && ($collection = get_collection_for_item()) && $collection->public) {
         $label = trim($collection->display_name);
-        $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>'Collection: '.$label, 'class'=>'tag tag-alt'), 'show');
+        $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>__('Collection: %s', $label), 'class'=>'tag tag-alt'), 'show');
     } elseif ($useSubject && $subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?term=');
@@ -938,16 +938,16 @@ function rl_filed_under($item = null, $maxlength = 35)
         $link .= htmlentities('&search=&advanced[0][element_id]=49&advanced[0][type]=contains&advanced[0][terms]=');
         $link .= urlencode(str_replace('&amp;', '&', $subject));
         $label = trim($subject);
-        $node = '<a title="Subject: '.$label.'" class="tag tag-alt" href="'.w3_valid_url($link).'">'.snippet($label,0,$maxlength).'</a>';
+        $node = '<a title="'.__('Subject: %s', $label).'" class="tag tag-alt" href="'.w3_valid_url($link).'">'.snippet($label,0,$maxlength).'</a>';
     } elseif ($useTag && metadata($item, 'has tags') && $tag = $item->Tags[0]) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?tags=');
         $link .= rawurlencode($tag);
         $label = trim($tag);
-        $node = '<a title="Tag: '.$label.'" class="tag tag-alt" href="'.$link.'">'.snippet($label,0,$maxlength).'</a>';
+        $node = '<a title="'.__('Tag: %s', $label).'" class="tag tag-alt" href="'.$link.'">'.snippet($label,0,$maxlength).'</a>';
     } else {
         $label = trim(rl_item_label('singular'));
-        $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>'Type: '.$label, 'class'=>'tag tag-alt'));
+        $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>__('Type: %s', $label), 'class'=>'tag tag-alt'));
     }
     return '<div class="title-card-subject '.text_to_id($label,'subject').'"><span class="screen-reader">'.__('Filed Under').'</span> '.$node.'</div>';
 }
