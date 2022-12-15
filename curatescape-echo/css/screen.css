@@ -1936,7 +1936,7 @@ article header .title-card-image figcaption .file-description {
   content: "";
   margin-right: 0.5em;
 }
-
+#collections.show .background-image,
 article header .background-image {
   background-color: var(--bg-article);
   background-repeat: no-repeat;
@@ -1950,16 +1950,18 @@ article header .background-image {
   z-index: 0;
   filter: grayscale(1);
 }
-
+#collections.show .background-image.portrait,
 article header .background-image.portrait {
   background-position: center 35%;
 }
 @media print or screen and (prefers-contrast: more),
   (-ms-high-contrast media feature) {
+  #collections.show .background-image,
   article header .background-image {
     display: none;
   }
 }
+#collections.show .background-gradient,
 article header .background-gradient {
   background-color: transparent;
   background-image: var(--article-header-bg-gradient);
@@ -1979,6 +1981,18 @@ article header .byline a {
   color: var(--article-header-byline);
 }
 
+/* header image continued... tweaks for collections */
+#collections.show .background-image,
+#collections.show .background-gradient {
+  z-index: -1;
+  max-height: 25em;
+  top: 85px;
+}
+#collections.show article {
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+}
 /* Story Actions */
 aside#social-actions {
   display: flex;
@@ -2949,10 +2963,39 @@ ul.pagination .button {
 }
 
 /* COLLECTIONS / TOURS */
+#collections.show .byline {
+  border-top: var(--deco-border);
+  padding-top: 0.75em;
+}
+#collections.show .byline .icon svg,
 .item-result .byline .icon svg {
   margin-right: 0.25em;
   height: 1em;
   width: 1em;
+}
+#collections.show #primary {
+  display: flex;
+  flex-direction: row-reverse;
+}
+#collections.show #primary .image-figure {
+  width: calc(50% - 2em);
+  margin-right: 2em;
+}
+#collections.show #primary .image-figure figcaption {
+  display: none;
+}
+#collections.show #primary section#text {
+  min-width: 50%;
+  flex-grow: 1;
+}
+@media screen and (max-width: 900px) {
+  #collections.show #primary {
+    flex-direction: column-reverse;
+  }
+  #collections.show #primary .image-figure {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 .item-result.tour,
 .item-result.collection {
@@ -3425,7 +3468,8 @@ body#home.stealth section:not(#home-stealth) {
   .tour-image,
   .readmore,
   .sep-bar,
-  #comments-section {
+  #comments-section,
+  #collections.show figure.image-figure {
     display: none;
   }
   figcaption,
