@@ -929,7 +929,7 @@ function rl_filed_under($item = null, $maxlength = 35)
       true;
           
     if ($useCollection && ($collection = get_collection_for_item()) && $collection->public) {
-        $label = trim($collection->display_name);
+        $label = metadata($collection,array('Dublin Core','Title'));
         $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>__('Collection: %s', $label), 'class'=>'tag tag-alt'), 'show');
     } elseif ($useSubject && $subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
         $link = WEB_ROOT;
