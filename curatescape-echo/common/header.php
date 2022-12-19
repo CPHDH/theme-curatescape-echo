@@ -1,5 +1,13 @@
+<?php
+// set html class for dark mode capability
+// see also global.js for cookie management
+$htmlclass = (get_theme_option('enable_dark_mode')) ? 'darkallowed' : 'darkdisabled_admin';
+if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
+    $htmlclass = 'darkdisabled_user';
+}
+?>
 <!DOCTYPE html>
-<html lang="<?php echo get_html_lang();?>">
+<html lang="<?php echo get_html_lang();?>" class="<?php echo $htmlclass;?>">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

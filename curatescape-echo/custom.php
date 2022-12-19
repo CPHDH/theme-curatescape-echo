@@ -630,6 +630,15 @@ function rl_global_header($html=null)
             </nav>
             <div class="menu-random-container"><?php echo random_item_link(rl_icon('dice').__("View a Random %s", rl_item_label('singular')), $class='button transparent', $hasImage=true); ?></div>
             <div class="menu-appstore-container"><?php echo rl_appstore_downloads(); ?></div>
+            <div class="menu-darkmode-container">
+              <?php
+              $dm_allowed = isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']==1 ? false : true;
+              ?>
+              <label for="dm">
+                <span>Allow Dark Mode?</span>
+              </label>
+              <input type="checkbox" <?php echo $dm_allowed ? 'checked' : null;?> id="dm">
+            </div>
         </div>
         <div class="overlay" onclick="overlayClick()"></div>
     </div>
@@ -2200,7 +2209,15 @@ function rl_configured_css($vars=null, $output=null)
     $output .= ':root {'.$vars.'}';
   }
   if(get_theme_option('enable_dark_mode')){
-    $output .= '@media screen and (prefers-color-scheme: dark) {:root {--link-text: var(--link-text-on-dark) !important;--link-text-hover: var(--link-text-on-dark-hover) !important;--bg-body: var(--bg-body-dark);--bg-article: var(--bg-article-dark);--featured-one: #000 !important;--site-footer-bg-color: #000;--text-base: var(--text-base-on-dark);--text-heading: var(--text-heading-on-dark);--text-subheading: var(--text-subheading-on-dark);--text-caption: var(--text-caption-on-dark);--deco-color: var(--dark-primary);--deco-color-subtle: var(--dark-tertiary);--deco-frame: 10px solid var(--dark-secondary);--deco-frame-small: 3px solid var(--dark-secondary);--light-secondary: var(--dark-tertiary);--light-primary-subtle: var(--dark-tertiary);--article-header-bg-gradient: linear-gradient(to top,rgba(34, 34, 34, 1) 50%,rgba(34, 34, 34, 0.95),rgba(34, 34, 34, 0.9),rgba(34, 34, 34, 0.75),rgba(34, 34, 34, 0.5));}article header .background-image {filter: grayscale(1) brightness(0.8);}.gallery-image {filter: brightness(0.8);}.browse .item-image {filter: brightness(0.8);}.item-result.tour .tour-image {filter: brightness(0.8);}form.capsule input.search,form.capsule input.search:focus::placeholder, form.capsule input.search:hover::placeholder,form.capsule input.search:hover, form.capsule input.search:focus{color:#000;}}';
+    $output .= '@media screen and (prefers-color-scheme: dark) {
+      :root.darkallowed {
+      --link-text: var(--link-text-on-dark) !important;--link-text-hover: var(--link-text-on-dark-hover) !important;--bg-body: var(--bg-body-dark);--bg-article: var(--bg-article-dark);--text-base: var(--text-base-on-dark);--text-heading: var(--text-heading-on-dark);--text-subheading: var(--text-subheading-on-dark);--text-caption: var(--text-caption-on-dark);--deco-color: var(--dark-primary);--deco-color-subtle: var(--dark-tertiary);--deco-frame: 10px solid var(--dark-secondary);--deco-frame-small: 3px solid var(--dark-secondary);--light-secondary: var(--dark-tertiary);--light-primary-subtle: var(--dark-tertiary);--article-header-bg-gradient: linear-gradient(to top,rgba(34, 34, 34, 1) 50%,rgba(34, 34, 34, 0.95),rgba(34, 34, 34, 0.9),rgba(34, 34, 34, 0.75),rgba(34, 34, 34, 0.5));
+      }
+      .darkallowed .featured-card.featured-1 .separator,.darkallowed footer .separator {background: var(--link-text) !important;}
+      .darkallowed article header .background-image {filter: grayscale(1) brightness(0.8);}
+      .darkallowed .gallery-image,.darkallowed .curatescape-map,.darkallowed .browse .item-image,.darkallowed .item-result.tour .tour-image {filter: brightness(0.8);}
+      .darkallowed form.capsule input.search,.darkallowed form.capsule input.search:focus::placeholder, .darkallowed form.capsule input.search:hover::placeholder,.darkallowed form.capsule input.search:hover, .darkallowed form.capsule input.search:focus{color:#000;}
+    }';
   }
   if (get_theme_option('custom_css')) {
     $output .= get_theme_option('custom_css');

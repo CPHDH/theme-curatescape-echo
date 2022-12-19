@@ -1547,10 +1547,25 @@ header.primary nav #nav-interactive a > i {
   margin: 10px;
 }
 .menu-appstore-container,
-.menu-random-container {
+.menu-random-container,
+.menu-darkmode-container {
   text-align: center;
   margin-bottom: 1em;
   padding-bottom: 1.5em;
+}
+.menu-darkmode-container {
+  font-size: 0.833em;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.menu-darkmode-container input {
+  margin: 1px 0 0 0.5em;
+}
+@media screen and (prefers-color-scheme: dark) {
+  html:not(.darkdisabled_admin) .menu-darkmode-container {
+    display: flex;
+  }
 }
 .menu-random-container .button {
   margin: 0;
@@ -2027,7 +2042,7 @@ figure.image-figure,
 .gallery-image:hover,
 .gallery-image:focus {
   box-shadow: var(--shadow-big-hover);
-  filter: none;
+  filter: none !important;
 }
 .gallery-image.portrait {
   background-position: center 20%;
@@ -2098,6 +2113,11 @@ figure#story-map {
   z-index: 1;
   border: var(--deco-frame);
   box-shadow: var(--shadow-big);
+  transition: filter linear 0.15s;
+}
+.curatescape-map:hover,
+.curatescape-map:active {
+  filter: none !important;
 }
 body#map.item-map .curatescape-map {
   min-height: 400px;
@@ -2815,7 +2835,7 @@ ul.pagination .button {
 .browse .item-image:hover,
 .browse .item-image:focus {
   box-shadow: var(--shadow-big-hover);
-  filter: none;
+  filter: none !important;
 }
 .browse .item-image.portrait {
   background-position: center 20%;
@@ -3031,7 +3051,7 @@ ul.pagination .button {
 .item-result.tour .tour-image:hover,
 .item-result.tour .tour-image:focus {
   box-shadow: var(--shadow-big-hover);
-  filter: none;
+  filter: none !important;
 }
 .item-result.tour .tour-image.single {
   background-size: 200px;
