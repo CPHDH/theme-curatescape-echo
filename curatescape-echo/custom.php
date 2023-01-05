@@ -286,7 +286,7 @@ function rl_assets_blacklist($view=null, $paths=array())
          foreach ($paths as $path) {
             if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
                // do nothing if this is an exhibit... might need the Geolocation plugin assets
-            }elseif (strpos($file->attributes['src'], $path) !== false) {
+            }elseif ($file->attributes['src'] && strpos($file->attributes['src'], $path) !== false) {
                $scripts[$key]->type = null;
                $scripts[$key]->attributes['src'] = null;
                $scripts[$key]->attributes['source'] = null;
@@ -298,7 +298,7 @@ function rl_assets_blacklist($view=null, $paths=array())
          foreach ($paths as $path) {
             if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
                // do nothing if this is an exhibit... might need the Geolocation plugin assets
-            }elseif (strpos($file->href, $path) !== false) {
+            }elseif ($file->href && strpos($file->href, $path) !== false) {
                $styles[$key]->href = null;
                $styles[$key]->type = null;
                $styles[$key]->rel = null;
@@ -654,7 +654,7 @@ function rl_story_map_single($title=null, $location=null, $address=null, $hero_i
 if(plugin_is_active('Geolocation')):
 ?>
   <nav aria-label="<?php echo __('Skip Interactive Map');?>"><a id="skip-map" href="#map-actions"><?php echo __('Skip Interactive Map');?></a></nav>
-  <figure id="story-map" data-default-layer="<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER';?>" data-lat="<?php echo $location[ 'latitude' ];?>" data-lon="<?php echo $location[ 'longitude' ];?>" data-zoom="<?php echo $location['zoom_level'];?>" data-title="<?php echo strip_tags($title);?>" data-image="<?php echo $hero_img;?>" data-orientation="<?php echo $hero_orientation;?>" data-address="<?php echo strip_tags($address);?>" data-color="<?php echo get_theme_option('marker_color');?>" data-root-url="<?php echo WEB_ROOT;?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts');?>" data-providers="<?php echo src('providers.js', 'javascripts');?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts');?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts');?>">
+  <figure id="story-map" data-default-layer="<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER';?>" data-lat="<?php echo $location[ 'latitude' ];?>" data-lon="<?php echo $location[ 'longitude' ];?>" data-zoom="<?php echo $location['zoom_level'];?>" data-title="<?php echo $title ? strip_tags($title) : null;?>" data-image="<?php echo $hero_img;?>" data-orientation="<?php echo $hero_orientation;?>" data-address="<?php echo $address ? strip_tags($address) : null;?>" data-color="<?php echo get_theme_option('marker_color');?>" data-root-url="<?php echo WEB_ROOT;?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts');?>" data-providers="<?php echo src('providers.js', 'javascripts');?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts');?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts');?>">
       <div class="curatescape-map">
           <div id="curatescape-map-canvas"></div>
       </div>
@@ -1021,7 +1021,7 @@ function rl_tags($item)
 */
 function rl_collection($item)
 {
-  if ($collection = get_collection_for_item() && $collection->public) {
+  if ($collection = get_collection_for_item() && isset($collection) && $collection->public) {
       return '<div id="collection">'.link_to_collection_for_item(null, array('class'=>'tag tag-alt','title'=>__('Collection')), 'show').'</div>';
   }
 }
@@ -1121,8 +1121,7 @@ function rl_official_website($item='item')
 */
 function rl_street_address($item='item')
 {
-   if (element_exists('Item Type Metadata', 'Street Address')) {
-      $address=metadata($item, array('Item Type Metadata','Street Address'));
+   if (element_exists('Item Type Metadata', 'Street Address') && $address=metadata($item, array('Item Type Metadata','Street Address'))) {
       $map_link='<a target="_blank" rel="noopener" href="https://maps.google.com/maps?saddr=current+location&daddr='.urlencode(strip_tags($address)).'">map</a>';
       return $address ? $address : null;
    } else {
