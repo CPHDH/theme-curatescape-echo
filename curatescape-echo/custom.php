@@ -1227,12 +1227,14 @@ function rl_the_byline($itemObj='item', $include_sponsor=false)
         $authors=metadata($itemObj, array('Dublin Core', 'Creator'), array('all'=>true));
         $total=count($authors);
         $index=1;
-        $authlink=1;
+        $authlink=get_theme_option('author_links');
         foreach ($authors as $author) {
-            if ($authlink==1) {
-                $href=w3_valid_url('/items/browse?search=&advanced[0][element_id]=39&advanced[0][type]=is+exactly&advanced[0][terms]='.$author);
-                $author='<a href="'.$href.'">'.$author.'</a>';
+            if ($authlink > 0) {
+                $href=w3_valid_url('/items/browse?search=&advanced[0][element_id]=39&advanced[0][type]=is+exactly&advanced[0][terms]='.strip_tags($author));
+            }else{
+              $href='javascript:void(0)';
             }
+            $author='<a href="'.$href.'">'.$author.'</a>';
             switch ($index) {
                case ($total):
                $delim ='';
@@ -1270,10 +1272,10 @@ function rl_item_citation()
 */
 function rl_post_date()
 {
-   if (get_theme_option('show_datestamp')==1) {
+   if (get_theme_option('show_datestamp') > 0) {
       $a=format_date(metadata('item', 'added'));
       $m=format_date(metadata('item', 'modified'));
-      return '<div class="item-post-date">'.__('Published on %s.', $a).(($a!==$m) ? ' '.__('Last updated on %s.', $m) : null).'</div>';
+      return '<div class="item-post-date byline">'.__('Published %s.', $a).(($a!==$m) ? ' '.__('Last updated %s.', $m) : null).'</div>';
    }
 }
 
