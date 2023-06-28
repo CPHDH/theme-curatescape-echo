@@ -644,7 +644,40 @@ function rl_global_header($html=null)
     </div>
     <?php
 }
+/*
+** Get Subject Terms
+*/
+function rl_get_subjects(){
+  $db = get_db();
+  $prefix=$db->prefix;
+  $select = "
+  SELECT TRIM(et.text) as text, count(*) as total, LOWER(LEFT(text, 1)) as letter
+  FROM {$prefix}items as i
+  INNER JOIN {$prefix}element_texts as et ON i.id = et.record_id
+  WHERE public = 1 AND element_id = 49
+  GROUP BY text
+  ORDER BY text ASC
+  ";
+  $sql = $select;
+  $q = $db->query($sql);
+  $subjects = $q->fetchAll();
+  return $subjects;
+}
 
+/*
+** Get Subjects Select
+*/
+function rl_subjects_select($subjects,$num){
+  if($subjects){
+    $html = '<select hidden>';
+    $html .= '<option value="">'.__('All %s',rl_item_label('plural')).': '.$num.'</option>';
+    foreach($subjects as $subject){
+      $html .= '<option value="'.strip_tags(urlencode($subject['text'])).'">'.strip_tags($subject['text']).': '.$subject['total'].'</option>';
+    }
+    $html .= '</select>';
+    return $html;
+  }
+}
 
 /*
 ** Story Map - Single
@@ -713,9 +746,12 @@ function rl_homepage_map($ishome=true,$totalItems=null)
       <h2 class="query-header"><?php echo __('%s Map',rl_item_label());?></h2>
       <div id="home-map-container" data-label="<?php echo __('All %s',rl_item_label('plural')).': '.$totalItems;?>">
         <figure id="multi-map" data-json-source="/items/browse?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-default-layer="<?php echo get_theme_option('map_style') ? get_theme_option('map_style') : 'CARTO_VOYAGER'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo isset($tour) && get_theme_option('tour_clustering') ? '1' : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>">
-             <div class="curatescape-map">
-                <div id="curatescape-map-canvas"></div>
-            </div>
+          <div class="curatescape-map">
+            <?php echo (get_theme_option('map_subjects') == 1) 
+            ? rl_subjects_select(rl_get_subjects(),$totalItems) 
+            : null;?>
+            <div id="curatescape-map-canvas"></div>
+          </div>
         </figure>
       </div>
       <?php if($ishome):?>
