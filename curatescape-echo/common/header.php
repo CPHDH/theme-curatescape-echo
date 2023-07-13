@@ -29,7 +29,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
 
     <!-- FB Open Graph stuff -->
     <meta property="og:title" content="<?php echo rl_seo_pagetitle($title, $item); ?>" />
-    <meta property="og:image" content="<?php echo rl_seo_pageimg($item, $file);?>" />
+    <meta property="og:image" content="<?php echo rl_seo_pageimg($item, $file, $tour);?>" />
     <meta property="og:site_name" content="<?php echo option('site_title');?>" />
     <meta property="og:description" content="<?php echo rl_seo_pagedesc($item, $tour, $file); ?>" />
 
@@ -37,7 +37,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo rl_seo_pagetitle($title, $item); ?>">
     <meta name="twitter:description" content="<?php echo rl_seo_pagedesc($item, $tour, $file); ?>">
-    <meta name="twitter:image" content="<?php echo rl_seo_pageimg($item, $file);?>">
+    <meta name="twitter:image" content="<?php echo rl_seo_pageimg($item, $file, $tour);?>">
     <?php echo ($twitter=get_theme_option('twitter_username')) ? '<meta name="twitter:site" content="@'.$twitter.'"> ' : '';?>
 
     <!-- Favicons -->

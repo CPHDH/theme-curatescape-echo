@@ -350,7 +350,7 @@ function rl_seo_pagetitle($title, $item)
 /*
 ** SEO Page Image
 */
-function rl_seo_pageimg($item=null, $file=null)
+function rl_seo_pageimg($item=null, $file=null, $tour = null)
 {
     if ($item) {
         if (metadata($item, 'has thumbnail')) {
@@ -362,6 +362,10 @@ function rl_seo_pageimg($item=null, $file=null)
         if ($itemimg=file_image('fullsize')) {
             preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $itemimg, $result);
             $itemimg=array_pop($result);
+        }
+    } elseif ($tour) {
+        if ($touritems = $tour->getItems()) {
+          $itemimg = rl_get_first_image_src($touritems[0], 'fullsize');
         }
     }
     return isset($itemimg) ? $itemimg : rl_seo_pageimg_custom();
