@@ -58,13 +58,12 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <script>window.MSInputMethodContext && document.documentMode && document.write('<script src="https://cdn.jsdelivr.net/gh/nuxodin/ie11CustomProperties@4.1.0/ie11CustomProperties.min.js"><\/script>');</script>
 
     <!-- Assets -->
-    <?php
-    $includeJQuery = ((0 === strpos(current_url(), '/items/search')) || (0 === strpos(current_url(), '/guest-user/')) || (0 === strpos(current_url(), '/contribution/'))) ? true : false;
+    <?php  
     fire_plugin_hook('public_head', array('view'=>$this));
     rl_assets_blacklist($this, array('/plugins/Geolocation','admin-bar','family=Arvo:400'));
     rl_theme_css();
     echo head_css();
-    echo head_js($includeJQuery);
+    echo head_js(rl_jquery_whitelist(current_url()));
     ?>
 
     <style>

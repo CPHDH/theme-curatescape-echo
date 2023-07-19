@@ -273,6 +273,26 @@ function rl_relabel_type($type=null)
          return $type;
    }
 }
+
+/*
+** Determine when to load jQuery
+** usage: head_js(rl_jquery_whitelist(current_url()))
+*/
+function rl_jquery_whitelist($current_url=null){
+    if(!$current_url) return;
+    $whitelist = array(
+        '/items/search',
+        '/guest-user/',
+        '/contribution/',
+        '/exhibits/',
+        '/neatline/',
+    );
+    foreach($whitelist as $allowed){
+        if(0 === strpos($current_url, $allowed)) return true;
+    }
+    return false;
+}
+
 /*
 ** Remove select plugin/core assets from queue
 ** view: $this
