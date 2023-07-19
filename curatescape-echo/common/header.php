@@ -67,8 +67,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     ?>
 
     <style>
-    <?php echo rl_configured_css();
-    ?>
+    <?php echo rl_configured_css();?>
     </style>
     
     <!-- Preconnect to Map JSON -->
