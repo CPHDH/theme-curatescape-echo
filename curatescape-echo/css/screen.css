@@ -136,6 +136,7 @@
   --instagram: #000;
   --youtube: #de2826;
   --pinterest: #c82828;
+  --mastodon: #595aff;
   --reddit: #ff4501;
   --tumblr: #36465d;
   --wordpress: #0087be;
@@ -843,6 +844,12 @@ input[type="submit"].icon-round,
   color: #fff;
   border-color: #fff;
   background: var(--pinterest);
+}
+.button[title="mastodon"]:hover,
+.button[title="mastodon"]:focus {
+  color: #fff;
+  border-color: #fff;
+  background: var(--mastodon);
 }
 .button[title="reddit"]:hover,
 .button[title="reddit"]:focus {
