@@ -1335,6 +1335,14 @@ function rl_post_date()
    if (get_theme_option('show_datestamp') > 0) {
       $a=format_date(metadata('item', 'added'));
       $m=format_date(metadata('item', 'modified'));
+      return '<div class="item-post-date">'.__('Published %s.', $a).(($a!==$m) ? ' '.__('Last updated %s.', $m) : null).'</div>';
+   }
+}
+function rl_post_date_header()
+{
+   if (get_theme_option('show_datestamp_header') > 0) {
+      $a=format_date(metadata('item', 'added'));
+      $m=format_date(metadata('item', 'modified'));
       return '<div class="item-post-date byline">'.__('Published %s.', $a).(($a!==$m) ? ' '.__('Last updated %s.', $m) : null).'</div>';
    }
 }
