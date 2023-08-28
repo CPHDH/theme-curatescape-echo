@@ -2189,6 +2189,7 @@ body#map.item-map .query-header {
 .curatescape-infowindow {
   font-family: var(--font-body);
   padding: 1em;
+  text-wrap: balance;
 }
 .leaflet-container .curatescape-infowindow-title {
   font-weight: 800;
@@ -2424,6 +2425,10 @@ nav.rl-toc ul {
   width: 100%;
   border-bottom: 1px solid var(--bg-article);
   color: var(--text-base);
+}
+.icon-capsule:hover,
+.icon-capsule:active {
+  color: inherit;
 }
 .icon-capsule .icon {
   width: 2em;
