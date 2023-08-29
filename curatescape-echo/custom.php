@@ -305,11 +305,13 @@ function rl_assets_blacklist($view=null, $paths=array())
       foreach ($scripts as $key=>$file) {
          foreach ($paths as $path) {
             if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
-               // do nothing if this is an exhibit... might need the Geolocation plugin assets
-            }elseif ($file->attributes['src'] && strpos($file->attributes['src'], $path) !== false) {
-               $scripts[$key]->type = null;
-               $scripts[$key]->attributes['src'] = null;
-               $scripts[$key]->attributes['source'] = null;
+               // do nothing if this is an exhibit (allow map)
+            }elseif(0 === strpos(current_url(), '/guest-user/') && $path == '/plugins/GuestUser/views/public/javascripts'){
+              // do nothing if this is a guest user page
+            }elseif (isset($file->attributes['src']) && strpos($file->attributes['src'], $path) !== false) {
+                 $scripts[$key]->type = null;
+                 $scripts[$key]->attributes['src'] = null;
+                 $scripts[$key]->attributes['source'] = null;
             }
          }
       }
@@ -317,7 +319,7 @@ function rl_assets_blacklist($view=null, $paths=array())
       foreach ($styles as $key=>$file) {
          foreach ($paths as $path) {
             if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
-               // do nothing if this is an exhibit... might need the Geolocation plugin assets
+               // do nothing if this is an exhibit (allow map)
             }elseif ($file->href && strpos($file->href, $path) !== false) {
                $styles[$key]->href = null;
                $styles[$key]->type = null;

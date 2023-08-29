@@ -60,7 +60,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <!-- Assets -->
     <?php  
     fire_plugin_hook('public_head', array('view'=>$this));
-    rl_assets_blacklist($this, array('/plugins/Geolocation','admin-bar','family=Arvo:400'));
+    rl_assets_blacklist($this, array('/plugins/Geolocation','/plugins/GuestUser/views/public/javascripts','admin-bar','family=Arvo:400'));
     rl_theme_css();
     echo head_css();
     echo head_js(rl_jquery_whitelist(current_url()));
