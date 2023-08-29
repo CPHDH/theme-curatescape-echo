@@ -286,6 +286,7 @@ function rl_jquery_whitelist($current_url=null){
         '/contribution/',
         '/exhibits/',
         '/neatline/',
+        '/users/login',
     );
     foreach($whitelist as $allowed){
         if(0 === strpos($current_url, $allowed)) return true;
