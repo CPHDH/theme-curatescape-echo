@@ -746,7 +746,7 @@ input[type="submit"].button-primary:focus,
 .button-primary:focus {
   color: var(--button-primary-text-color-hover);
   background: var(--button-primary-bg-color-hover);
-  border-color: var(-button-p-border-color-hover);
+  border-color: var(--button-primary-border-color-hover);
 }
 .button-wide {
   display: block;
@@ -997,7 +997,7 @@ button.remove_search:before {
 }
 input[type="file"] {
   width: auto;
-  min-width: none;
+  min-width: 0;
   max-width: 100%;
   font-size: 16px;
   border-width: 1px;
@@ -1977,7 +1977,7 @@ article header .background-image {
 article header .background-image.portrait {
   background-position: center 35%;
 }
-@media print or screen and (prefers-contrast: more),
+@media print, screen and (prefers-contrast: more),
   (-ms-high-contrast media feature) {
   #collections.show .background-image,
   article header .background-image {
