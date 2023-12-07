@@ -1392,11 +1392,16 @@ header.primary a#home-logo {
   height: var(--site-header-height);
   background-color: var(--site-header-bg-logo, transparent);
 }
-header.primary a#home-logo img {
+header.primary a#home-logo picture {
   max-height: var(--site-header-height);
   padding: 10px 1em;
   flex-grow: 0;
   align-self: center;
+  display: flex;
+}
+header.primary a#home-logo img{
+  align-self: center;
+  max-height: calc(var(--site-header-height) - 20px);
 }
 header.primary nav #nav-interactive {
   background: var(--site-header-bg-menu);
