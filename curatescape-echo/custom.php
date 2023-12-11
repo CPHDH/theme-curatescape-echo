@@ -2074,38 +2074,21 @@ function rl_item_files_by_type($item=null, $output=null)
 }
 
 /*
-These images load via js unless the $class is set to "featured" (i.e. in article header)
-Should be used with rl_nojs_images() for users w/o js
+Use $hrefOverride in article header
 */
 function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)
 {
     if (isset($image) && $image['src']) {
         $src = WEB_ROOT.'/files/fullsize/'.$image['src'];
         $url = WEB_ROOT.'/files/show/'.$image['id'];
-        $data_or_style_attr = $class == 'featured' ? 'style' : 'data-style';
         $html = '<figure class="image-figure '.$class.'" itemscope itemtype="http://schema.org/ImageObject">';
-          if($hrefOverride){
-            $html .= '<div itemprop="associatedMedia" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" '.$data_or_style_attr.'="background-image:url('.$src.')" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"></div>';
-          }else{
-            $html .= '<a itemprop="associatedMedia" aria-label="Image: '.$image['title'].'" href="'.$src.'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" '.$data_or_style_attr.'="background-image:url('.$src.')" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"></a>';
-          }
+            $html .= '<a itemprop="associatedMedia" aria-label="Image: '.$image['title'].'" href="'.($hrefOverride ? $hrefOverride : $src).'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"><img width="'.$image['size'][0].'" height="'.$image['size'][1].'" alt="'.$image['title'].'" loading="lazy" src="'.$src.'"></a>';
           $html .= '<figcaption>'.$image['caption'].'</figcaption>';
         $html .= '</figure>';
         return $html;
     }else{
       return null;
     }
-}
-
-/*
-These fallback styles load in a <noscript> tag
-*/
-function rl_nojs_images($images=array(), $css=null)
-{
-    foreach ($images as $img) {
-        $css .= '.file-'.$img['id'].'{background-image:url('.WEB_ROOT.'/files/fullsize/'.$img['src'].');}';
-    }
-    return '<style>'.$css.'</style>';
 }
 
 function rl_nojs_map(){
