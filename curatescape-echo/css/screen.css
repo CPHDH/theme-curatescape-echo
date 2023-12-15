@@ -133,6 +133,7 @@
   /* Social */
   --facebook: #305891;
   --twitter: #000;
+  --threads: #000;
   --instagram: #000;
   --youtube: #de2826;
   --pinterest: #c82828;
@@ -826,6 +827,12 @@ input[type="submit"].icon-round,
   color: #fff;
   border-color: #fff;
   background: var(--twitter);
+}
+.button[title="threads"]:hover,
+.button[title="threads"]:focus {
+  color: #fff;
+  border-color: #fff;
+  background: var(--threads);
 }
 .button[title="instagram"]:hover,
 .button[title="instagram"]:focus {
