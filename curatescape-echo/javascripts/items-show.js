@@ -331,18 +331,23 @@ const scrollEvents = (entries, observer) => {
     }
   });
 };
-// MAIN
-document.onreadystatechange = () => {
-  if (document.readyState === "complete") {
-    streamingMediaControls();
-    smoothAnchorLinks();
-    if ("IntersectionObserver" in window) {
-      let observer = new IntersectionObserver(scrollEvents, {});
-      let sections = document.querySelectorAll("[data-toc] > *");
-      sections.forEach((section) => observer.observe(section));
-    } else {
-      loadPhotoSwipe(document.querySelector('[data-toc="#images"]'));
-      loadMapSingle();
-    }
+// ITEM SHOW / MAIN
+const itemShow = () =>{
+  streamingMediaControls();
+  smoothAnchorLinks();
+  if ("IntersectionObserver" in window) {
+    let observer = new IntersectionObserver(scrollEvents, {});
+    let sections = document.querySelectorAll("[data-toc] > *");
+    sections.forEach((section) => observer.observe(section));
+  } else {
+    loadPhotoSwipe(document.querySelector('[data-toc="#images"]'));
+    loadMapSingle();
   }
-};
+}
+// MAIN
+let isReady = setInterval(() => {
+  if (document.readyState === 'complete') {
+    clearInterval(isReady);
+    itemShow();
+  }
+}, 100);
