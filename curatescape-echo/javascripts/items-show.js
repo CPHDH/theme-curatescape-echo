@@ -225,7 +225,6 @@ const streamingMediaControls = () => {
     );
   });
 };
-
 // IMAGE VIEWER / PHOTOSWIPE
 const loadPhotoSwipe = (target) => {
   if (!target) {
@@ -273,7 +272,6 @@ const loadPhotoSwipe = (target) => {
     });
   });
 };
-
 // ANCHOR LINK SMOOTH SCROLLING
 const smoothAnchorLinks = () => {
   let reduced_motion =
@@ -293,7 +291,6 @@ const smoothAnchorLinks = () => {
     });
   });
 };
-
 // OBSERVER CALLBACK
 // Loads PhotoSwipe on intersection
 // Loads Map on intersection
