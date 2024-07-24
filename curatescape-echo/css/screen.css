@@ -1381,7 +1381,10 @@ hr {
   margin: 1rem 0;
   max-width: 200px;
 }
-
+.sep-bar {
+  vertical-align: middle;
+  font-size: .7rem;
+}
 /* Header Primary */
 header.primary {
   width: 100%;
