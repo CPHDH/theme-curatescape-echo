@@ -1743,13 +1743,13 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
                     $secondary .= rl_the_byline($item, false);
                   $secondary .= '</div>';
                 $secondary .= '</div>';
-            $secondary .= '</article>';          
+            $secondary .= '</article>';
           }
           $index++;
         }
       $html .= $primary.'<div class="secondary">'.$secondary.'</div>';
       $html .= '</div>';
-      $html .= '<div class="view-more-link"><a class="button" href="'.url('items').'?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></div>';
+      $html .= '<div class="view-more-link"><a class="button" href="'.url('items/browse').'?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></div>';
       return '<section id="home-featured" class="inner-padding browse">'.$html.'</section>';
     }else{
       return rl_admin_message('home-featured',array('admin','super'));

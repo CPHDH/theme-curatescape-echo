@@ -135,7 +135,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
         loadJS('<?php echo src('global.js', 'javascripts');?>',()=>{
             <?php if (is_current_url('/items/show')):?>
                 loadJS('<?php echo src('items-show.js', 'javascripts');?>');
-            <?php elseif (is_current_url('/tours/show') || is_current_url('/items/browse') || is_current_url('/') || is_current_url('/items/map')):?>
+            <?php elseif (is_current_url('/tours/show') || is_current_url('/items/browse') || is_current_url('/') || is_current_url('/items/map') || is_current_url('/items?featured=1')):?>
                 loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
             <?php endif;?>
         });
