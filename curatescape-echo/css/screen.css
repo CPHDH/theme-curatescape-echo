@@ -2403,14 +2403,19 @@ figure#item-documents {
 figure#item-documents table {
   font-size: 0.833em;
   text-align: left;
+  width: 100%;
   max-width: 100%;
 }
 figure#item-documents td {
-  padding: 0.5em 1em 0.5em 0;
+  padding: 0.5em 1em 1em 0;
   border-bottom: var(--deco-border);
 }
 figure#item-documents td.info {
   text-transform: uppercase;
+}
+figure#item-documents td.info,
+figure#item-documents td.title{
+  line-height: 1.2;
 }
 @media screen and (max-width: 600px) {
   figure#item-documents th:nth-child(2),
