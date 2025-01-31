@@ -43,18 +43,16 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
                         set_current_record('item', $tourItem);
                         $url=url('/items/show/'.$tourItem->id.'?tour='.tour('id').'&index='.($i-1).'');
                         $custom = method_exists($tour,'getTourItem') ? $tour->getTourItem($tourItem->id) : null;
+                        $itemLede = rl_the_lede($tourItem);
                         if($custom && isset($custom['text']) && $custom['text']){
-                        // the custom tour item Description
-                        $itemText = $custom['text'];
-                        }elseif(($itemLede = strip_tags(rl_the_lede($tourItem))) && (strlen($itemLede) > 150 && strlen($itemLede) <= 400)) {
-                        // the entire Lede if it's not too short (<150) or too long (>400)
-                        $itemText = $itemLede;
-                        } elseif (($itemLede = strip_tags(rl_the_lede($tourItem))) && (strlen($itemLede) > 400)) {
-                        // an excerpt of the Lede
-                        $itemText = snippet($itemLede, 0, 400, '&hellip;');
+                            // the custom tour item Description
+                            $itemText = $custom['text'];
+                        }elseif(($itemLede) && (strlen($itemLede) > 150)) {
+                            // the Lede if it's not too short, up to 400 chars
+                            $itemText = snippet($itemLede, 0, 400, '&hellip;');
                         } else {
-                        // an excerpt of the Story
-                        $itemText = snippet(rl_the_text($tourItem), 0, 300, '&hellip;');
+                            // an excerpt of the Story
+                            $itemText = snippet(rl_the_text($tourItem), 0, 300, '&hellip;');
                         }
                         $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a> <span class="sep-bar" aria-hidden="true">&mdash;</span> <a role="button" data-index="'.$i.'" data-id="'.$tourItem->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';
                         ?>

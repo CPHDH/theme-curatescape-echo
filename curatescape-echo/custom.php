@@ -1558,10 +1558,9 @@ function rl_file_metadata_additional($file='file', $html=null)
 */
 function embeddableVersion($file, $title=null, $desc=null, $field=array('Dublin Core','Relation'), $caption=true)
 {
-    $youtube= (strpos(metadata($file, $field), 'youtube.com')) ? metadata($file, $field) : false;
-    $youtube_shortlink= (strpos(metadata($file, $field), 'youtu.be')) ? metadata($file, $field) : false;
-    $vimeo= (strpos(metadata($file, $field), 'vimeo.com')) ? metadata($file, $field) : false;
-
+    $youtube= (metadata($file, $field) && strpos(metadata($file, $field), 'youtube.com')) ? metadata($file, $field) : false;
+    $youtube_shortlink= (metadata($file, $field) && strpos(metadata($file, $field), 'youtu.be')) ? metadata($file, $field) : false;
+    $vimeo= (metadata($file, $field) && strpos(metadata($file, $field), 'vimeo.com')) ? metadata($file, $field) : false;
     if ($youtube) {
         // assumes YouTube links look like https://www.youtube.com/watch?v=NW03FB274jg where the v query contains the video identifier
         $url=parse_url($youtube);

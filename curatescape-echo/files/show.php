@@ -1,5 +1,7 @@
 <?php
-    $fileTitle = metadata('file', array('Dublin Core', 'Title')) ? strip_formatting(metadata('file', array('Dublin Core', 'Title'))) : __('Untitled');
+    $fileTitle = strlen(metadata('file', array('Dublin Core', 'Title'))) ? strip_formatting(metadata('file', array('Dublin Core', 'Title'))) : __('Untitled');
+    $record=get_record_by_id('Item', $file->item_id);
+    $itemTitle = $record && $record->display_title ? strip_tags($itemTitle) : null;
 
     echo head(array('file'=>$file, 'maptype'=>'none','bodyid'=>'file','bodyclass'=>'show item-file','title' => $fileTitle ));
 ?>
@@ -12,12 +14,11 @@
             <?php
             $info = array();
             ($fileid=metadata('file', 'id')) ? $info[]='<span class="file-id">ID: '.$fileid.'</span>' : null;
-            ($record=get_record_by_id('Item', $file->item_id)) ? $info[]=__('This file appears in').': '.link_to_item(strip_tags($record->display_title), array('class'=>'file-appears-in-item'), 'show', $record) : null;
+            $record ? $info[]=__('This file appears in').': '.link_to_item($itemTitle, array('class'=>'file-appears-in-item'), 'show', $record) : null;
             echo count($info) ? '<span id="file-header-info" class="byline">'.implode(" | ", $info).'</span>' : null;
-            
             ?>
         </header>
-        
+
         <div id="item-primary" class="show">
             <div class="separator"></div>
 
@@ -35,8 +36,7 @@
             </figure>
             
             <a class="button" href="<?php echo file_display_url($file,'original');?>" download="<?php echo $file->id.'-'.$fileTitle;?>"><?php echo __('Download Original File');?></a>
-            
-            
+
             <?php if($m=rl_file_metadata_additional()){
                 echo '<div class="separator"></div><div class="additional_file_metadata">'. rl_file_metadata_additional().'</div>';
             }?>
@@ -44,7 +44,11 @@
  
             
             <div class="separator"></div>
-            <div class="byline"><?php echo ($record=get_record_by_id('Item', $file->item_id)) ? __('"%s" appears in',strip_tags($fileTitle)).': '.link_to_item(strip_tags($record->display_title), array('class'=>'file-appears-in-item'), 'show', $record) : null;?></div>
+            <div class="byline">
+                <?php 
+                echo $record ? __('"%s" appears in', strip_tags($fileTitle)).': '.link_to_item($itemTitle, array('class'=>'file-appears-in-item'), 'show', $record) : null;
+                ?>
+            </div>
 
         </div><!-- end primary -->
 
