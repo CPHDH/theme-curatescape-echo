@@ -133,6 +133,7 @@
   /* Social */
   --facebook: #305891;
   --twitter: #000;
+  --bluesky: #0067c5;
   --threads: #000;
   --instagram: #000;
   --youtube: #de2826;
@@ -827,6 +828,12 @@ input[type="submit"].icon-round,
   color: #fff;
   border-color: #fff;
   background: var(--twitter);
+}
+.button[title="bluesky"]:hover,
+.button[title="bluesky"]:focus {
+  color: #fff;
+  border-color: #fff;
+  background: var(--bluesky);
 }
 .button[title="threads"]:hover,
 .button[title="threads"]:focus {
