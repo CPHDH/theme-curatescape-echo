@@ -164,6 +164,9 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
             echo $noscript_styles;
         } ?>
     </noscript>
+
+    <!-- Prevent Firefox FOUC -->
+    <script>let ANY_VAR;</script>
 </head>
 
 <body id="<?php echo $bodyid;?>" class="<?php echo $bodyclass;?>">
