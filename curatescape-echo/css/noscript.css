@@ -2,11 +2,10 @@
 .media-button {
   visibility: hidden;
 }
-
+[class$='-js'],
 #comments-section {
   display: none;
 }
-
 #curatescape-map-canvas::after {
   content: "This content requires JavaScript";
   padding: 1em;
