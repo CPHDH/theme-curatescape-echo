@@ -26,6 +26,7 @@
   --bg-article: var(--light-primary);
   --bg-body-dark: var(--dark-tertiary-subtle);
   --bg-article-dark: var(--dark-tertiary-subtle);
+  --bg-tooltip: linear-gradient(to top right, rgba(0,0,0,.95), rgba(0,0,0,.75));
 
   /* Lines */
   --deco-color: #ccc;
@@ -147,6 +148,7 @@
   --email: #0078d7;
   --apple: #000;
   --android: #54802d;
+  --share: #06b724;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -934,13 +936,20 @@ input[type="submit"].icon-round,
 }
 
 /* Other buttons */
-.button[title="print"]:hover,
-.button[title="print"]:focus {
+.button.share-js:hover,
+.button.share-js:focus{
+  color: #fff;
+  border-color: #fff;
+  background: var(--share);
+}
+.button.print-js:hover,
+.button.print-js:focus,
+.button.copy-js:hover,
+.button.copy-js:focus {
   color: #fff;
   border-color: #fff;
   background: var(--dark-primary);
 }
-
 /* Forms */
 form {
   font-family: var(--font-ui);
@@ -2048,8 +2057,53 @@ aside#social-actions {
   flex-direction: row;
   justify-content: flex-end;
 }
+@media all and (max-width: 600px){
+  aside#social-actions {
+    justify-content: center;
+  }
+}
 aside#social-actions .button {
   font-size: 0.833em;
+}
+aside#social-actions [data-loading="true"]{
+  opacity: 0;
+  transition: opacity .15s
+}
+aside#social-actions [data-loading="false"]{
+  opacity: 1;
+}
+aside#social-actions .button.social{
+  position: relative;
+}
+aside#social-actions .button[data-tooltip]::before{
+  content: attr(data-confirmation);
+  position: absolute;
+  z-index: 9;
+  top:-1.85em;
+  transform:translateY(-50%);
+  max-width: 350px;
+  text-align:center;
+  left: 0; 
+  right: 0; 
+  margin: 0 -1em; 
+  min-width: calc(100% + 2em);
+  line-height: 1;
+  padding: 10px 5px;
+  display: none;
+  background: var(--bg-tooltip);
+  color: var(--text-base-on-dark);
+  font-family: var(--font-ui);
+  font-size: .7rem;
+  text-transform: uppercase;
+  border-radius: 3px;
+  opacity: 0;
+  transition-behavior: allow-discrete;
+  transition-duration: 0.5s;
+  transition-property: display, opacity;
+}
+aside#social-actions .button[data-tooltip="true"]::before{
+  opacity: 1;
+  display: block;
 }
 /* Story Images */
 figure.image-figure,

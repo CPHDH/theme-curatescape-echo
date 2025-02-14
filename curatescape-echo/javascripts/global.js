@@ -6,9 +6,17 @@ const body = document.querySelector("body");
 const map_container = document.querySelector("#curatescape-map-canvas");
 const multimap_button = document.querySelector("#show-multi-map");
 const main = document.querySelector("[role=main]");
-const secondary_nav_actives = document.querySelectorAll(
-  ".secondary-nav li.active"
-);
+const secondary_nav_actives = document.querySelectorAll(".secondary-nav li.active");
+const actionButtons = document.querySelector('#social-actions .link-icons');
+// APPEND LIVE REGION FOR SCREEN READER ANNOUNCEMENTS
+let liveRegion = document.createElement('div');
+liveRegion.classList.add('screen-reader');
+liveRegion.setAttribute('aria-live','polite');
+body.appendChild(liveRegion);
+// SCREEN READER ANNOUNCE
+const liveRegionAnnounce = (text, region = liveRegion)=>{
+  region.textContent = text;
+}
 // GLOBAL HELPERS
 const getCookie = (cookie_name) => {
   let c_name = cookie_name + "=";
@@ -223,4 +231,96 @@ if (dark_browsercompatible) {
   });
 } else {
   document.querySelector(".menu-darkmode-container").remove();
+}
+// VISUAL CONFIRMATION
+const visualConfirmation = (buttonobj, icon, icon_alt, duration = 2000)=>{
+  // momentary icon swap
+  icon.hidden=true;
+  icon_alt.hidden=false;
+  // display tooltip
+  buttonobj.setAttribute('data-tooltip',true);
+  setTimeout(()=>{
+    icon.hidden=false;
+    icon_alt.hidden=true;
+    buttonobj.setAttribute('data-tooltip',false);
+    buttonobj.blur();
+  }, duration);
+}
+// SHARE BUTTON (Web Share API)
+const doShareButton = (share_btn)=>{
+  share_btn.addEventListener('click',()=>{
+      let icon = share_btn.querySelector('.default');
+      let icon_alt = share_btn.querySelector('.confirmation');
+      navigator.share({
+        title: share_btn.dataset.title,
+        url: window.location.toString(),
+      }).then(()=> {
+        // visual confirmation
+        visualConfirmation(share_btn, icon, icon_alt);
+        // screen reader confirmation
+        liveRegionAnnounce(share_btn.dataset.confirmation);
+      }, 
+      (error)=>{
+        console.error(error);
+      });
+  });
+}
+// COPY BUTTON
+const doCopyButton = (copy_btn)=>{
+  copy_btn.addEventListener('click',()=>{
+    let icon = copy_btn.querySelector('.default');
+    let icon_alt = copy_btn.querySelector('.confirmation');
+    navigator.clipboard.writeText(window.location.toString()).then(()=>{
+        // visual confirmation
+        visualConfirmation(copy_btn, icon, icon_alt);
+        // screen reader confirmation
+        liveRegionAnnounce(copy_btn.dataset.confirmation);
+      },
+      (error)=>{
+        console.error(error);
+    });
+  });
+}
+// PRINT BUTTON
+const doBeforePrint = (pressed)=>{
+  if(pressed !== 0) return;
+  console.log(pressed)
+  let lazyImages = document.querySelectorAll('img[loading="lazy"]');
+  lazyImages.forEach(img => {
+    img.setAttribute('loading','eager');
+  });
+}
+// ACTION BUTTONS INIT
+if(actionButtons){
+  let share_btn = actionButtons.querySelector('.button.share-js');
+  let copy_btn = actionButtons.querySelector('.button.copy-js');
+  let print_btn = actionButtons.querySelector('.button.print-js');
+  if(navigator.share && window.location.protocol == "https:"){
+    doShareButton(share_btn);
+  }else{
+    share_btn.hidden=true;
+  }
+  if(navigator.clipboard){
+    doCopyButton(copy_btn);
+  }else{
+    copy_btn.hidden=true;
+  }
+  if(print_btn){
+    let pressed = 0;
+    print_btn.addEventListener('touchstart',()=>{
+      doBeforePrint(pressed);
+      pressed++;
+    });
+    print_btn.addEventListener('mousedown',()=>{
+      doBeforePrint(pressed);
+      pressed++;
+    });
+    window.addEventListener('beforeprint', () => {
+      // this typically fires too late to be of use 
+      // but we'll leave it here for printing sans button, e.g. command+P
+      doBeforePrint(pressed);
+      pressed++;
+    });
+  }
+  actionButtons.setAttribute('data-loading', false); // fade-in
 }

@@ -55,7 +55,7 @@ echo head(array(
         </div>
     </header>
     <aside id="social-actions" class="max-content-width inner-padding-flush">
-        <?php echo rl_story_actions('transparent-on-light', rl_seo_pagetitle(metadata($item, array('Dublin Core', 'Title')), $item), $item->id);?>
+        <?php echo rl_article_actions(strip_tags(rl_the_title()), rl_item_label());?>
     </aside>
     <div class="separator wide thin"></div>
     <div class="story-columns inner-padding max-content-width">

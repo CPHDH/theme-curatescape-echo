@@ -2203,19 +2203,20 @@ function rl_find_us($class=null, $max=5)
 }
 
 /*
-** Build a series of icon action buttons for the story (i.e. print/share)
-** @todo: https://css-tricks.com/simple-social-sharing-links/
+** Build a series of icon action buttons for the story or tour
+** See also: global.js
+** [data-loading] attribute used for CSS animation
 */
-function rl_story_actions($class=null, $title=null, $id=null)
+function rl_article_actions($title=null, $typeLabel=null, $containerClass='transparent-on-light')
 {
-   $url=WEB_ROOT.'/items/show/'.$id;
    $actions = array(
-      '<a rel="noopener" title="print" href="javascript:void" onclick="window.print();" class="button social icon-round">'.rl_icon("print").'</a>',
-      '<a target="_blank" rel="noopener" title="email" href="'.w3_valid_url('mailto:?subject='.$title.'&body='.$url).'" class="button social icon-round">'.rl_icon("mail").'</a>',
-      '<a target="_blank" rel="noopener" title="facebook" href="https://www.facebook.com/sharer/sharer.php?u='.urlencode($url).'" class="button social icon-round">'.rl_icon("logo-facebook", null).'</a>',
-      '<a target="_blank" rel="noopener" title="twitter/x" href="https://twitter.com/intent/tweet?text='.urlencode($url).'" class="button social icon-round">'.rl_icon("logo-x", null).'</a>'
+     '<a title="'.__('Share').'" role="button" href="javascript:void(0)" class="button social share-js" data-confirmation="'.__('%s share complete!', $typeLabel).'" data-title="'.$title.'"><span class="default">'.rl_icon("arrow-redo").'</span><span hidden class="confirmation">'.rl_icon("checkmark-circle").'</span>'.__('Share').'</a>',
+
+     '<a title="'.__('Copy Link').'" role="button" href="javascript:void(0)" class="button social copy-js" data-confirmation="'.__('%s link copied!', $typeLabel).'"><span class="default">'.rl_icon("link").'</span><span hidden class="confirmation">'.rl_icon("checkmark-circle").'</span>'.__('Copy Link').'</a>',
+
+      '<a title="'.__('Print').'" role="button" href="javascript:void(0)" onclick="window.print();" class="button social print-js">'.rl_icon("print").__('Print').'</a>',
    );
-   return '<div class="link-icons '.$class.'">'.implode(' ', $actions).'</div>';
+   return '<div data-loading="true" class="link-icons '.$containerClass.'">'.implode(' ', $actions).'</div>';
 }
 
 

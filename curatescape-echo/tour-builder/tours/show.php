@@ -23,7 +23,7 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
         <div class="max-content-width">
             <div class="separator thin wide"></div>
             <aside id="social-actions" class="inner-padding-flush">
-                <?php echo rl_story_actions('transparent-on-light', $tourTitle, tour('id'));?>
+                <?php echo rl_article_actions(strip_tags($tourTitle),rl_tour_label());?>
             </aside>
         </div>
         <div class="separator wide thin"></div>
