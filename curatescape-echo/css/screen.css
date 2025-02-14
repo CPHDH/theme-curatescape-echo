@@ -299,9 +299,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
+[hidden]{
+  display: none !important;
+  visibility: hidden !important;
+}
 /* Basics */
-
 html {
   font-size: 18px;
   font-weight: 400;

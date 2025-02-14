@@ -363,17 +363,17 @@ function rl_seo_sitedesc()
 /*
 ** SEO Page Title
 */
-function rl_seo_pagetitle($title, $item)
+function rl_seo_pagetitle($title, $item, $appendSiteTitle=true)
 {
    $subtitle=$item ? (rl_the_subtitle($item) ? ' - '.rl_the_subtitle($item) : null) : null;
-   $pt = $title ? $title.$subtitle.' | '.option('site_title') : option('site_title');
+   $pt = $title ? $title.$subtitle.($appendSiteTitle ? ' | '.option('site_title') : null) : option('site_title');
    return strip_tags($pt);
 }
 
 /*
 ** SEO Page Image
 */
-function rl_seo_pageimg($item=null, $file=null, $tour = null)
+function rl_seo_pageimg($item=null, $file=null, $tour=null)
 {
     if ($item) {
         if (metadata($item, 'has thumbnail')) {
