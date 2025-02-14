@@ -1319,7 +1319,7 @@ function rl_the_byline($itemObj='item', $include_sponsor=false)
                $delim ='';
                break;
                case ($total-1):
-               $delim =' <span class="amp">&amp;</span> ';
+               $delim =($total > 2 ? ',' : '').'&nbsp;<span class="amp">&amp;</span>&nbsp;';
                break;
                
                default:
