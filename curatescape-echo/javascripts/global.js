@@ -15,6 +15,7 @@ liveRegion.setAttribute('aria-live','polite');
 body.appendChild(liveRegion);
 // SCREEN READER ANNOUNCE
 const liveRegionAnnounce = (text, region = liveRegion)=>{
+  if(!text) return;
   region.textContent = text;
 }
 // GLOBAL HELPERS
@@ -234,15 +235,23 @@ if (dark_browsercompatible) {
 }
 // VISUAL CONFIRMATION
 const visualConfirmation = (buttonobj, icon, icon_alt, duration = 2000)=>{
-  // momentary icon swap
-  icon.hidden=true;
-  icon_alt.hidden=false;
+  // icon swap
+  if(icon && icon_alt){
+    icon.hidden=true;
+    icon_alt.hidden=false;
+  }
   // display tooltip
-  buttonobj.setAttribute('data-tooltip',true);
+  if(buttonobj.dataset.confirmation){
+    buttonobj.setAttribute('data-tooltip',true);
+  }
   setTimeout(()=>{
-    icon.hidden=false;
-    icon_alt.hidden=true;
-    buttonobj.setAttribute('data-tooltip',false);
+    if(icon && icon_alt){
+      icon.hidden=false;
+      icon_alt.hidden=true;
+    }
+    if(buttonobj.dataset.confirmation){
+      buttonobj.setAttribute('data-tooltip',false);
+    }
     buttonobj.blur();
   }, duration);
 }

@@ -2210,7 +2210,7 @@ function rl_find_us($class=null, $max=5)
 function rl_article_actions($title=null, $typeLabel=null, $containerClass='transparent-on-light')
 {
    $actions = array(
-     '<a title="'.__('Share').'" role="button" href="javascript:void(0)" class="button social share-js" data-confirmation="'.__('%s share complete!', $typeLabel).'" data-title="'.$title.'"><span class="default">'.rl_icon("arrow-redo").'</span><span hidden class="confirmation">'.rl_icon("checkmark-circle").'</span>'.__('Share').'</a>',
+     '<a title="'.__('Share').'" role="button" href="javascript:void(0)" class="button social share-js" data-title="'.$title.'">'.rl_icon("arrow-redo").__('Share').'</a>',
 
      '<a title="'.__('Copy Link').'" role="button" href="javascript:void(0)" class="button social copy-js" data-confirmation="'.__('%s link copied!', $typeLabel).'"><span class="default">'.rl_icon("link").'</span><span hidden class="confirmation">'.rl_icon("checkmark-circle").'</span>'.__('Copy Link').'</a>',
 

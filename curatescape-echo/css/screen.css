@@ -2075,7 +2075,7 @@ aside#social-actions [data-loading="false"]{
 aside#social-actions .button.social{
   position: relative;
 }
-aside#social-actions .button[data-tooltip]::before{
+aside#social-actions .button[data-confirmation][data-tooltip]::before{
   content: attr(data-confirmation);
   position: absolute;
   z-index: 9;
@@ -2101,7 +2101,7 @@ aside#social-actions .button[data-tooltip]::before{
   transition-duration: 0.5s;
   transition-property: display, opacity;
 }
-aside#social-actions .button[data-tooltip="true"]::before{
+aside#social-actions .button[data-confirmation][data-tooltip="true"]::before{
   opacity: 1;
   display: block;
 }
