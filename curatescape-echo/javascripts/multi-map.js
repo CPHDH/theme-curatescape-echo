@@ -18,6 +18,7 @@ const mapfigure = document.querySelector("figure#multi-map");
 const map_attr = mapfigure.dataset;
 let map_title = container.getAttribute("data-label");
 let mapped = 0;
+let mapDidReset = false;
 let tileprovider = null;
 let map = null;
 let group = null;
@@ -133,7 +134,7 @@ const loadingTitleRemove = ()=>{
 }
 
 // JSON FETCH AND ADD MARKERS
-const markerFetchAndAdd = (dataSource,isGlobalMap,requested_id)=>{
+const markerFetchAndAdd = (dataSource,isGlobalMap,requested_id,term)=>{
   pauseInteraction(map, isGlobalMap);
   loadingTitleAdd();
   fetch(dataSource)
@@ -210,7 +211,11 @@ const markerFetchAndAdd = (dataSource,isGlobalMap,requested_id)=>{
         // Bounds
         bounds = group.getBounds();
         if (!requestedMarker) {
-          map.fitBounds(bounds, { padding: [20,20] });
+          if(!isEmpty(term) || map_attr.fixedCenter !== "1"){
+            map.fitBounds(bounds, { padding: [20,20] });
+          }else if(mapDidReset && map_attr.fixedCenter == "1"){
+            map.setView([map_attr.lat, map_attr.lon], map_attr.zoom);
+          }
         }
         resumeInteraction(map, !isGlobalMap, isGlobalMap);
       });
@@ -221,7 +226,11 @@ const markerFetchAndAdd = (dataSource,isGlobalMap,requested_id)=>{
       // Bounds
       bounds = group.getBounds();
       if (!requestedMarker) {
-        map.fitBounds(bounds,{ padding: [20,20] });
+        if(!isEmpty(term) || map_attr.fixedCenter !== "1"){
+          map.fitBounds(bounds,{ padding: [20,20] });
+        }else if(mapDidReset && map_attr.fixedCenter == "1"){
+          map.setView([map_attr.lat, map_attr.lon], map_attr.zoom);
+        }
       }
       resumeInteraction(map, !isGlobalMap, isGlobalMap);
     }
@@ -243,6 +252,7 @@ const markerFetchAndAdd = (dataSource,isGlobalMap,requested_id)=>{
 
 // RESET MARKERS DATA
 const markerReset = (term,label)=>{
+  mapDidReset = true;
   if (map.hasLayer(group)) map.removeLayer(group);
   if (map.hasLayer(cluster_group)) map.removeLayer(cluster_group);
   map_title = label;
@@ -255,7 +265,7 @@ const markerReset = (term,label)=>{
     dataSource = map_attr.rootUrl +
     "/items/browse?output=mobile-json";
   }
-  markerFetchAndAdd(dataSource,true,null);
+  markerFetchAndAdd(dataSource,true,null,term);
 }
 
 // CONTROL FUNCTIONS

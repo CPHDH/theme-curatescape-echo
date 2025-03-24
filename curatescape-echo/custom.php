@@ -750,13 +750,13 @@ endif;
 /*
 ** Story Map - Multi
 */
-function rl_story_map_multi($tour=false)
+function rl_story_map_multi($tour=false, $hasTerms=false)
 {
   if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
     $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
     $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
     $zoom=(get_option('geolocation_default_zoom_level')) ? get_option('geolocation_default_zoom_level') : 12; ?>
-    <figure id="multi-map" data-json-source="?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo $tour && get_theme_option('tour_clustering') ? '1' : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>">
+    <figure id="multi-map" data-json-source="?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo $tour ? get_theme_option('tour_clustering') : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>" data-fixed-center="<?php echo !$hasTerms && !$tour ? get_theme_option('fixedcenter') : '0'; ?>">
         <div class="curatescape-map">
             <div id="curatescape-map-canvas"></div>
         </div>
@@ -788,7 +788,7 @@ function rl_homepage_map($ishome=true,$totalItems=null)
     <section id="home-map" class="inner-padding browse">
       <h2 class="query-header"><?php echo __('%s Map',rl_item_label());?></h2>
       <div id="home-map-container" data-label="<?php echo __('All %s',rl_item_label('plural')).': '.$totalItems;?>">
-        <figure id="multi-map" data-json-source="/items/browse?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo isset($tour) && get_theme_option('tour_clustering') ? '1' : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>">
+        <figure id="multi-map" data-json-source="/items/browse?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo isset($tour) && get_theme_option('tour_clustering') ? '1' : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>" data-fixed-center="<?php echo get_theme_option('fixedcenter'); ?>" >
           <div class="curatescape-map">
             <?php echo (get_theme_option('map_subjects') == 1) 
             ? rl_subjects_select(rl_get_subjects(),$totalItems) 
@@ -808,7 +808,7 @@ function rl_homepage_map($ishome=true,$totalItems=null)
 /*
 ** Outputs UI and hidden markup for multi-map
 */
-function multimap_markup($tour=false, $map_label=null, $button_label=null)
+function multimap_markup($tour=false, $map_label=null, $button_label=null, $hasTerms=false)
 {
   if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
     if (!$button_label) {
@@ -818,7 +818,7 @@ function multimap_markup($tour=false, $map_label=null, $button_label=null)
         $map_label = __('Map');
     } ?>
     <div id="multi-map-container" data-label="<?php echo htmlentities(strip_tags($map_label)); ?>">
-        <?php echo rl_story_map_multi($tour); ?>
+        <?php echo rl_story_map_multi($tour, $hasTerms); ?>
     </div>
     <div id="multi-map-overlay"></div>
     <a role="button" title="<?php echo htmlentities(strip_tags($button_label));?>" id="show-multi-map" class="pulse shadow-big" tabindex="0" aria-label="<?php echo htmlentities(strip_tags($button_label)); ?>" data-close="<?php echo __('Close Map or Press ESC Key');?>">

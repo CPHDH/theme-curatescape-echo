@@ -119,7 +119,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass
 
         </div><!-- end primary -->
             
-        <?php echo $total_results ? multimap_markup(false,$title) : null;?>
+        <?php echo $total_results ? multimap_markup(false, $title, null, ($maptype == 'queryresults')) : null;?>
             
     </article>
 </div> <!-- end content -->

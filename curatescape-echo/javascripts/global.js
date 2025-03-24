@@ -62,6 +62,21 @@ const safeText = (value) => {
   d.innerHTML = value;
   return d.innerText;
 };
+const isEmpty = (value) =>{
+  switch (value) {
+    case undefined:
+      return true;
+      break;
+    case null:
+      return true;
+      break;
+    case '':
+      return true;
+      break;
+    default:
+      return false;
+  }
+}
 // MAP PAUSE/RESUME FUNCTIONS
 const pauseInteraction = (map, ignore = false) => {
   if (map && !ignore) {
