@@ -1706,13 +1706,13 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
           set_current_record('item', $item);
           if($index == 1){
             if ($item_image = rl_get_first_image_src($item)) {
-              $size=getimagesize($item_image);
+              $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
-            } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
+            } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
               $img = item_image('fullsize');
               preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
               $item_image = array_pop($result);
-              $size=getimagesize($item_image);
+              $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
             }else{
               $orientation=null;
@@ -1785,13 +1785,13 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
           $tags=tag_string(get_current_record('item'), url('items/browse'));
           $hasImage=metadata($item, 'has thumbnail');
           if ($item_image = rl_get_first_image_src($item)) {
-            $size=getimagesize($item_image);
+            $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
-          } elseif ($hasImage && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
+          } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
             $img = item_image('fullsize');
             preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
             $item_image = array_pop($result);
-            $size=getimagesize($item_image);
+            $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
           }else{
             $orientation=null;
@@ -2045,8 +2045,8 @@ function rl_item_files_by_type($item=null, $output=null)
             switch ($mime) {
                case strpos($mime, 'image') !== false:
                $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP'), '.jpg', $file->filename);
-               $size=getimagesize(WEB_ROOT.'/files/fullsize/'.$src);
-               $orientation = $size[0] > $size[1] ? 'landscape' : 'portrait';
+               $size=getimagesize($_SERVER["DOCUMENT_ROOT"].'/files/fullsize/'.$src);
+               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
                array_push(
                   $output['images'],
                   array(
@@ -2054,7 +2054,7 @@ function rl_item_files_by_type($item=null, $output=null)
                   'id'=>$file->id,
                   'src'=>$src,
                   'caption'=>rl_file_caption($file),
-                  'size'=>array($size[0],$size[1]),
+                  'size'=>isset($size[1]) ? array($size[0],$size[1]) : array(null,null),
                   'orientation'=>$orientation)
                );
                break;
