@@ -2330,21 +2330,22 @@ function rl_font_config()
 function rl_font_loader()
 {
    if (rl_font_config()) { ?>
-      <script>
-      WebFontConfig = {
-      <?php echo rl_font_config(); ?>
-      };
-      (function(d) {
-      var wf = d.createElement('script'),
-      s = d.scripts[0];
-      wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
-      wf.async = true;
-      s.parentNode.insertBefore(wf, s);
-      })(document);
-      </script>
-   <?php } else { ?>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link href="<?php echo src('fonts.css', 'fonts');?>" media="all" rel="stylesheet">
+    <script>
+    WebFontConfig = {
+    <?php echo rl_font_config(); ?>
+    };
+    (function(d) {
+    var wf = d.createElement('script'),
+    s = d.scripts[0];
+    wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+    wf.async = true;
+    s.parentNode.insertBefore(wf, s);
+    })(document);
+    </script>
+   <?php } else { ?> 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="<?php echo src('fonts.css', 'fonts');?>" media="all" rel="stylesheet">
    <?php }
 }
 
@@ -2451,9 +2452,11 @@ function rl_ios_smart_banner()
     if ($appID != false) {
         $AppBanner = 'Curatescape_AppBanner_'.$appID;
         $numericID=str_replace('id', '', $appID);
-        if (!isset($_COOKIE[$AppBanner])) {
-            echo '<meta name="apple-itunes-app" content="app-id='.$numericID.'">';
-            setcookie($AppBanner, true, time()+86400); // 1 day
+        if (!isset($_COOKIE[$AppBanner])) { ?> 
+    <!-- iOS Smart Banner --> 
+    <meta name="apple-itunes-app" content="app-id=<?php echo $numericID;?>">
+        <?php
+        setcookie($AppBanner, true, time()+86400); // 1 day
         }
     }
 }

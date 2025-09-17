@@ -13,7 +13,6 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover">
     <meta name="theme-color" content="<?php echo get_theme_option('header_footer_color');?>" />
-
     <?php // PHP Variables
     $title = (isset($title)) ? htmlspecialchars($title) : null;
     $item = (isset($item)) ? $item : null;
@@ -21,8 +20,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     $file = (isset($file)) ? $file : null;
     $bodyid = isset($bodyid) ? $bodyid : 'default';
     $bodyclass = isset($bodyclass) ? $bodyclass.' curatescape' : 'default curatescape';
-    ?>
-
+    ?> 
     <!-- Meta / SEO -->
     <title><?php echo rl_seo_pagetitle($title, $item); ?></title>
     <meta name="description" content="<?php echo rl_seo_pagedesc($item, $tour, $file); ?>" />
@@ -56,11 +54,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <link rel="icon" type="image/svg+xml" href="<?php echo rl_favicon_svg_url();?>">
     <link rel="alternate icon" sizes="any" href="<?php echo rl_favicon_ico_url();?>">
     <link rel="apple-touch-icon" href="<?php echo rl_touch_icon_url();?>" />
-
-    <!-- iOS Smart Banner -->
     <?php echo rl_ios_smart_banner(); ?>
-
-    <!-- Fonts -->
     <?php echo rl_font_loader();?>
 
     <!-- RSS -->
