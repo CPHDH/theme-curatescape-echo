@@ -1,6 +1,6 @@
 <?php
 $maptype='tour';
-$tourTitle = strip_formatting(tour('title'));
+$tourTitle = htmlspecialchars_decode( tour('title') );
 $label = rl_tour_label('singular');
 if ($tourTitle != '' && $tourTitle != '[Untitled]') {
 } else {

@@ -44,7 +44,7 @@ if (($tag || $tags) && !($query)) {
     $title = __('All %s', rl_item_label('plural'));
     $bodyclass .=' items stories';
 }
-echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'items','bodyclass'=>$bodyclass));
+echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bodyid'=>'items','bodyclass'=>$bodyclass));
 ?>
 
 <div id="content" role="main" data-scrollto="<?php echo $scroll_to;?>">

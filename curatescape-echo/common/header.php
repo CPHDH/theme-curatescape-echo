@@ -15,7 +15,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <meta name="theme-color" content="<?php echo get_theme_option('header_footer_color');?>" />
 
     <?php // PHP Variables
-    $title = (isset($title)) ? $title : null;
+    $title = (isset($title)) ? htmlspecialchars($title) : null;
     $item = (isset($item)) ? $item : null;
     $tour = (isset($tour)) ? $tour : null;
     $file = (isset($file)) ? $file : null;

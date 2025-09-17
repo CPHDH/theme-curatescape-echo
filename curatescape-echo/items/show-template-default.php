@@ -31,7 +31,7 @@ echo head(array(
     'maptype'=>$maptype,
     'bodyid'=>'items',
     'bodyclass'=>'show item-story item-'.$item->id.($tour ? ' tour-'.$tour : null).(isset($tour_index) ? ' tour-index-'.$tour_index : null),
-    'title' => metadata($item, array('Dublin Core', 'Title'))
+    'title' => htmlspecialchars_decode(metadata($item, array('Dublin Core', 'Title')))
     ));
 ?>
 
