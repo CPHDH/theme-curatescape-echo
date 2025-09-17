@@ -26,6 +26,18 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <!-- Meta / SEO -->
     <title><?php echo rl_seo_pagetitle($title, $item); ?></title>
     <meta name="description" content="<?php echo rl_seo_pagedesc($item, $tour, $file); ?>" />
+    <?php if(
+        is_current_url('/search?') || 
+        is_current_url('/items/browse?') || 
+        is_current_url('/items?') || 
+        is_current_url('/tours/browse?') || 
+        is_current_url('/tours?') ||
+        is_current_url('/exhibits/browse?') || 
+        is_current_url('/exhibits?')
+    ):?> 
+    <!-- No Index: Generated/Query Content -->
+    <meta name="robots" content="noindex, follow">
+    <?php endif;?>
 
     <!-- FB Open Graph stuff -->
     <meta property="og:title" content="<?php echo rl_seo_pagetitle($title, $item); ?>" />
