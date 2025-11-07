@@ -1,179 +1,3 @@
-// LOAD MAP (SINGLE ITEM)
-const loadMapSingle = () => {
-  let isSecure = window.location.protocol == "https:" ? true : false;
-  let mapfigure = document.querySelector("figure#story-map");
-  if (mapfigure) {
-    let data = mapfigure.dataset;
-    loadCSS(data.leafletCss);
-    loadJS(data.leafletJs, () => {
-      loadJS(data.providers, () => {
-        loadJS(data.makiJs, () => {
-          // console.log("Leaflet initialized...");
-          let map = L.map("curatescape-map-canvas", {
-            scrollWheelZoom: false,
-            tap: false,
-          });
-          pauseInteraction(map);
-          // Set View
-          map.setView([data.lat, data.lon], data.zoom);
-          // Center on open
-          map.on("popupopen", (e) => {
-            var px = map.project(e.popup._latlng);
-            px.y -= e.popup._container.clientHeight / 2;
-            map.panTo(map.unproject(px), { animate: true });
-          });
-          // Info window
-          var address = data.address ? data.address : data.lat + "," + data.lon;
-          var image =
-            '<a href="javascript:void(0)" class="curatescape-infowindow-image ' +
-            data.orientation +
-            '" style="background-image:url(' +
-            data.image +
-            ');" title="' +
-            data.title +
-            '"></a>';
-          var html =
-            image +
-            '<div class="curatescape-infowindow">' +
-            '<div class="curatescape-infowindow-title">' +
-            data.title +
-            "</div>" +
-            address.replace(/(<([^>]+)>)/gi, "") +
-            "</div>";
-          var color = data.color ? data.color : "#222222";
-          var icon = (color, markerInner) => {
-            return L.MakiMarkers.icon({
-              icon: markerInner,
-              color: color,
-              size: "m",
-              accessToken:
-                "pk.eyJ1IjoiZWJlbGxlbXBpcmUiLCJhIjoiY2ludWdtOHprMTF3N3VnbHlzODYyNzh5cSJ9.w3AyewoHl8HpjEaOel52Eg",
-            });
-          };
-          // Marker
-          var marker = L.marker([data.lat, data.lon], {
-            icon: icon(color, "circle"),
-            title: safeText(data.title),
-            alt: safeText(data.title),
-          }).bindPopup(html);
-          marker.addTo(map).openPopup();
-          resumeInteraction(map, false);
-
-          // Layers
-          var tileprovider = window.getMapTileSets();
-          tileprovider[data.primaryLayer].addTo(map);
-          // Layer controls
-          if(data.secondaryLayer && data.secondaryLayer !== 'NONE'){
-            let allLayers = {
-             [tileprovider[data.primaryLayer].options.label] : tileprovider[data.primaryLayer],
-             [tileprovider[data.secondaryLayer].options.label] : tileprovider[data.secondaryLayer],
-            };
-            L.control.layers(allLayers).addTo(map); 
-          }
-          // Geolocation controls
-          if (isSecure && navigator.geolocation) {
-            var geolocationControl = L.control({ position: "topleft" });
-            geolocationControl.onAdd = (map) => {
-              var div = L.DomUtil.create(
-                "div",
-                "leaflet-control leaflet-control-geolocation"
-              );
-              var a = L.DomUtil.create(
-                "a",
-                "leaflet-control-geolocation-toggle",
-                div
-              );
-              a.setAttribute("role", "button");
-              a.setAttribute("tabindex", "0");
-              a.setAttribute("title", "Geolocation");
-              a.setAttribute("aria-label", "Geolocation");
-              a.addEventListener("click", (e) => {
-                e.preventDefault();
-                pauseInteraction(map);
-                if (e.composed) {
-                  navigator.geolocation.getCurrentPosition((pos) => {
-                    let userLocation = [
-                      pos.coords.latitude,
-                      pos.coords.longitude,
-                    ];
-                    let control_icon = document.querySelector(
-                      ".leaflet-control-geolocation-toggle"
-                    );
-                    control_icon.classList.toggle("alt");
-                    if (control_icon.classList.contains("alt")) {
-                      if (typeof userMarker === "undefined") {
-                        userMarker = new L.circleMarker(userLocation, {
-                          radius: 8,
-                          fillColor: "#4a87ee",
-                          color: "#ffffff",
-                          weight: 3,
-                          opacity: 1,
-                          fillOpacity: 0.8,
-                        }).addTo(map);
-                      } else {
-                        userMarker.setLatLng(userLocation);
-                      }
-                      map.flyTo(userLocation);
-                      map.once("moveend", () => {
-                        userMarker.addTo(map);
-                        resumeInteraction(map, false);
-                      });
-                    } else {
-                      map.flyTo([data.lat, data.lon]);
-                      map.once("moveend", () => {
-                        resumeInteraction(map, false);
-                      });
-                    }
-                  });
-                }
-              });
-              return div;
-            };
-            geolocationControl.addTo(map);
-          }
-          // Fullscreen controls
-          var fullscreenControl = L.control({ position: "topleft" });
-          fullscreenControl.onAdd = (map) => {
-            var div = L.DomUtil.create(
-              "div",
-              "leaflet-control leaflet-control-fullscreen"
-            );
-            var a = L.DomUtil.create(
-              "a",
-              "leaflet-control-fullscreen-toggle",
-              div
-            );
-            a.setAttribute("role", "button");
-            a.setAttribute("tabindex", "0");
-            a.setAttribute("title", "Fullscreen");
-            a.setAttribute("aria-label", "Fullscreen");
-            a.addEventListener("click", (e) => {
-              e.preventDefault();
-              if (e.composed) {
-                document
-                  .querySelector("#curatescape-map-canvas")
-                  .classList.toggle("fullscreen");
-                let control_icon = document.querySelector(
-                  ".leaflet-control-fullscreen-toggle"
-                );
-                body.classList.toggle("fullscreen-map");
-                control_icon.classList.toggle("alt");
-                if (control_icon.classList.contains("alt")) {
-                  map.scrollWheelZoom.enable();
-                } else {
-                  map.scrollWheelZoom.disable();
-                }
-                map.invalidateSize();
-              }
-            });
-            return div;
-          };
-          fullscreenControl.addTo(map);
-        });
-      });
-    });
-  }
-};
 // MEDIA PLAYERS/BUTTONS
 const streamingMediaControls = () => {
   document.querySelectorAll(".media-player").forEach((player) => {
@@ -293,20 +117,11 @@ const smoothAnchorLinks = () => {
 };
 // OBSERVER CALLBACK
 // Loads PhotoSwipe on intersection
-// Loads Map on intersection
 // Updates Table of Contents on intersection
-let mapped = 0;
 let pswp = 0;
 const scrollEvents = (entries, observer) => {
   entries.forEach((entry) => {
     if (entry.intersectionRatio) {
-      if (
-        mapped == 0 &&
-        entry.target.parentElement.dataset.toc == "#map-section"
-      ) {
-        mapped++;
-        loadMapSingle();
-      }
       if (pswp == 0 && entry.target.parentElement.dataset.toc == "#images") {
         pswp++;
         loadPhotoSwipe(entry.target.parentElement);
@@ -352,7 +167,6 @@ const itemShow = () =>{
     sections.forEach((section) => observer.observe(section));
   } else {
     loadPhotoSwipe(document.querySelector('[data-toc="#images"]'));
-    loadMapSingle();
   }
 }
 // MAIN

@@ -1,17 +1,17 @@
 <?php
 $maptype='tour';
 $tourTitle = htmlspecialchars_decode( tour('title') );
-$label = rl_tour_label('singular');
+$label = rl_tour_label(true);
 if ($tourTitle != '' && $tourTitle != '[Untitled]') {
 } else {
     $tourTitle = '';
 }
 echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'content_class' => 'horizontal-nav', 'bodyid'=>'tours',
-    'bodyclass' => 'show tour', 'tour'=>$tour ));
+    'bodyclass' => 'show', 'tour'=>$tour ));
 ?>
 <div id="content" class="wide" role="main">
 
-    <article id="tour-content" class="tour show">
+    <article id="tour-content" class="show">
 
         <header id="tour-header">
             <div class="max-content-width inner-padding">
@@ -23,20 +23,20 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
         <div class="max-content-width">
             <div class="separator thin wide"></div>
             <aside id="social-actions" class="inner-padding-flush">
-                <?php echo rl_article_actions(strip_tags($tourTitle),rl_tour_label());?>
+                <?php echo rl_article_actions(strip_tags($tourTitle),rl_tour_label(false));?>
             </aside>
         </div>
         <div class="separator wide thin"></div>
 
-        <section id="text" aria-label="<?php echo __('%s Description', rl_tour_label('singular'));?>">
+        <section id="text" aria-label="<?php echo __('%s Description', rl_tour_label(true));?>">
             <div class="max-content-width inner-padding">
-                <?php echo htmlspecialchars_decode(nls2p(tour('Description'))); ?>
+                <?php echo htmlspecialchars_decode(tour('Description')); ?>
             </div>
         </section>
 
         <div class="max-content-width inner-padding">
             <div class="separator flush-top center"></div>
-            <section id="tour-items" class="browse" aria-label="<?php echo __('%s Locations', rl_tour_label('singular'));?>">
+            <section id="tour-items" class="browse" aria-label="<?php echo __('%s Locations', rl_tour_label(true));?>">
                 <?php $i=1;
                 foreach ($tour->getItems() as $tourItem):
                     if ($tourItem->public || current_user()):
@@ -54,7 +54,7 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
                             // an excerpt of the Story
                             $itemText = snippet(rl_the_text($tourItem), 0, 300, '&hellip;');
                         }
-                        $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label('singular')).'</a> <span class="sep-bar" aria-hidden="true">&mdash;</span> <a role="button" data-index="'.$i.'" data-id="'.$tourItem->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';
+                        $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label(false)).'</a> <span class="sep-bar" aria-hidden="true">&mdash;</span> <a role="button" data-index="'.$i.'" data-item-id="'.$tourItem->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';
                         ?>
                         <article class="item-result tour">
                             <a aria-label="<?php echo strip_tags(metadata($tourItem, array('Dublin Core', 'Title'))); ?>" class="tour-image single" style="background-image:url(<?php echo rl_get_first_image_src($tourItem, 'square_thumbnails');?>)" href="<?php echo $url;?>"></a>
@@ -77,7 +77,7 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
             <div class="separator center"></div>
 
             <?php if ($ps = metadata('tour', 'Postscript Text')):?>
-            <section id="tour-postscript" class="max-content-width inner-padding caption" aria-label="<?php echo __('%s Postscript', rl_tour_label('singular'));?>">
+            <section id="tour-postscript" class="max-content-width inner-padding caption" aria-label="<?php echo __('%s Postscript', rl_tour_label(true));?>">
                 <p><?php echo htmlspecialchars_decode(metadata('tour', 'Postscript Text')); ?></p>
             </section>
             <?php endif;?>
@@ -90,7 +90,7 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
         </section>
         <?php endif;?>
 
-        <?php echo multimap_markup(true, $tourTitle, __('Show %s Map', rl_tour_label()));?>
+        <?php echo multimap_markup(true, $tourTitle, __('Show %s Map', rl_tour_label(false)));?>
 
     </article>
 </div> <!-- end content -->

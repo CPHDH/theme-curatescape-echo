@@ -26,7 +26,7 @@ if (!$collections) {
                 <?php foreach ($collections as $collection): ?>
                 <article class="collection item-result">
                     <?php echo link_to($collection, 'show', '<h3 class="title">'.metadata($collection, array('Dublin Core','Title')).'</h3>', array('class'=>'permalink')) ?>
-                    <?php echo '<div class="byline">'.rl_icon('folder').__('%1s %2s', metadata($collection, 'total_items'), rl_item_label('plural')).'</div>'; ?>
+                    <?php echo '<div class="byline">'.rl_icon('folder').__('%1s %2s', metadata($collection, 'total_items'), rl_item_label(true)).'</div>'; ?>
                 </article>
                 <?php endforeach; ?>
             </section>

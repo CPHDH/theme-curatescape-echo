@@ -21,6 +21,7 @@ add_file_fallback_image('default', 'ionicons/document-sharp.svg');
 
 /*
 ** Relabel Search Record Types
+** ported 2.0
 */
 add_filter('search_record_types', 'rl_search_record_types');
 function rl_search_record_types($recordTypes)
@@ -28,12 +29,21 @@ function rl_search_record_types($recordTypes)
    if (plugin_is_active('SimplePages')) {
       $recordTypes['SimplePagesPage'] = __('Page');
    }
-   $recordTypes['Item'] = rl_item_label('singular');
-   if (plugin_is_active('TourBuilder', '1.6', '>=')) {
-      $recordTypes['Tour'] = rl_tour_label('singular');
-   }
+   $recordTypes['Item'] = rl_item_label(false);
    return $recordTypes;
 }
+
+/*
+** 
+** ported 2.0
+*/
+if(!function_exists('tour')){
+  function tour($element=null) {
+    $tour = get_current_record('tour');
+    return $tour && $element ? metadata($tour, $element, array('no_escape'=>true)) : null;
+  }
+}
+
 
 /*
 ** Admin Messages
@@ -93,7 +103,7 @@ function rl_search_form_default_record_types()
 {
    $recordTypes=array();
    $recordTypes[]='Item';
-   if (plugin_is_active('TourBuilder', '1.6', '>=') && get_theme_option('default_tour_search')) {
+   if (plugin_is_active('Curatescape') && get_theme_option('default_tour_search')) {
       $recordTypes[]='Tour';
    }
    if (plugin_is_active('SimplePages') && get_theme_option('default_page_search')) {
@@ -178,7 +188,7 @@ function rl_subhead_by_type($type=null, $record=null)
       case 'Tour':
          return __('%s Locations', rl_tour_total_items($record));
       case 'Collection':
-         return __('%1s %2s', metadata($record, 'total_items'), rl_item_label('plural'));
+         return __('%1s %2s', metadata($record, 'total_items'), rl_item_label(true));
       default:
          return null;
    }
@@ -264,7 +274,7 @@ function rl_relabel_type($type=null)
 {
    switch ($type) {
       case 'Item':
-         return rl_item_label('singular');
+         return rl_item_label(false);
       case 'SimplePagesPage':
          return __('Page');
       case 'ExhibitPage':
@@ -278,60 +288,60 @@ function rl_relabel_type($type=null)
 ** Determine when to load jQuery
 ** usage: head_js(rl_jquery_whitelist(current_url()))
 */
-function rl_jquery_whitelist($current_url=null){
-    if(!$current_url) return;
-    $whitelist = array(
-        '/items/search',
-        '/guest-user/',
-        '/contribution/',
-        '/exhibits/',
-        '/neatline/',
-        '/users/login',
-    );
-    foreach($whitelist as $allowed){
-        if(0 === strpos($current_url, $allowed)) return true;
-    }
-    return false;
-}
+// function rl_jquery_whitelist($current_url=null){
+    // if(!$current_url) return;
+    // $whitelist = array(
+    //     '/items/search',
+    //     '/guest-user/',
+    //     '/contribution/',
+    //     '/exhibits/',
+    //     '/neatline/',
+    //     '/users/login',
+    // );
+    // foreach($whitelist as $allowed){
+    //     if(0 === strpos($current_url, $allowed)) return true;
+    // }
+    // return false;
+// }
 
 /*
 ** Remove select plugin/core assets from queue
 ** view: $this
 ** paths: array('/plugins/Geolocation','admin-bar','family=Arvo:400')
 */
-function rl_assets_blacklist($view=null, $paths=array())
-{
-   if ($view) {
-      $scripts = $view->headScript();
-      foreach ($scripts as $key=>$file) {
-         foreach ($paths as $path) {
-            if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
-               // do nothing if this is an exhibit (allow map)
-            }elseif(0 === strpos(current_url(), '/guest-user/') && $path == '/plugins/GuestUser/views/public/javascripts'){
-              // do nothing if this is a guest user page
-            }elseif (isset($file->attributes['src']) && strpos($file->attributes['src'], $path) !== false) {
-                 $scripts[$key]->type = null;
-                 $scripts[$key]->attributes['src'] = null;
-                 $scripts[$key]->attributes['source'] = null;
-            }
-         }
-      }
-      $styles = $view->headLink();
-      foreach ($styles as $key=>$file) {
-         foreach ($paths as $path) {
-            if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
-               // do nothing if this is an exhibit (allow map)
-            }elseif ($file->href && strpos($file->href, $path) !== false) {
-               $styles[$key]->href = null;
-               $styles[$key]->type = null;
-               $styles[$key]->rel = null;
-               $styles[$key]->media = null;
-               $styles[$key]->conditionalStylesheet = null;
-            }
-         }
-      }
-   }
-}
+// function rl_assets_blacklist($view=null, $paths=array())
+// {
+   // if ($view) {
+    //   $scripts = $view->headScript();
+    //   foreach ($scripts as $key=>$file) {
+    //      foreach ($paths as $path) {
+    //         if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
+    //            // do nothing if this is an exhibit (allow map)
+    //         }elseif(0 === strpos(current_url(), '/guest-user/') && $path == '/plugins/GuestUser/views/public/javascripts'){
+    //           // do nothing if this is a guest user page
+    //         }elseif (isset($file->attributes['src']) && strpos($file->attributes['src'], $path) !== false) {
+    //              $scripts[$key]->type = null;
+    //              $scripts[$key]->attributes['src'] = null;
+    //              $scripts[$key]->attributes['source'] = null;
+    //         }
+    //      }
+    //   }
+    //   $styles = $view->headLink();
+    //   foreach ($styles as $key=>$file) {
+    //      foreach ($paths as $path) {
+    //         if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
+    //            // do nothing if this is an exhibit (allow map)
+    //         }elseif ($file->href && strpos($file->href, $path) !== false) {
+    //            $styles[$key]->href = null;
+    //            $styles[$key]->type = null;
+    //            $styles[$key]->rel = null;
+    //            $styles[$key]->media = null;
+    //            $styles[$key]->conditionalStylesheet = null;
+    //         }
+    //      }
+    //   }
+   // }
+// }
 
 /*
 ** SEO Page Description
@@ -417,29 +427,27 @@ function rl_theme_css($media='all')
 
 /*
 ** Custom Label for Items/Stories
+** ported 2.0
 */
-function rl_item_label($which=null)
+function rl_item_label($plural=false)
 {
-    if ($which=='singular') {
-        return ($singular=get_theme_option('item_label_singular')) ? $singular : __('Story');
-    } elseif ($which=='plural') {
-        return ($plural=get_theme_option('item_label_plural')) ? $plural : __('Stories');
+    if(plugin_is_active('Curatescape')){
+      return storyLabelString($plural);
     } else {
-        return __('Story');
+        return $plural ? __('Items') : __('Item');
     }
 }
 
 /*
 ** Custom Label for Tours
+** ported 2.0
 */
-function rl_tour_label($which=null)
+function rl_tour_label($plural=false)
 {
-    if ($which=='singular') {
-        return ($singular=get_theme_option('tour_label_singular')) ? $singular : __('Tour');
-    } elseif ($which=='plural') {
-        return ($plural=get_theme_option('tour_label_plural')) ? $plural : __('Tours');
+    if(plugin_is_active('Curatescape')){
+      return tourLabelString($plural);
     } else {
-        return __('Tour');
+        return $plural ? __('Tours') : __('Tour');
     }
 }
 
@@ -453,9 +461,9 @@ function rl_global_nav($nested=false)
     if ($curatenav==1 || !isset($curatenav)) {
       $navArray = array();
       $navArray[] = array('label'=>__('Home'),'uri' => url('/'));
-      $navArray[] = array('label'=>rl_item_label('plural'),'uri' => rl_stories_url());
-      if(plugin_is_active('TourBuilder')){
-        $navArray[] = array('label'=>rl_tour_label('plural'),'uri' => url('tours/browse/'));
+      $navArray[] = array('label'=>rl_item_label(true),'uri' => rl_stories_url());
+      if(plugin_is_active('Curatescape')){
+        $navArray[] = array('label'=>rl_tour_label(true),'uri' => url('tours/browse/'));
       }
       if(plugin_is_active('Geolocation')){
         $navArray[] = array('label'=>__('Map'),'uri' => url('items/map/'));
@@ -482,7 +490,7 @@ function rl_item_browse_subnav()
   if(plugin_is_active('SubjectsBrowse')){
     array_push($nav,array('label'=>__('Subjects'), 'uri'=> url('items/subjects')));
   }
-  echo nav($nav);
+  echo public_nav_items($nav);
 }
 
 /*
@@ -491,7 +499,7 @@ function rl_item_browse_subnav()
 function rl_search_subnav()
 {
    echo nav(array(
-      array('label'=>__('%s Search', rl_item_label('singular')), 'uri'=> url('items/search')),
+      array('label'=>__('%s Search', rl_item_label(false)), 'uri'=> url('items/search')),
       array('label'=>__('Sitewide Search'), 'uri'=> url('search')),
    ));
 }
@@ -589,7 +597,7 @@ function rl_the_logo()
 function random_item_link($text=null, $class='show', $hasImage=true)
 {
     if (!$text) {
-      $text= __('View a Random %s', rl_item_label('singular'));
+      $text= __('View a Random %s', rl_item_label(false));
     }
     $randitems = get_records('Item', array( 'sort_field' => 'random', 'hasImage' => $hasImage), 1);
     if (count($randitems) > 0) {
@@ -603,6 +611,7 @@ function random_item_link($text=null, $class='show', $hasImage=true)
 /*
 ** Ionicons
 ** https://ionic.io/ionicons
+** ported 2.0
 */
 function rl_icon($name=null, $variant="-sharp")
 {
@@ -612,7 +621,7 @@ function rl_icon($name=null, $variant="-sharp")
    } catch (exception $e) {
       $svg = null;
    }
-   return $svg ? '<span class="icon '.$name.'">'.$svg.'</span>' : null;
+   return $svg ? '<span class="theme-icon '.$name.'">'.$svg.'</span>' : null;
 }
 
 /*
@@ -624,7 +633,80 @@ function rl_stories_url(){
 }
 
 /*
+** Priority Links
+** added 2.0
+*/
+function rl_priority_nav_links($links=array()){
+  $configs = array(
+    get_theme_option('quicklink_1'),
+    get_theme_option('quicklink_2'),
+    get_theme_option('quicklink_3')
+  );
+  $items = $collections = $tours = $exhibits = $map = $about = $custom = 0;
+  foreach($configs as $config){
+    switch ($config) {
+      case 'items':
+        if(!$items){
+          $links[] = '<a class="button transparent '.((is_current_url('/items/browse')) ? 'active' : null).'" href="'.rl_stories_url().'">'.rl_icon("location").rl_item_label(true).'</a>';
+          $items++;
+        }
+        break;
+      case 'collections':
+        if(!$collections){
+          $label = __('Collections');
+          $links[] = '<a class="button transparent '.((is_current_url('/collections/browse')) ? 'active' : null).'" href="'.url('/collections/browse/').'">'.rl_icon("albums").$label.'</a>';
+          $collections++;
+        }
+        break;
+      case 'tours':
+        if(!$tours && plugin_is_active('Curatescape')){
+          $label = tourLabelString('plural');
+          $links[] = '<a class="button transparent '.((is_current_url('/tours/browse')) ? 'active' : null).'" href="'.url('/tours/browse/').'">'.rl_icon("compass").$label.'</a>';
+          $tours++;
+        }
+        break;
+      case 'exhibits':
+        if(!$exhibits && plugin_is_active('ExhibitBuilder')){
+          $label = __('Exhibits');
+          $links[] = '<a class="button transparent '.((is_current_url('/exhibits/browse')) ? 'active' : null).'" href="'.url('/exhibits/browse/').'">'.rl_icon("grid").$label.'</a>';
+          $exhibits++;
+        }
+        break;
+      case 'map':
+        if(!$map && plugin_is_active('Geolocation')){
+          $label = __('Map');
+          $links[] = '<a class="button transparent '.((is_current_url('/geolocation/map/browse') || is_current_url('/items/map/')) ? 'active' : null).'" href="'.url('/items/map/').'">'.rl_icon("map").$label.'</a>';
+          $map++;
+        }
+        break;
+      case 'about':
+        if(!$about && plugin_is_active('SimplePages')){
+          $label = __('About');
+          $links[] = '<a class="button transparent '.((is_current_url('/about/')) ? 'active' : null).'" href="'.url('/about/').'">'.rl_icon("information-circle").$label.'</a>';
+          $about++;
+        }
+        break;
+      case 'custom':
+        if(!$custom){
+          if($link = get_theme_option('quicklink_custom')){
+            if($details = parseLink($link)){
+              if( isset($details['href']) && isset($details['text']) ){
+                $target = isset($details['target']) ? 'target="'.$details['target'].'" ' : null;
+                $links[] = '<a class="button transparent '.((is_current_url($target)) ? 'active' : null).'" '.$target.'href="'.$details['href'].'">'.rl_icon("bookmark").$details['text'].'</a>';
+                $custom++;
+              }
+            }
+          }
+        }
+        break;
+    }
+  }
+  return implode('',$links);
+}
+
+/*
 ** Global header
+** ported 2.0
 */
 function rl_global_header($html=null)
 {
@@ -641,9 +723,7 @@ function rl_global_header($html=null)
           </picture>
         </a>
         <div id="nav-desktop">
-            <?php echo get_theme_option('quicklink_story') ? '<a class="button transparent '.((is_current_url('/items/browse')) ? 'active' : null).'" href="'.rl_stories_url().'">'.rl_icon("location").rl_item_label('plural').'</a>' : null; ?>
-            <?php echo get_theme_option('quicklink_tour') && plugin_is_active('TourBuilder') ? '<a class="button transparent '.((is_current_url('/tours/browse')) ? 'active' : null).'" href="'.url('tours/browse').'">'.rl_icon("compass").rl_tour_label('plural').'</a>' : null; ?>
-            <?php echo get_theme_option('quicklink_map') && plugin_is_active('Geolocation') ? '<a class="button transparent '.((is_current_url('/items/map')) ? 'active' : null).'" href="'.url('items/map').'">'.rl_icon("map").__('Map').'</a>' : null; ?>
+            <?php echo rl_priority_nav_links();?>
         </div>
         <div id="nav-interactive">
             <!-- Search -->
@@ -657,7 +737,7 @@ function rl_global_header($html=null)
         <div id="header-search-inner" class="inner-padding">
             <?php echo rl_simple_search('header-search', array('id'=>'header-search-form','class'=>'capsule'), __('Search')); ?>
             <div class="search-options">
-                <?php echo '<a href="'.url('items/search').'">'.__('Advanced %s Search', rl_item_label()).' &#9656;</a>'; ?>
+                <?php echo '<a href="'.url('items/search').'">'.__('Advanced %s Search', rl_item_label(false)).' &#9656;</a>'; ?>
                 <br>
                 <?php echo '<a href="'.url('search').'">'.__('Sitewide Search').' &#9656;</a>'; ?>
             </div>
@@ -671,7 +751,7 @@ function rl_global_header($html=null)
             <nav>
                 <?php echo rl_global_nav(true); ?>
             </nav>
-            <div class="menu-random-container"><?php echo random_item_link(rl_icon('dice').__("View a Random %s", rl_item_label('singular')), $class='button transparent', $hasImage=true); ?></div>
+            <div class="menu-random-container"><?php echo random_item_link(rl_icon('dice').__("View a Random %s", rl_item_label(false)), $class='button transparent', $hasImage=true); ?></div>
             <div class="menu-appstore-container"><?php echo rl_appstore_downloads(); ?></div>
             <div class="menu-darkmode-container">
               <?php
@@ -713,7 +793,7 @@ function rl_get_subjects(){
 function rl_subjects_select($subjects,$num){
   if($subjects){
     $html = '<select hidden>';
-    $html .= '<option value="">'.__('All %s',rl_item_label('plural')).': '.$num.'</option>';
+    $html .= '<option value="">'.__('All %s',rl_item_label(true)).': '.$num.'</option>';
     foreach($subjects as $subject){
       $html .= '<option value="'.strip_tags(urlencode($subject['text'])).'">'.strip_tags($subject['text']).': '.$subject['total'].'</option>';
     }
@@ -724,27 +804,25 @@ function rl_subjects_select($subjects,$num){
 
 /*
 ** Story Map - Single
+** ported 2.0
 */
-function rl_story_map_single($title=null, $location=null, $address=null, $hero_img=null, $hero_orientation=null) 
-{ 
-if(plugin_is_active('Geolocation')):
-?>
-  <nav aria-label="<?php echo __('Skip Interactive Map');?>"><a id="skip-map" href="#map-actions"><?php echo __('Skip Interactive Map');?></a></nav>
-  <figure id="story-map" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-lat="<?php echo $location[ 'latitude' ];?>" data-lon="<?php echo $location[ 'longitude' ];?>" data-zoom="<?php echo $location['zoom_level'];?>" data-title="<?php echo $title ? strip_tags($title) : null;?>" data-image="<?php echo $hero_img;?>" data-orientation="<?php echo $hero_orientation;?>" data-address="<?php echo $address ? strip_tags($address) : null;?>" data-color="<?php echo get_theme_option('marker_color');?>" data-root-url="<?php echo WEB_ROOT;?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts');?>" data-providers="<?php echo src('providers.js', 'javascripts');?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts');?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts');?>">
-      <div class="curatescape-map">
-          <div id="curatescape-map-canvas"></div>
-      </div>
-      <figcaption><?php echo rl_map_caption();?></figcaption>
-  </figure>
-  <div id="map-actions">
-    <a class="button directions" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=<?php echo $address ? urlencode(strip_tags($address)) : $location[ 'latitude' ].','.$location[ 'longitude' ];?>">
-      <?php echo rl_icon("logo-google", null);?>
-      <span class="label">
-          <?php echo __('Open in Google Maps');?></span>
-    </a>
-  </div>
-<?php 
-endif;
+function rl_story_map_single($id=null, $title=null, $location=null, $address=null) 
+{
+  if(!$id) return null;
+  if(plugin_is_active('Curatescape')):
+    if ( option('curatescape_map_mirror_geolocation') ){
+      echo get_view()->CuratescapeMap()->GeolocationShortcode(array($id), null, null, "home-items-map");
+    } else {
+      echo get_view()->CuratescapeMap()->Single(null, "single", null, false);
+    }?>
+    <div id="map-actions">
+      <a class="button directions" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=<?php echo $address ? urlencode(strip_tags($address)) : $location[ 'latitude' ].','.$location[ 'longitude' ];?>">
+        <?php echo rl_icon("logo-google", null);?>
+        <span class="label">
+            <?php echo __('Open in Google Maps');?></span>
+      </a>
+    </div>
+  <?php endif;
 }
 
 /*
@@ -752,57 +830,44 @@ endif;
 */
 function rl_story_map_multi($tour=false, $hasTerms=false)
 {
-  if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
-    $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
-    $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
-    $zoom=(get_option('geolocation_default_zoom_level')) ? get_option('geolocation_default_zoom_level') : 12; ?>
-    <figure id="multi-map" data-json-source="?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo $tour ? get_theme_option('tour_clustering') : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>" data-fixed-center="<?php echo !$hasTerms && !$tour ? get_theme_option('fixedcenter') : '0'; ?>">
-        <div class="curatescape-map">
-            <div id="curatescape-map-canvas"></div>
-        </div>
-    </figure>
-    <?php
+  if(plugin_is_active('Curatescape')):
+    if ( !option('curatescape_map_mirror_geolocation') ){
+      echo get_view()->CuratescapeMap()->Multi(null, false, "multi", null);
+    }
   endif;
 }
 
 /*
 ** Story Map - HOME
+** ported 2.0
 */
-function rl_homepage_map($ishome=true,$totalItems=null)
+function rl_homepage_map($viewMapPage=true)
 {
-  if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
-
-    if(!isset($totalItems)){
-      $db = get_db();
-      $table = $db->getTable('Location');
-      $select = $table->getSelect();
-      $q = $select->query();
-      $results = $q->fetchAll();
-      $totalItems = count($results);    
-    }
-
-    $pluginlat=(get_option('geolocation_default_latitude')) ? get_option('geolocation_default_latitude') : null;
-    $pluginlon=(get_option('geolocation_default_longitude')) ? get_option('geolocation_default_longitude') : null;
-    $zoom=(get_option('geolocation_default_zoom_level')) ? get_option('geolocation_default_zoom_level') : 12; ?>
-    
-    <section id="home-map" class="inner-padding browse">
-      <h2 class="query-header"><?php echo __('%s Map',rl_item_label());?></h2>
-      <div id="home-map-container" data-label="<?php echo __('All %s',rl_item_label('plural')).': '.$totalItems;?>">
-        <figure id="multi-map" data-json-source="/items/browse?output=mobile-json" data-lat="<?php echo $pluginlat; ?>" data-lon="<?php echo $pluginlon; ?>" data-zoom="<?php echo $zoom; ?>" data-primary-layer="<?php echo get_theme_option('primary_map') ? get_theme_option('primary_map') : 'CARTO_VOYAGER'; ?>" data-secondary-layer="<?php echo get_theme_option('secondary_map') ? get_theme_option('secondary_map') : 'NONE'; ?>" data-color="<?php echo get_theme_option('marker_color'); ?>" data-featured-color="<?php echo get_theme_option('featured_marker_color'); ?>" data-featured-star="<?php echo get_theme_option('featured_marker_star'); ?>" data-root-url="<?php echo WEB_ROOT; ?>" data-maki-js="<?php echo src('maki/maki.min.js', 'javascripts'); ?>" data-providers="<?php echo src('providers.js', 'javascripts'); ?>" data-leaflet-js="<?php echo src('theme-leaflet/leaflet.js', 'javascripts'); ?>" data-leaflet-css="<?php echo src('theme-leaflet/leaflet.css', 'javascripts'); ?>" data-cluster-css="<?php echo src('leaflet.markercluster/leaflet.markercluster.min.css', 'javascripts'); ?>" data-cluster-js="<?php echo src('leaflet.markercluster/leaflet.markercluster.js', 'javascripts'); ?>" data-cluster="<?php echo isset($tour) && get_theme_option('tour_clustering') ? '1' : get_theme_option('clustering'); ?>" data-fitbounds-label="<?php echo __('Zoom to fit all locations'); ?>" data-fixed-center="<?php echo get_theme_option('fixedcenter'); ?>" >
-          <div class="curatescape-map">
-            <?php echo (get_theme_option('map_subjects') == 1) 
-            ? rl_subjects_select(rl_get_subjects(),$totalItems) 
-            : null;?>
-            <div id="curatescape-map-canvas"></div>
-          </div>
-        </figure>
-      </div>
-      <?php if($ishome):?>
-      <div class="view-more-link"><a class="button" href=<?php echo url('items/map').'>'.__('View Map Page');?></a></div>
+  if ( plugin_is_active('Curatescape') ): ?>
+    <section class="inner-padding browse">
+      <h2 class="query-header"><?php echo __('%s Map',rl_item_label(false));?></h2>
+      <?php if ( option('curatescape_map_mirror_geolocation') ){
+        echo get_view()->CuratescapeMap()->GeolocationShortcode(null, null, null, "home-items-map");
+      } else {
+        echo get_view()->CuratescapeMap()->Multi(null, true, "multi", null, WEB_ROOT.'/items/browse?output=mobile-json');
+      }
+      ?>
+      <?php if($viewMapPage):?>
+        <div class="view-more-link">
+          <a class="button" href="<?php echo url('items/map');?>">
+            <?php echo __('View Map Page');?>
+          </a>
+        </div>
       <?php endif;?>
     </section>
-    <?php
-  endif;
+  <?php elseif ( plugin_is_active('Geolocation') ): ?>
+    <div id="geolocation-browse">
+      <?php echo $this->geolocationMapBrowse('map_browse', array('list' => 'map-links', 'params' => $params)); ?>
+      <div id="map-links"></div>
+    </div>
+  <?php endif;?>
+
+  <?php
 }
 
 /*
@@ -810,7 +875,7 @@ function rl_homepage_map($ishome=true,$totalItems=null)
 */
 function multimap_markup($tour=false, $map_label=null, $button_label=null, $hasTerms=false)
 {
-  if(plugin_is_active('Geolocation') && plugin_is_active('CuratescapeJSON')):
+  if(plugin_is_active('Curatescape')):
     if (!$button_label) {
         $button_label = __('Show Results on Map');
     }
@@ -842,7 +907,7 @@ function rl_simple_search($inputID='search', $formProperties=array(), $ariaLabel
     $sitewide = (get_theme_option('use_sitewide_search') == 1) ? 1 : 0;
     $qname = ($sitewide==1) ? 'query' : 'search';
     $searchUri = ($sitewide==1) ? url('search') : url('items/browse?sort_field=relevance');
-    $placeholder =  __('Search for %s', strtolower(rl_item_label('plural')));
+    $placeholder =  __('Search for %s', strtolower(rl_item_label(true)));
     $default_record_types = rl_search_form_default_record_types();
 
 
@@ -929,10 +994,11 @@ function rl_the_text($item='item', $options=array())
 
 /*
 ** Title
+** ported 2.0
 */
 function rl_the_title($item='item')
 {
-    return '<h1 class="title">'.strip_tags(metadata($item, array('Dublin Core', 'Title')), array('index'=>0)).'</h1>';
+    return '<h1 class="title">'.strip_tags(metadata($item, 'display_title', array('no_filter'=>true,'index'=>0))).'</h1>';
 }
 
 
@@ -961,10 +1027,11 @@ function rl_the_lede($item='item')
 
 /*
 ** Title + Subtitle (for search/browse/home)
+** ported 2.0
 */
 function rl_the_title_expanded($item='item')
 {
-    $title='<h3 class="title">'.strip_tags(metadata($item, array('Dublin Core', 'Title'))).'</h3>';
+    $title='<h3 class="title">'.strip_tags(metadata($item, array('Dublin Core', 'Title'), array('no_filter'=>true))).'</h3>';
     if (element_exists('Item Type Metadata', 'Subtitle')) {
         if ($s=metadata($item, array('Item Type Metadata','Subtitle'))) {
             $subtitle = '<p class="subtitle">'.strip_tags($s).'</p>';
@@ -1003,6 +1070,7 @@ function rl_the_sponsor($item='item')
 ** Filed Under
 ** returns link to: (public) collection for item, or first subject, or first tag
 ** configurable in theme settings
+** ported 2.0
 */
 function rl_filed_under($item = null, $maxlength = 35)
 {
@@ -1017,9 +1085,9 @@ function rl_filed_under($item = null, $maxlength = 35)
       true;
           
     if ($useCollection && ($collection = get_collection_for_item()) && $collection->public) {
-        $label = metadata($collection,array('Dublin Core','Title'));
+        $label = metadata($collection,array('Dublin Core','Title'), array('no_filter'=>true));
         $node = link_to_collection_for_item(snippet($label,0,$maxlength), array('title'=>__('Collection: %s', $label), 'class'=>'tag tag-alt'), 'show');
-    } elseif ($useSubject && $subject = metadata('item', array('Dublin Core', 'Subject'), 0)) {
+    } elseif ($useSubject && $subject = metadata('item', array('Dublin Core', 'Subject'), array('index'=>0,'no_filter'=>true))) {
         $link = WEB_ROOT;
         $link .= htmlentities('/items/browse?term=');
         $link .= rawurlencode($subject);
@@ -1034,7 +1102,7 @@ function rl_filed_under($item = null, $maxlength = 35)
         $label = trim($tag);
         $node = '<a title="'.__('Tag: %s', $label).'" class="tag tag-alt" href="'.$link.'">'.snippet($label,0,$maxlength).'</a>';
     } else {
-        $label = trim(rl_item_label('singular'));
+        $label = rl_item_label(false);
         $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>__('Type: %s', $label), 'class'=>'tag tag-alt'));
     }
     return '<div class="title-card-subject '.text_to_id($label,'subject').'"><span class="screen-reader">'.__('Filed Under').'</span> '.$node.'</div>';
@@ -1044,10 +1112,11 @@ function rl_filed_under($item = null, $maxlength = 35)
 ** Subjects for item
 ** Raw = output as <a>
 ** !Raw = output as div-h3-ul-li-a 
+** ported 2.0
 */
 function rl_subjects($raw=false, $rawfirst=false)
 {
-    $subjects = metadata('item', array('Dublin Core', 'Subject'), 'all');
+    $subjects = metadata('item', array('Dublin Core', 'Subject'), array('all'=>true,'no_filter'=>true));
     $array=array();
     $html = null;
     if (count($subjects) > 0) {
@@ -1108,13 +1177,13 @@ function rl_collection($item)
 /* get a list of related tour links for a given item, for use on items/show template */
 function rl_tours_for_item($item_id=null, $html=null)
 {
-  if (plugin_is_active('TourBuilder')) {
+  if (plugin_is_active('Curatescape')) {
       if (is_int($item_id)) {
           $db = get_db();
           $prefix=$db->prefix;
           $select = $db->select()
-          ->from(array('ti' => $prefix.'tour_items')) // SELECT * FROM omeka_tour_items as ti
-          ->join(array('t' => $prefix.'tours'), // INNER JOIN omeka_tours as t
+          ->from(array('ti' => $prefix.'curatescape_tour_items')) // SELECT * FROM omeka_tour_items as ti
+          ->join(array('t' => $prefix.'curatescape_tours'), // INNER JOIN omeka_tours as t
           'ti.tour_id = t.id') // ON ti.tour_id = t.id
           ->where("item_id=$item_id AND public=1"); // WHERE item_id=$item_id
           $q = $select->query();
@@ -1306,14 +1375,7 @@ function rl_the_byline($itemObj='item', $include_sponsor=false)
         $authors=metadata($itemObj, array('Dublin Core', 'Creator'), array('all'=>true));
         $total=count($authors);
         $index=1;
-        $authlink=get_theme_option('author_links');
         foreach ($authors as $author) {
-            if ($authlink > 0) {
-                $href=w3_valid_url('/items/browse?search=&advanced[0][element_id]=39&advanced[0][type]=is+exactly&advanced[0][terms]='.strip_tags($author));
-            }else{
-              $href='javascript:void(0)';
-            }
-            $author='<a href="'.$href.'">'.$author.'</a>';
             switch ($index) {
                case ($total):
                $delim ='';
@@ -1670,9 +1732,9 @@ function rl_tour_preview($s)
     $html.=  '<div class="tour-meta-browse browse-meta-top byline">';
     $html.= '<span class="total">'.rl_tour_total_items($record).' '.__('Locations').'</span> ~ ';
     if (tour('Credits')) {
-        $html.=  __('%1s curated by %2s', rl_tour_label('singular'), tour('Credits'));
+        $html.=  __('%1s curated by %2s', rl_tour_label(true), tour('Credits'));
     } else {
-        $html.=  __('%1s curated by %2s', rl_tour_label('singular'), option('site_title'));
+        $html.=  __('%1s curated by %2s', rl_tour_label(true), option('site_title'));
     }
     $html.=  '</div>';
     $html.=  ($text=strip_tags(html_entity_decode(tour('Description')))) ? '<span class="tour-result-snippet">'.snippet($text, 0, 300).'</span>' : null;
@@ -1698,7 +1760,7 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
     $orderby = get_theme_option("homepage_featured_order") ? get_theme_option("homepage_featured_order") : "modified";
     $items=get_records('Item', array('featured'=>true,'hasImage'=>true,'sort_field' => $orderby, 'sort_dir' => 'd','public'=>true), $num);
     if(count($items)){
-      $html = '<h2 class="query-header">'.__('Featured %s',rl_item_label('plural')).'</h2>';
+      $html = '<h2 class="query-header">'.__('Featured %s',rl_item_label(true)).'</h2>';
       $html .= '<div class="featured-card-container">';
         $primary=null;
         $secondary=null;
@@ -1748,7 +1810,7 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
         }
       $html .= $primary.'<div class="secondary">'.$secondary.'</div>';
       $html .= '</div>';
-      $html .= '<div class="view-more-link"><a class="button" href="'.url('items/browse').'?featured=1">'.__('Browse All Featured %2s', rl_item_label('plural')).'</a></div>';
+      $html .= '<div class="view-more-link"><a class="button" href="'.url('items/browse').'?featured=1">'.__('Browse All Featured %2s', rl_item_label(true)).'</a></div>';
       return '<section id="home-featured" class="inner-padding browse">'.$html.'</section>';
     }else{
       return rl_admin_message('home-featured',array('admin','super'));
@@ -1778,7 +1840,7 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
         break;
     }
     if(count($items)){
-      $html = '<h2 class="query-header">'.$param.' '.rl_item_label('plural').'</h2>';
+      $html = '<h2 class="query-header">'.$param.' '.rl_item_label(true).'</h2>';
       $html .= '<div class="browse-items">';
         foreach($items as $item){
           set_current_record('item', $item);
@@ -1803,12 +1865,12 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
           $html .= rl_filed_under($item);
           $html .= rl_the_title_expanded($item);
           $html .= rl_the_byline($item, false);
-          //$html .= link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore'));
+          //$html .= link_to_item(__('View %s', rl_item_label(false)),array('class'=>'readmore'));
           $html .= '</div>';
           $html .= '</article>';
         }
       $html .= '</div>';
-      $html .= '<div class="view-more-link"><a class="button" href="'.rl_stories_url().'">'.__('Browse All %2s', rl_item_label('plural')).'</a></div>';
+      $html .= '<div class="view-more-link"><a class="button" href="'.rl_stories_url().'">'.__('Browse All %2s', rl_item_label(true)).'</a></div>';
       return '<section id="home-recent-random" class="browse inner-padding">'.$html.'</section>';
     }else{
       return rl_admin_message('home-recent-random',array('admin','super'));
@@ -1900,14 +1962,15 @@ function rl_homepage_stealthmode($html = null)
 
 /*
 ** Display the Tours list
+** ported 2.0
 */
 function rl_homepage_tours($html=null, $num=4, $scope='featured')
 {
-  if(plugin_is_active('TourBuilder') && (get_theme_option('homepage_tours_scope') !== "none")){
+  if(plugin_is_active('Curatescape') && (get_theme_option('homepage_tours_scope') !== "none")){
     // Build query
     $scope=get_theme_option('homepage_tours_scope') ? get_theme_option('homepage_tours_scope') : $scope;
     $db = get_db();
-    $table = $db->getTable('Tour');
+    $table = $db->getTable('CuratescapeTour');
     $select = $table->getSelect();
     $select->where('public = 1');
     $public = $table->fetchObjects($select);
@@ -1925,9 +1988,9 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
     $customheader=get_theme_option('tour_header');
     if ($scope=='random') {
       shuffle($tours);
-      $heading = $customheader ? $customheader : __('Take a').' '.rl_tour_label('singular');
+      $heading = $customheader ? $customheader : __('Take a').' '.rl_tour_label(true);
     } else {
-      $heading = $customheader ? $customheader : ucfirst($scope).' '.rl_tour_label('plural');
+      $heading = $customheader ? $customheader : ucfirst($scope).' '.rl_tour_label(true);
     }
     
     // output
@@ -1936,7 +1999,7 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
       $html .= '<div class="home-tours-container">';
       for ($i = 0; $i < min(count($tours),$num); $i++) {
         set_current_record('tour', $tours[$i]);
-        $tour=get_current_tour();
+        $tour=get_current_record('tour');
         $bg=array();
         if ($touritems = $tour->getItems()) {
             foreach ($touritems as $ti) {
@@ -1949,7 +2012,7 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
             }
         }
         $html .= '<article class="item-result tour">';
-          $html .= '<a aria-label="'.tour('title').'" class="tour-image '.(count($bg) < 4 ? 'single' : 'multi').'" style="background-image:'.implode(',', $bg).'" href="'.WEB_ROOT.'/tours/show/'.tour('id').'"></a><div class="separator thin flush-bottom flush-top"></div>';
+          $html .= '<a aria-label="'.tour('title').'" class="tour-image '.(count($bg) < 4 || option('curatescape_tour_thumb_style') !== 'composite' ? 'single' : 'multi').'" style="background-image:'.implode(',', $bg).'" href="'.WEB_ROOT.'/tours/show/'.tour('id').'"></a><div class="separator thin flush-bottom flush-top"></div>';
           $html .= '<div class="tour-inner">';
             $html .= '<a class="permalink" href="' . WEB_ROOT . '/tours/show/'. tour('id').'"><h3 class="title">' . tour('title').'</h3></a>'.
                 '<span class="byline">'.rl_icon('compass').__('%s Locations', rl_tour_total_items($tours[$i])).'</span>';
@@ -1958,7 +2021,7 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
         $html .= '</article>';
       }
       $html .= '</div>';
-      $html .= '<div class="view-more-link"><a class="button" href="'.WEB_ROOT.'/tours/browse/">'.__('Browse All <span>%s</span>', rl_tour_label('plural')).'</a></div>';
+      $html .= '<div class="view-more-link"><a class="button" href="'.WEB_ROOT.'/tours/browse/">'.__('Browse All <span>%s</span>', rl_tour_label(true)).'</a></div>';
       return '<section id="home-tours" class="browse inner-padding">'.$html.'</section>';
     } else {
       return rl_admin_message('home-tours',array('admin','super'));
@@ -1988,28 +2051,6 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
         $media_list .= '<li><a title="'.__('Skip to %s', __('Documents')).'" class="icon-capsule" href="#documents">'.rl_icon("documents").'<span class="label">'.__('Documents').' ('.$has_other.')</span></a></li>';
     }
 
-    $tournav = null;
-    if ($tour && isset($tour_index)) {
-        $index = $tour_index;
-        $tour_id = $tour;
-        $tour = get_record_by_id('tour', $tour_id);
-        $prevIndex = $index -1;
-        $nextIndex = $index +1;
-        $tourTitle = metadata($tour, 'title');
-        $tourURL = html_escape(public_url('tours/show/'.$tour_id));
-
-        $current = tour_item_id($tour, $index);
-        $next = tour_item_id($tour, $nextIndex);
-        $prev = tour_item_id($tour, $prevIndex);
-
-        $tournav .= '<ul class="tour-nav">';
-        $tournav .= '<li class="head"><span title="'.__('%s Navigation', rl_tour_label('singular')).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Navigation', rl_tour_label('singular')).'</span></span></li>';
-        $tournav .= $prev ? '<li><a title="'.__('Previous Loction').'" class="icon-capsule" href="'.public_url("items/show/$prev?tour=$tour_id&index=$prevIndex").'">'.rl_icon("arrow-back").'<span class="label">'.__('Previous').'</span></a></li>' : null;
-        $tournav .= '<li class="info"><a title="'.__('%s Info', rl_tour_label('singular')).': '.$tourTitle.'" class="icon-capsule" href="'.$tourURL.'">'.rl_icon("compass").'<span class="label">'.__('%s Info', rl_tour_label('singular')).'</span></a></li>';
-        $tournav .= $next ? '<li><a title="'.__('Next Location').'" class="icon-capsule" href="'.public_url("items/show/$next?tour=$tour_id&index=$nextIndex").'">'.rl_icon("arrow-forward").'<span class="label">'.__('Next').'</span></a></li>' : null;
-        $tournav .= '</ul>';
-    }
-
     // Location HTML
     $location = null;
     if ($has_location && plugin_is_active('Geolocation')) {
@@ -2018,13 +2059,13 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
 
     // Output HTML
     $html = '<nav class="rl-toc"><ul>'.
-      '<li class="head"><span title="'.__('%s Contents', rl_item_label('singular')).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label('singular')).'</span></span></li>'.
+      '<li class="head"><span title="'.__('%s Contents', rl_item_label(false)).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label(false)).'</span></span></li>'.
       '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.__('Main Text').'</span></a></li>'.
       $media_list.
       $location.
       '<li><a title="'.__('Skip to %s', __('Metadata')).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.__('Metadata').'</span></a></li>'.
       $totop.
-      '</ul>'.$tournav.'</nav>';
+      '</ul></nav>';
 
     return $html;
 }
@@ -2132,14 +2173,14 @@ function rl_hero_item($item)
 function rl_display_random_featured_item($withImage=false, $num=1)
 {
     $featuredItems = get_random_featured_items($num, $withImage);
-    $html = '<h3 class="result-type-header">'.__('Featured %s', rl_item_label('plural')).'</h3>';
+    $html = '<h3 class="result-type-header">'.__('Featured %s', rl_item_label(true)).'</h3>';
 
     if ($featuredItems) {
         foreach ($featuredItems as $item):
                      $html .=rl_hero_item($item);
         endforeach;
 
-        $html.='<p class="view-more-link"><a class="button" href="'.url('items').'?featured=1">'.__('Browse Featured %s', rl_item_label('plural')).'</a></p>';
+        $html.='<p class="view-more-link"><a class="button" href="'.url('items').'?featured=1">'.__('Browse Featured %s', rl_item_label(true)).'</a></p>';
     } else {
         $html .= '<article class="featured-story-result none">';
         $html .= '<p>'.__('No featured items are available. Publish some now.').'</p>';
@@ -2438,26 +2479,6 @@ function rl_license()
         return __('This work is licensed by '.rl_owner_link().' under a <a rel="license" href="http://creativecommons.org/licenses/'.$cc_license.'/'.$cc_readable[$cc_version].'/'.($cc_jurisdiction !== 'intl' ? $cc_jurisdiction : null).'">Creative Commons '.$cc_readable[$cc_license].' '.$cc_readable[$cc_version].' '.$cc_jurisdiction_readable[$cc_jurisdiction].' License</a>.');
     } else {
         return __('&copy; %1$s %2$s', date('Y'), rl_owner_link());
-    }
-}
-
-/*
-** iOS Smart Banner
-** Shown not more than once per day
-*/
-function rl_ios_smart_banner()
-{
-    // show the iOS Smart Banner once per day if the app ID is set
-    $appID = (get_theme_option('ios_app_id')) ? get_theme_option('ios_app_id') : false;
-    if ($appID != false) {
-        $AppBanner = 'Curatescape_AppBanner_'.$appID;
-        $numericID=str_replace('id', '', $appID);
-        if (!isset($_COOKIE[$AppBanner])) { ?> 
-    <!-- iOS Smart Banner --> 
-    <meta name="apple-itunes-app" content="app-id=<?php echo $numericID;?>">
-        <?php
-        setcookie($AppBanner, true, time()+86400); // 1 day
-        }
     }
 }
 

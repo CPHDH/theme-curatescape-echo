@@ -36,25 +36,16 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <!-- No Index: Generated/Query Content -->
     <meta name="robots" content="noindex, follow">
     <?php endif;?>
-
-    <!-- FB Open Graph stuff -->
-    <meta property="og:title" content="<?php echo rl_seo_pagetitle($title, $item); ?>" />
-    <meta property="og:image" content="<?php echo rl_seo_pageimg($item, $file, $tour);?>" />
-    <meta property="og:site_name" content="<?php echo option('site_title');?>" />
-    <meta property="og:description" content="<?php echo rl_seo_pagedesc($item, $tour, $file); ?>" />
-
-    <!-- Twitter Card stuff-->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo rl_seo_pagetitle($title, $item); ?>">
-    <meta name="twitter:description" content="<?php echo rl_seo_pagedesc($item, $tour, $file); ?>">
-    <meta name="twitter:image" content="<?php echo rl_seo_pageimg($item, $file, $tour);?>">
-    <?php echo ($twitter=get_theme_option('twitter_username')) ? '<meta name="twitter:site" content="@'.$twitter.'"> ' : '';?>
+    
+    <!-- Plugin Head -->
+    <?php fire_plugin_hook('public_head', array('view'=>$this));?>
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="<?php echo rl_favicon_svg_url();?>">
     <link rel="alternate icon" sizes="any" href="<?php echo rl_favicon_ico_url();?>">
     <link rel="apple-touch-icon" href="<?php echo rl_touch_icon_url();?>" />
-    <?php echo rl_ios_smart_banner(); ?>
+
+    <!-- Fonts -->
     <?php echo rl_font_loader();?>
 
     <!-- RSS -->
@@ -141,23 +132,28 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
         loadJS('<?php echo src('global.js', 'javascripts');?>',()=>{
             <?php if (is_current_url('/items/show')):?>
                 loadJS('<?php echo src('items-show.js', 'javascripts');?>');
-            <?php elseif (is_current_url('/tours/show') || is_current_url('/items/browse') || is_current_url('/') || is_current_url('/items/map') || is_current_url('/items?featured=1')):?>
+            <?php elseif (is_current_url('/tours/show') || is_current_url('/items/browse')):?>
                 loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
             <?php endif;?>
         });
     });
     </script>
 
-    <!-- CSS var() polyfill for IE 11 -->
-    <script>window.MSInputMethodContext && document.documentMode && document.write('<script src="https://cdn.jsdelivr.net/gh/nuxodin/ie11CustomProperties@4.1.0/ie11CustomProperties.min.js"><\/script>');</script>
-
     <!-- Assets -->
-    <?php  
-    fire_plugin_hook('public_head', array('view'=>$this));
-    rl_assets_blacklist($this, array('/plugins/Geolocation','/plugins/GuestUser/views/public/javascripts','admin-bar','family=Arvo:400'));
+    <?php
+    $includejquery = true;
+    if(plugin_is_active('Curatescape')){
+        $includejquery = curatescapejQueryConditional(current_url());
+        curatescapeRemoveHeadAssets($this, array(
+            '/plugins/Geolocation',
+            '/plugins/GuestUser/views/public/javascripts',
+            'admin-bar',
+            'family=Arvo:400')
+        );
+    }
     rl_theme_css();
     echo head_css();
-    echo head_js(rl_jquery_whitelist(current_url()));
+    echo head_js($includejquery);
     ?>
 
     <style>
@@ -188,4 +184,4 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
         </header>
 
         <div id="page-content" class="container">
-            <?php fire_plugin_hook('public_content_top', array('view'=>$this)); ?>
+            <?php //fire_plugin_hook('public_content_top', array('view'=>$this)); ?>

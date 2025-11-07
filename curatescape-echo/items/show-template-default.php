@@ -55,7 +55,7 @@ echo head(array(
         </div>
     </header>
     <aside id="social-actions" class="max-content-width inner-padding-flush">
-        <?php echo rl_article_actions(strip_tags(rl_the_title()), rl_item_label());?>
+        <?php echo rl_article_actions(strip_tags(rl_the_title()), rl_item_label(false));?>
     </aside>
     <div class="separator wide thin"></div>
     <div class="story-columns inner-padding max-content-width">
@@ -113,7 +113,7 @@ echo head(array(
             <?php if ($has_location && plugin_is_active('Geolocation')): ?>
             <section id="map-section" data-toc="#map-section">
                 <h2><?php echo __('Location');?></h2>
-                <?php echo rl_story_map_single(rl_the_title(), $location, $address, $hero_img, $hero_orientation);?>
+                <?php echo rl_story_map_single($item->id, rl_the_title(), $location, $address, $hero_img, $hero_orientation);?>
             </section>
             <div class="separator"></div>
             <?php endif;?>
@@ -146,5 +146,11 @@ echo head(array(
     </section>
     <?php endif;?>
 </article>
+<nav hidden class="hidden">
+    <ul class="site-page-pagination">
+        <li id="previous-item" class="site-page-pagination-button previous"><?php echo link_to_previous_item_show(); ?></li>
+        <li id="next-item" class="site-page-pagination-button next"><?php echo link_to_next_item_show(); ?></li>
+    </ul>
+</nav>
 
 <?php echo foot(); ?>
