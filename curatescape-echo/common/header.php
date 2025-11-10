@@ -135,7 +135,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
             <?php elseif (is_current_url('/tours/show') || is_current_url('/items/browse')):?>
                 loadJS('<?php echo src('multi-map.js', 'javascripts');?>');
             <?php endif;?>
-        });
+        },true);
     });
     </script>
 
