@@ -2454,9 +2454,11 @@ video {
   background: linear-gradient(to top, #000, #555);
 }
 .media-player {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  overflow: hidden;
-  transition: 0.15s ease-in-out height;
+  overflow: clip;
+  transition: height 0.15s ease-in-out;
 }
 
 /* Documents */

@@ -177,7 +177,8 @@ const loadMapSingle = () => {
 // MEDIA PLAYERS/BUTTONS
 const streamingMediaControls = () => {
   document.querySelectorAll(".media-player").forEach((player) => {
-    player.style.height = 0;
+    player.dataset.intrinsicSize = player.offsetHeight  + "px";
+    player.style.height = '0px';
     player.setAttribute("tabindex", "-1");
   });
   let mediabuttons = document.querySelectorAll(".media-button");
@@ -216,7 +217,7 @@ const streamingMediaControls = () => {
         if (activeplayer !== newplayer) {
           newplayer.classList.add("active");
           newplayer.children[0].setAttribute("tabindex", "0");
-          newplayer.style.height = newplayer.children[0].clientHeight + "px";
+          newplayer.style.height = newplayer.dataset.intrinsicSize;
           newplayer.children[0].play();
           newplayer.children[0].focus();
         }
