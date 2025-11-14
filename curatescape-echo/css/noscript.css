@@ -6,14 +6,3 @@
 #comments-section {
   display: none;
 }
-#curatescape-map-canvas::after {
-  content: "This content requires JavaScript";
-  padding: 1em;
-  display: flex;
-  text-align: center;
-  color: var(--text-caption);
-  font-size: 0.833em;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-}
