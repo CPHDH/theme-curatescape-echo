@@ -822,6 +822,8 @@ function rl_story_map_single($id=null, $title=null, $location=null, $address=nul
             <?php echo __('Open in Google Maps');?></span>
       </a>
     </div>
+  <?php else: ?>
+    <?php echo get_view()->shortcodes('[geolocation range='.$id.']');?>
   <?php endif;
 }
 
@@ -842,31 +844,30 @@ function rl_story_map_multi($tour=false, $hasTerms=false)
 ** ported 2.0
 */
 function rl_homepage_map($viewMapPage=true)
-{
-  if ( plugin_is_active('Curatescape') ): ?>
-    <section class="inner-padding browse">
-      <h2 class="query-header"><?php echo __('%s Map',rl_item_label(false));?></h2>
-      <?php if ( option('curatescape_map_mirror_geolocation') ){
-        echo get_view()->CuratescapeMap()->GeolocationShortcode(null, null, null, "home-items-map");
-      } else {
-        echo get_view()->CuratescapeMap()->Multi(null, true, "multi", null, WEB_ROOT.'/items/browse?output=mobile-json');
-      }
-      ?>
-      <?php if($viewMapPage):?>
-        <div class="view-more-link">
-          <a class="button" href="<?php echo url('items/map');?>">
-            <?php echo __('View Map Page');?>
-          </a>
-        </div>
-      <?php endif;?>
-    </section>
-  <?php elseif ( plugin_is_active('Geolocation') ): ?>
-    <div id="geolocation-browse">
-      <?php echo $this->geolocationMapBrowse('map_browse', array('list' => 'map-links', 'params' => $params)); ?>
-      <div id="map-links"></div>
-    </div>
-  <?php endif;?>
-
+{ ?>
+  <section class="inner-padding browse">
+    <h2 class="query-header"><?php echo __('%s Map',rl_item_label(false));?></h2>
+    <?php if ( plugin_is_active('Curatescape') ): ?>
+        <?php if ( option('curatescape_map_mirror_geolocation') ){
+          echo get_view()->CuratescapeMap()->GeolocationShortcode(null, null, null, "home-items-map");
+        } else {
+          echo get_view()->CuratescapeMap()->Multi(null, true, "multi", null, WEB_ROOT.'/items/browse?output=mobile-json');
+        }
+        ?>
+        <?php if($viewMapPage):?>
+          <div class="view-more-link">
+            <a class="button" href="<?php echo url('items/map');?>">
+              <?php echo __('View Map Page');?>
+            </a>
+          </div>
+        <?php endif;?>
+    
+    <?php elseif ( plugin_is_active('Geolocation') ): ?>
+      <div id="geolocation-browse">
+        <?php echo get_view()->geolocationMapBrowse('map_browse'); ?>
+      </div>
+    <?php endif;?>
+  </section>
   <?php
 }
 
@@ -1004,14 +1005,18 @@ function rl_the_title($item='item')
 
 /*
 ** Subtitle
+** ported 2.0
 */
 
 function rl_the_subtitle($item='item')
 {
-    $dc_title2 = metadata($item, array('Dublin Core', 'Title'), array('index'=>1));
-    $subtitle=element_exists('Item Type Metadata', 'Subtitle') ? metadata($item, array('Item Type Metadata', 'Subtitle')) : null;
-
-    return $subtitle ? '<p class="subtitle">'.$subtitle.'</p>' : ($dc_title2!=='[Untitled]' ? '<p class="subtitle">'.$dc_title2.'</p>' : null);
+  if(element_exists('Item Type Metadata', 'Subtitle')) {
+    $subtitle=metadata($item, array('Item Type Metadata', 'Subtitle'));
+  }
+  if(!isset($subtitle)){
+    $subtitle=metadata($item, array('Dublin Core', 'Title'), array('index'=>1, 'no_filter'=>true)); // 2nd title
+  }
+  return $subtitle ? '<p class="subtitle">'.$subtitle.'</p>' : null;
 }
 
 /*
@@ -1102,8 +1107,10 @@ function rl_filed_under($item = null, $maxlength = 35)
         $label = trim($tag);
         $node = '<a title="'.__('Tag: %s', $label).'" class="tag tag-alt" href="'.$link.'">'.snippet($label,0,$maxlength).'</a>';
     } else {
-        $label = rl_item_label(false);
-        $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>__('Type: %s', $label), 'class'=>'tag tag-alt'));
+        $type = $item->getItemType();
+        $params = isset($type['id']) ? array('type'=>$type['id']) : array();
+        $label = isset($type['name']) ? $type['name'] : rl_item_label(false);
+        $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>__('Type: %s', $label), 'class'=>'tag tag-alt'), $params);
     }
     return '<div class="title-card-subject '.text_to_id($label,'subject').'"><span class="screen-reader">'.__('Filed Under').'</span> '.$node.'</div>';
 }
@@ -2032,6 +2039,7 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
 }
 
 // return story navigation and (when applicable) tour navigation
+// ported 2.0
 function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $has_location=false, $tour=false, $tour_index=false)
 {
     $totop = '<li class="foot"><a title="'.__('Return to Top').'" class="icon-capsule no-bg" href="#site-content">'.rl_icon("arrow-up").'<span class="label">'.__('Top').'</span></a></li>';
@@ -2060,10 +2068,10 @@ function rl_story_nav($has_images=0, $has_audio=0, $has_video=0, $has_other=0, $
     // Output HTML
     $html = '<nav class="rl-toc"><ul>'.
       '<li class="head"><span title="'.__('%s Contents', rl_item_label(false)).'" class="icon-capsule label">'.rl_icon("list").'<span class="label">'.__('%s Contents', rl_item_label(false)).'</span></span></li>'.
-      '<li><a title="'.__('Skip to Main Text').'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.__('Main Text').'</span></a></li>'.
+      '<li><a title="'.(plugin_is_active('Curatescape') ? __('Skip to Main Text') : __('Skip to Metadata')).'" class="icon-capsule" href="#text-section">'.rl_icon("book").'<span class="label">'.(plugin_is_active('Curatescape') ? __('Main Text') : __('Metadata')).'</span></a></li>'.
       $media_list.
       $location.
-      '<li><a title="'.__('Skip to %s', __('Metadata')).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.__('Metadata').'</span></a></li>'.
+      '<li><a title="'.__('Skip to %s', plugin_is_active('Curatescape') ? __('Metadata') : __("Additional Info")).'" class="icon-capsule" href="#metadata-section">'.rl_icon("pricetags").'<span class="label">'.(plugin_is_active('Curatescape') ? __('Metadata') : __('Additional Info')).'</span></a></li>'.
       $totop.
       '</ul></nav>';
 

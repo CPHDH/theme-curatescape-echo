@@ -5,10 +5,11 @@ $subj = ((isset($_GET['advanced'][0]['element_id']) && $_GET['advanced'][0]['ele
 $auth= ((isset($_GET['advanced'][0]['element_id']) && $_GET['advanced'][0]['element_id'] == 39) ? htmlspecialchars($_GET['advanced'][0]['terms']) : null);
 $collection = (isset($_GET['collection']) ? htmlspecialchars($_GET['collection']) : null);
 $query = (isset($_GET['search']) ? htmlspecialchars($_GET['search']) : null);
+$type = (isset($_GET['type']) ? htmlspecialchars($_GET['type']) : null);
 $other = (isset($_GET['advanced'][0]['element_id']) ? true : false);
 $bodyclass='browse';
 $maptype='focusarea';
-$scroll_to = (($query || $tag || $tags || $subj || $auth || $collection || $other) && $total_results) ? 'content' : null;
+$scroll_to = (($query || $tag || $tags || $subj || $auth || $collection || $type || $other ) && $total_results) ? 'content' : null;
 if (($tag || $tags) && !($query)) {
     $the_tag=($tag ? $tag : $tags);
     $title = __('%1$s tagged "%2$s"', rl_item_label(true), $the_tag);
@@ -20,6 +21,10 @@ if (($tag || $tags) && !($query)) {
     $maptype='queryresults';
 } elseif (!empty($subj)) {
     $title = __('Results for subject term "%s"', $subj);
+    $bodyclass .=' queryresults';
+    $maptype='queryresults';
+} elseif (!empty($type)) {
+    $title = __('%1s with type "%2s"', rl_item_label(true), get_record_by_id('Item Type', $type)->name);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif (!empty($collection)) {
