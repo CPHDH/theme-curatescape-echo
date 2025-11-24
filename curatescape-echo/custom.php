@@ -983,14 +983,26 @@ function replace_br($data)
 
 /*
 ** primary item text
+** ported 2.0
 */
 
 function rl_the_text($item='item', $options=array())
 {
-    $dc_desc = metadata($item, array('Dublin Core', 'Description'), $options);
-    $primary_text = element_exists('Item Type Metadata', 'Story') ? metadata($item, array('Item Type Metadata', 'Story'), $options) : null;
-
-    return $primary_text ? replace_br($primary_text) : ($dc_desc ? replace_br($dc_desc) : null);
+    $primary_text = element_exists('Item Type Metadata', 'Story') ? metadata($item, array('Item Type Metadata', 'Story'), $options) : metadata($item, array('Dublin Core', 'Description'), $options);
+    $primary_text = $primary_text ? replace_br($primary_text) : null;
+    $factoids = metadata($item, array('Item Type Metadata', 'Factoid'), 'all');
+    $factoidElements=array_map(function($f){return array($f);},$factoids); // plugin fn compatibility
+    if(
+      plugin_is_active('Curatescape') &&
+      option('curatescape_inline_factoids') && 
+      count($factoidElements) > 0 && 
+      substr_count($primary_text, '<p>') > 4
+    ){
+      $primary_text = insertAfterNth($primary_text, '</p>', factoid($factoidElements), 3);
+    } else {
+      $primary_text = $primary_text.factoid($factoidElements);
+    }
+    return $primary_text;
 }
 
 /*
@@ -1109,7 +1121,7 @@ function rl_filed_under($item = null, $maxlength = 35)
     } else {
         $type = $item->getItemType();
         $params = isset($type['id']) ? array('type'=>$type['id']) : array();
-        $label = isset($type['name']) ? $type['name'] : rl_item_label(false);
+        $label = isset($type['name']) ? str_replace('Curatescape', '', $type['name']) : rl_item_label(false);
         $node = link_to('items', 'browse', snippet($label,0,$maxlength), array('title'=>__('Type: %s', $label), 'class'=>'tag tag-alt'), $params);
     }
     return '<div class="title-card-subject '.text_to_id($label,'subject').'"><span class="screen-reader">'.__('Filed Under').'</span> '.$node.'</div>';
@@ -1417,13 +1429,15 @@ function rl_item_citation()
 
 /*
 ** Post Added/Modified String
+** ported 2.0
+** dates match default citation format
 */
 function rl_post_date()
 {
    if (get_theme_option('show_datestamp') > 0) {
-      $a=format_date(metadata('item', 'added'));
-      $m=format_date(metadata('item', 'modified'));
-      return '<div class="item-post-date">'.__('Published %s.', $a).(($a!==$m) ? ' '.__('Last updated %s.', $m) : null).'</div>';
+      $a=format_date(metadata('item', 'added'), Zend_Date::DATE_LONG); 
+      $m=format_date(metadata('item', 'modified'), Zend_Date::DATE_LONG);
+      return '<div class="item-post-date">'.__('Added %s.', $a).(($a!==$m) ? ' '.__('Modified %s.', $m) : null).'</div>';
    }
 }
 function rl_post_date_header()
@@ -2212,33 +2226,48 @@ function rl_footer_cta($html=null)
 
 /*
 ** Build an array of social media links (including icons) from theme settings
+** ported 2.0
 */
 function rl_social_array($max=5)
 {
-   $services=array();
-   ($email=get_theme_option('contact_email') ? get_theme_option('contact_email') : get_option('administrator_email')) ? array_push($services, '<a target="_blank" rel="noopener" title="email" href="mailto:'.$email.'" class="button social icon-round email">'.rl_icon("mail").'</a>') : null;
-   ($facebook=get_theme_option('facebook_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="facebook" href="'.$facebook.'" class="button social icon-round facebook">'.rl_icon("logo-facebook", null).'</a>') : null;
-   ($twitter=get_theme_option('twitter_username')) ? array_push($services, '<a target="_blank" rel="noopener" title="twitter/x" href="https://twitter.com/'.$twitter.'" class="button social icon-round twitter">'.rl_icon("logo-x", null).'</a>') : null;
-   ($youtube=get_theme_option('youtube_username')) ? array_push($services, '<a target="_blank" rel="noopener" title="youtube" href="'.$youtube.'" class="button social icon-round youtube">'.rl_icon("logo-youtube", null).'</a>') : null;
-   ($instagram=get_theme_option('instagram_username')) ? array_push($services, '<a target="_blank" rel="noopener" title="instagram" href="https://www.instagram.com/'.$instagram.'" class="button social icon-round instagram">'.rl_icon("logo-instagram", null).'</a>') : null;
-   ($threads=get_theme_option('threads_username')) ? array_push($services, '<a target="_blank" rel="noopener" title="threads" href="https://www.threads.net/'.$threads.'" class="button social icon-round threads">'.rl_icon("logo-threads", null).'</a>') : null;
-   ($bsky=get_theme_option('bsky_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="bluesky" href="'.$bsky.'" class="button social icon-round bluesky">'.rl_icon("logo-bluesky", null).'</a>') : null;
-   ($mastodon=get_theme_option('mastodon_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="mastodon" href="'.$mastodon.'" class="button social icon-round mastodon">'.rl_icon("logo-mastodon", null).'</a>') : null;
-   ($tiktok=get_theme_option('tiktok_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="tiktok" href="'.$tiktok.'" class="button social icon-round tiktok">'.rl_icon("logo-tiktok", null).'</a>') : null;
-   ($pinterest=get_theme_option('pinterest_username')) ? array_push($services, '<a target="_blank" rel="noopener" title="pinterest" href="https://www.pinterest.com/'.$pinterest.'" class="button social icon-round pinterest">'.rl_icon("logo-pinterest", null).'</a>') : null;
-   ($tumblr=get_theme_option('tumblr_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="tumblr" href="'.$tumblr.'" class="button social icon-round tumblr">'.rl_icon("logo-tumblr", null).'</a>') : null;
-   ($reddit=get_theme_option('reddit_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="reddit" href="'.$reddit.'" class="button social icon-round reddit">'.rl_icon("logo-reddit", null).'</a>') : null;
-   
-   if (($total=count($services)) > 0) {
-      if ($total>$max) {
-         for ($i=$total; $i>($max-1); $i--) {
-            unset($services[$i]);
-         }
+  $services=array();
+  ($email=get_theme_option('contact_email') ? get_theme_option('contact_email') : get_option('administrator_email')) ? array_push($services, '<a target="_blank" rel="noopener" title="email" href="mailto:'.$email.'" class="button social icon-round email">'.rl_icon("mail").'</a>') : null;
+  ($facebook=get_theme_option('facebook_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="facebook" href="'.$facebook.'" class="button social icon-round facebook">'.rl_icon("logo-facebook", null).'</a>') : null;
+  if($twitter=get_theme_option('twitter_username')){ // legacy username support
+    $url = str_starts_with($twitter, 'http') ? $twitter : 'https://twitter.com/'.$twitter;
+    array_push($services, '<a target="_blank" rel="noopener" title="twitter/x" href="'.$url.'" class="button social icon-round twitter">'.rl_icon("logo-x", null).'</a>');
+  }
+  if($youtube=get_theme_option('youtube_username')) { // legacy username support
+    $url = str_starts_with($youtube, 'http') ? $youtube : 'https://www.youtube.com/user/'.$youtube;
+    array_push($services, '<a target="_blank" rel="noopener" title="youtube" href="'.$url.'" class="button social icon-round youtube">'.rl_icon("logo-youtube", null).'</a>');
+  }
+  if($instagram=get_theme_option('instagram_username')) { // legacy username support
+    $url = str_starts_with($instagram, 'http') ? $instagram : 'https://www.instagram.com/'.$instagram;
+    array_push($services, '<a target="_blank" rel="noopener" title="instagram" href="'.$url.'" class="button social icon-round instagram">'.rl_icon("logo-instagram", null).'</a>');
+  }
+  if($threads=get_theme_option('threads_username')) { // legacy username support
+    $url = str_starts_with($threads, 'http') ? $threads : 'https://www.threads.net/'.$threads;
+    array_push($services, '<a target="_blank" rel="noopener" title="threads" href="'.$url.'" class="button social icon-round threads">'.rl_icon("logo-threads", null).'</a>');
+  }
+  ($bsky=get_theme_option('bsky_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="bluesky" href="'.$bsky.'" class="button social icon-round bluesky">'.rl_icon("logo-bluesky", null).'</a>') : null;
+  ($mastodon=get_theme_option('mastodon_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="mastodon" href="'.$mastodon.'" class="button social icon-round mastodon">'.rl_icon("logo-mastodon", null).'</a>') : null;
+  ($tiktok=get_theme_option('tiktok_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="tiktok" href="'.$tiktok.'" class="button social icon-round tiktok">'.rl_icon("logo-tiktok", null).'</a>') : null;
+  if($pinterest=get_theme_option('pinterest_username')) { // legacy username support
+    $url = str_starts_with($pinterest, 'http') ? $pinterest : 'https://www.pinterest.com/'.$pinterest;
+    array_push($services, '<a target="_blank" rel="noopener" title="pinterest" href="'.$url.'" class="button social icon-round pinterest">'.rl_icon("logo-pinterest", null).'</a>');
+  }
+  ($tumblr=get_theme_option('tumblr_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="tumblr" href="'.$tumblr.'" class="button social icon-round tumblr">'.rl_icon("logo-tumblr", null).'</a>') : null;
+  ($reddit=get_theme_option('reddit_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="reddit" href="'.$reddit.'" class="button social icon-round reddit">'.rl_icon("logo-reddit", null).'</a>') : null;
+  if (($total=count($services)) > 0) {
+    if ($total>$max) {
+      for ($i=$total; $i>($max-1); $i--) {
+        unset($services[$i]);
       }
-      return $services;
-   } else {
-      return false;
-   }
+    }
+    return $services;
+  } else {
+    return false;
+  }
 }
 
 /*

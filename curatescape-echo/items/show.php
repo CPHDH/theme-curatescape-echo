@@ -68,10 +68,13 @@ echo head(array(
         </div>
         <div class="column">
             <section aria-label="<?php echo __('Main Text');?>" id="text-section" data-toc="#text-section">
-                <?php if( plugin_is_active('Curatescape') && $typeName=='Curatescape Story'):?>
+                <?php if ( 
+                    $typeName=='Curatescape Story' &&
+                    plugin_is_active('Curatescape') && 
+                    option('curatescape_template')
+                ):?>
                     <?php echo $the_lede ? $the_lede.'<div class="separator flush-top"></div>' : null; ?>
                     <?php echo rl_the_text(); ?>
-                    <?php echo rl_factoid();?>
                 <?php else:?>
                     <?php echo all_element_texts('item');?>
                 <?php endif;?>
