@@ -1327,10 +1327,12 @@ figcaption,
 #admin-bar a:hover {
   color: #ccc;
 }
+a.curatescape-admin-edit,
 #admin-bar a.highlight {
   background: #444;
   border-radius: 3px;
 }
+a.curatescape-admin-edit:hover,
 #admin-bar a.highlight:hover {
   background: #333;
   color: #fff;
@@ -1341,6 +1343,7 @@ figcaption,
   }
 }
 @media all and (max-width: 400px) {
+  a.curatescape-admin-edit,
   #admin-bar a.highlight {
     display: none;
   }
@@ -2989,17 +2992,11 @@ ul.pagination .button {
   }
 }
 /* FACTOIDS */
-.factoid {
-  display: flex;
-  flex-direction: row;
-  background: var(--light-primary-subtle);
-  padding: 1em;
-  max-width: 700px;
-  color: var(--text-base);
-  border: var(--deco-border);
+.curatescape-factoids {
+  max-width: 37em;
 }
-.factoid .theme-icon {
-  padding-right: 0.5em;
+.curatescape-factoids .factoid p {
+  line-height: 1.5;
 }
 
 /* COLLECTIONS / TOURS */

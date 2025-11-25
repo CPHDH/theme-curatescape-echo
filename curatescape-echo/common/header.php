@@ -184,4 +184,3 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
         </header>
 
         <div id="page-content" class="container">
-            <?php //fire_plugin_hook('public_content_top', array('view'=>$this)); ?>

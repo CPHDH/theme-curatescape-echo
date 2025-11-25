@@ -47,8 +47,10 @@ echo head(array(
                 <div class="separator wide thin flush-top"></div>
                 <?php echo rl_the_title();?>
                 <?php echo rl_the_subtitle();?>
-                <div class="separator"></div>
-                <?php echo rl_the_byline($item, true);?>
+                <?php if(!plugin_is_active('Curatescape') || option('curatescape_byline') == 'before_lede'): ?>
+                    <div class="separator"></div>
+                    <?php echo rl_the_byline($item, true);?>
+                <?php endif;?>
                 <?php echo rl_post_date_header();?>
             </div>
             <div class="title-card-image">
@@ -74,6 +76,10 @@ echo head(array(
                     option('curatescape_template')
                 ):?>
                     <?php echo $the_lede ? $the_lede.'<div class="separator flush-top"></div>' : null; ?>
+                    <?php if(plugin_is_active('Curatescape') && option('curatescape_byline') == 'after_lede'): ?>
+                        <?php echo rl_the_byline($item, true);?>
+                        <div class="separator"></div>
+                    <?php endif;?>
                     <?php echo rl_the_text(); ?>
                 <?php else:?>
                     <?php echo all_element_texts('item');?>

@@ -998,7 +998,7 @@ function rl_the_text($item='item', $options=array())
       count($factoidElements) > 0 && 
       substr_count($primary_text, '<p>') > 4
     ){
-      $primary_text = insertAfterNth($primary_text, '</p>', factoid($factoidElements), 3);
+      $primary_text = insertAfterNth($primary_text, '</p>', factoid($factoidElements), floor(substr_count($primary_text, '<p>') / 2));
     } else {
       $primary_text = $primary_text.factoid($factoidElements);
     }
@@ -1443,9 +1443,9 @@ function rl_post_date()
 function rl_post_date_header()
 {
    if (get_theme_option('show_datestamp_header') > 0) {
-      $a=format_date(metadata('item', 'added'));
-      $m=format_date(metadata('item', 'modified'));
-      return '<div class="item-post-date byline">'.__('Published %s.', $a).(($a!==$m) ? ' '.__('Last updated %s.', $m) : null).'</div>';
+      $a=format_date(metadata('item', 'added'), Zend_Date::DATE_LONG);
+      $m=format_date(metadata('item', 'modified'), Zend_Date::DATE_LONG);
+      return '<div class="item-post-date byline">'.__('Added %s.', $a).(($a!==$m) ? ' '.__('Modified %s.', $m) : null).'</div>';
    }
 }
 
