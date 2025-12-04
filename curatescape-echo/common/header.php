@@ -141,16 +141,21 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
 
     <!-- Assets -->
     <?php
-    $includejquery = true;
+    $includejquery = rl_jQueryConditional(current_url());
+    $blacklistAssets = array(
+        '/plugins/CuratescapeGalleries', // incompatible
+        '/plugins/GuestUser/views/public/javascripts',
+        'admin-bar',
+        'family=Arvo:400',
+    );
     if(plugin_is_active('Curatescape')){
-        $includejquery = curatescapejQueryConditional(current_url());
-        curatescapeRemoveHeadAssets($this, array(
-            '/plugins/Geolocation',
-            '/plugins/GuestUser/views/public/javascripts',
-            'admin-bar',
-            'family=Arvo:400')
-        );
+        if(!option('curatescape_map_mirror_geolocation')){
+            array_merge($blacklistAssets, array(
+                '/plugins/Geolocation',
+            ));
+        }
     }
+    rl_removeHeadAssets($this, $blacklistAssets);
     rl_theme_css();
     echo head_css();
     echo head_js($includejquery);

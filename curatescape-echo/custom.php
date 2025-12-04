@@ -284,64 +284,86 @@ function rl_relabel_type($type=null)
    }
 }
 
-/*
-** Determine when to load jQuery
-** usage: head_js(rl_jquery_whitelist(current_url()))
-*/
-// function rl_jquery_whitelist($current_url=null){
-    // if(!$current_url) return;
-    // $whitelist = array(
-    //     '/items/search',
-    //     '/guest-user/',
-    //     '/contribution/',
-    //     '/exhibits/',
-    //     '/neatline/',
-    //     '/users/login',
-    // );
-    // foreach($whitelist as $allowed){
-    //     if(0 === strpos($current_url, $allowed)) return true;
-    // }
-    // return false;
-// }
+function rl_jQueryConditional($current_url=null, $whitelist=array())
+{ 
+  $current_url = $current_url ? $current_url : current_url();
+  if(
+    plugin_is_active('CuratescapeGalleries') && 
+    get_option('curatescapegalleries_gallery_style') == 'gallery-slides' &&
+    strpos($current_url, '/items/show/') == '0'
+  ){
+    return true;
+  }
+  if(
+    plugin_is_active('Curatescape') && 
+    get_option('curatescape_map_mirror_geolocation') == true &&
+    strpos($current_url, '/items/show/') == '0'
+  ){
+    return true;
+  }
+  $whitelist = count($whitelist) ? $whitelist : array(
+    '/search',
+    '/items/search',
+    '/guest-user/',
+    '/contribution/',
+    '/exhibits/',
+    '/neatline/',
+    '/users/login',
+  );
+  foreach($whitelist as $allowed){
+    if(0 === strpos($current_url, $allowed)) return true;
+  }
+  return false;
+}
 
-/*
-** Remove select plugin/core assets from queue
-** view: $this
-** paths: array('/plugins/Geolocation','admin-bar','family=Arvo:400')
-*/
-// function rl_assets_blacklist($view=null, $paths=array())
-// {
-   // if ($view) {
-    //   $scripts = $view->headScript();
-    //   foreach ($scripts as $key=>$file) {
-    //      foreach ($paths as $path) {
-    //         if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
-    //            // do nothing if this is an exhibit (allow map)
-    //         }elseif(0 === strpos(current_url(), '/guest-user/') && $path == '/plugins/GuestUser/views/public/javascripts'){
-    //           // do nothing if this is a guest user page
-    //         }elseif (isset($file->attributes['src']) && strpos($file->attributes['src'], $path) !== false) {
-    //              $scripts[$key]->type = null;
-    //              $scripts[$key]->attributes['src'] = null;
-    //              $scripts[$key]->attributes['source'] = null;
-    //         }
-    //      }
-    //   }
-    //   $styles = $view->headLink();
-    //   foreach ($styles as $key=>$file) {
-    //      foreach ($paths as $path) {
-    //         if(0 === strpos(current_url(), '/exhibits/show') && $path == '/plugins/Geolocation'){
-    //            // do nothing if this is an exhibit (allow map)
-    //         }elseif ($file->href && strpos($file->href, $path) !== false) {
-    //            $styles[$key]->href = null;
-    //            $styles[$key]->type = null;
-    //            $styles[$key]->rel = null;
-    //            $styles[$key]->media = null;
-    //            $styles[$key]->conditionalStylesheet = null;
-    //         }
-    //      }
-    //   }
-   // }
-// }
+function rl_removeHeadAssets($view=null, $paths=array())
+{
+  if ($view) {
+    $scripts = $view->headScript();
+    foreach ($scripts as $key=>$file) {
+      foreach ($paths as $path) {
+        if(
+          0 === strpos(current_url(), '/exhibits/show') && 
+          $path == '/plugins/Geolocation'
+        ){
+          // do nothing if this is an exhibit (allow map)
+        }elseif(
+          0 === strpos(current_url(), '/guest-user/') && 
+          $path == '/plugins/GuestUser/views/public/javascripts'
+        ){
+          // do nothing if this is a guest user page
+        }elseif (
+          isset($file->attributes['src']) && 
+          strpos($file->attributes['src'], $path) !== false
+        ) {
+          $scripts[$key]->type = null;
+          $scripts[$key]->attributes['src'] = null;
+          $scripts[$key]->attributes['source'] = null;
+        }
+      }
+    }
+    $styles = $view->headLink();
+    foreach ($styles as $key=>$file) {
+      foreach ($paths as $path) {
+        if(
+          0 === strpos(current_url(), '/exhibits/show') && 
+          $path == '/plugins/Geolocation'
+        ){
+          // do nothing if this is an exhibit (allow map)
+        }elseif (
+          $file->href && 
+          strpos($file->href, $path) !== false
+        ) {
+          $styles[$key]->href = null;
+          $styles[$key]->type = null;
+          $styles[$key]->rel = null;
+          $styles[$key]->media = null;
+          $styles[$key]->conditionalStylesheet = null;
+        }
+      }
+    }
+  }
+}
 
 /*
 ** SEO Page Description
