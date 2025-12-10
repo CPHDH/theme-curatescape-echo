@@ -23,7 +23,7 @@ if (($tag || $tags) && !($query)) {
     $title = __('Results for subject term "%s"', $subj);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
-} elseif (!empty($type)) {
+} elseif (!empty($type) && !rl_skipStoryTypeLabel($type)) {
     $title = __('%1s with type "%2s"', rl_item_label(true), get_record_by_id('Item Type', $type)->name);
     $bodyclass .=' queryresults';
     $maptype='queryresults';

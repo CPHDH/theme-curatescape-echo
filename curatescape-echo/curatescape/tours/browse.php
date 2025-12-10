@@ -27,7 +27,7 @@ echo head(
 
 ?>
 <div id="content" role="main" data-scrollto="<?php echo $scroll_to;?>">
-   <article class="browse tour">
+   <article class="browse">
       <div class="browse-header">
          <h2 class="query-header"><?php echo $title;?></h2>
          <nav class="tours-nav navigation secondary-nav">

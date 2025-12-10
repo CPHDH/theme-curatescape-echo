@@ -44,6 +44,16 @@ if(!function_exists('tour')){
   }
 }
 
+function rl_skipStoryTypeLabel($typeid){
+  if(
+    rl_item_label() == 'Story' &&
+    plugin_is_active('Curatescape') && 
+    get_record_by_id('Item Type', $typeid)->name == 'Curatescape Story'
+  ){
+    return true;
+  }
+  return false;
+}
 
 /*
 ** Admin Messages
