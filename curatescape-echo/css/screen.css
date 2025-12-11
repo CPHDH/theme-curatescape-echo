@@ -2215,6 +2215,9 @@ figure.image-figure.border figcaption {
 }
 
 /* Map - General */
+#items.show figure#curatescape-map-figure{
+  max-width: 700px;
+}
 #map_browse {
   min-height: 500px; // geolocation plugin
 }
@@ -3220,80 +3223,7 @@ ul.pagination .button {
     left: calc(100vw - 50px - 0.25em);
   }
 }
-.leaflet-control-attribution a {
-  font-family: var(--font-ui);
-}
-#multi-map-container .leaflet-control-attribution {
-  padding-right: 50px;
-}
-.leaflet-bottom.leaflet-left {
-  width: 100%;
-  text-align: center;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-.leaflet-title {
-  width: 100%;
-  bottom: 35px;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-.leaflet-title-inner {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  font-family: var(--font-ui);
-  color: #fff;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: var(--form-element-border-radius);
-  padding: 5px 10px;
-  font-size: 1rem;
-  margin: 0 auto;
-  text-align: center;
-  box-shadow: var(--shadow-general);
-  border: var(--deco-border);
-  max-width: calc(100% - 30px);
-  line-height: 1.4em;
-}
-@media all and (max-width: 650px) {
-  .leaflet-title-inner {
-    font-size: 0.833rem;
-  }
-}
-.title-loader {
-  display: none;
-  vertical-align: sub;
-  padding: 7px;
-  margin-right: 7px;
-  border: 3px solid rgba(256, 256, 256, 0.9);
-  border-top: 3px solid var(--link-text-on-dark);
-  border-radius: 50%;
-}
-.title-loader.spin {
-  display: inline-block;
-}
-.curatescape-map .marker-cluster div {
-  color: var(--cluster-text-color, #fff);
-  font-family: var(--font-ui);
-}
-.curatescape-map .marker-cluster-large {
-  background-color: var(--cluster-large-color, rgba(253, 156, 115, 0.6));
-}
-.curatescape-map .marker-cluster-medium {
-  background-color: var(--cluster-medium-color, rgba(241, 211, 87, 0.6));
-}
-.curatescape-map .marker-cluster-small {
-  background-color: var(--cluster-small-color, rgba(181, 226, 140, 0.6));
-}
-.curatescape-map .marker-cluster-large div {
-  background-color: var(--cluster-large-color, rgba(0, 0, 0, 0.65));
-}
-.curatescape-map .marker-cluster-medium div {
-  background-color: var(--cluster-medium-color, rgba(0, 0, 0, 0.65));
-}
-.curatescape-map .marker-cluster-small div {
-  background-color: var(--cluster-small-color, rgba(0, 0, 0, 0.65));
-}
+
 
 /* EXHIBITS */
 #exhibit-pages .inner {

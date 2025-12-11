@@ -311,6 +311,12 @@ function rl_jQueryConditional($current_url=null, $whitelist=array())
   ){
     return true;
   }
+  if(
+    !plugin_is_active('Curatescape') && 
+    strpos($current_url, '/items/show/') == '0'
+  ){
+    return true;
+  }
   $whitelist = count($whitelist) ? $whitelist : array(
     '/search',
     '/items/search',
