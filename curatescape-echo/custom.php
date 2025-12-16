@@ -981,26 +981,25 @@ function rl_simple_search($inputID='search', $formProperties=array(), $ariaLabel
 
 /*
 ** App Store links on homepage
+** see also Curatescape plugin settings
+** ported 2.0
 */
 function rl_appstore_downloads()
 {
     if (get_theme_option('enable_app_links')) {
         $apps=array();
-        $ios_app_id = get_theme_option('ios_app_id');
+        $ios_app_id = get_option('curatescape_app_ios');
         if ($ios_app_id) {
             $href='https://itunes.apple.com/us/app/'.$ios_app_id;
             $apps[]='<a class="button appstore ios" href="'.$href.'" target="_blank" rel="noopener">'.
                      rl_icon('logo-apple-appstore', null).__('App Store').'</a>';
         }
-
-        $android_app_id = get_theme_option('android_app_id');
+        $android_app_id = get_option('curatescape_app_android');
         if ($android_app_id) {
             $href='http://play.google.com/store/apps/details?id='.$android_app_id;
             $apps[]='<a class="button appstore android" href="'.$href.'" target="_blank" rel="noopener">'.
                      rl_icon('logo-google-playstore', null).__('Google Play').'</a>';
         }
-
-
         if (count($apps) > 1) {
             return implode(' ', $apps);
         }

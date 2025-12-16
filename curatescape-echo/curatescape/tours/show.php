@@ -57,11 +57,11 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
                         $itemText .= '<br><a class="readmore" href="'.$url.'">'.__('View %s', rl_item_label(false)).'</a> <span class="sep-bar" aria-hidden="true">&mdash;</span> <a role="button" data-index="'.$i.'" data-item-id="'.$tourItem->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>';
                         ?>
                         <article class="item-result tour">
-                            <a aria-label="<?php echo strip_tags(metadata($tourItem, array('Dublin Core', 'Title'))); ?>" class="tour-image single" style="background-image:url(<?php echo rl_get_first_image_src($tourItem, 'square_thumbnails');?>)" href="<?php echo $url;?>"></a>
+                            <a aria-label="<?php echo strip_tags(metadata($tourItem, array('Dublin Core', 'Title'), array('no_filter'=>true))); ?>" class="tour-image single" style="background-image:url(<?php echo rl_get_first_image_src($tourItem, 'square_thumbnails');?>)" href="<?php echo $url;?>"></a>
                             <div class="separator thin flush-bottom flush-top"></div>
                             <div class="tour-inner">
                                 <a class="permalink" href="<?php echo $url; ?>">
-                                    <h2 class="h3 title"><?php echo strip_tags(metadata($tourItem, array('Dublin Core', 'Title'))); ?></h2>
+                                    <h2 class="h3 title"><?php echo strip_tags(metadata($tourItem, array('Dublin Core', 'Title'),array('no_filter'=>true))); ?></h2>
                                     <?php echo ($custom && isset($custom['subtitle']) && $custom['subtitle']) ? '<p class="subtitle">'.$custom['subtitle'].'</p>' : rl_the_subtitle($tourItem);?>
                                 </a>
                                 <p class="item-description tour-snip">
