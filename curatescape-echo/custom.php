@@ -1031,12 +1031,14 @@ function rl_the_text($item='item', $options=array())
     $factoidElements=array_map(function($f){return array($f);},$factoids); // plugin fn compatibility
     if(
       plugin_is_active('Curatescape') &&
-      option('curatescape_inline_factoids') && 
-      count($factoidElements) > 0 && 
+      function_exists('factoid') &&
+      function_exists('insertAfterNth') &&
+      option('curatescape_inline_factoids') &&
+      count($factoidElements) > 0 &&
       substr_count($primary_text, '<p>') > 4
     ){
       $primary_text = insertAfterNth($primary_text, '</p>', factoid($factoidElements), floor(substr_count($primary_text, '<p>') / 2));
-    } else {
+    } elseif(function_exists('factoid')) {
       $primary_text = $primary_text.factoid($factoidElements);
     }
     return $primary_text;
