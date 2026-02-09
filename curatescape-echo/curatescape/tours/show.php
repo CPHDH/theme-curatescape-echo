@@ -30,7 +30,7 @@ echo head(array( 'maptype'=>$maptype,'title' => ''.$label.' | '.$tourTitle, 'con
 
         <section id="text" aria-label="<?php echo __('%s Description', rl_tour_label(true));?>">
             <div class="max-content-width inner-padding">
-                <?php echo htmlspecialchars_decode(tour('Description')); ?>
+                <?php echo normalizeTextBlocks(nl2br(tour('Description'))); ?>
             </div>
         </section>
 
