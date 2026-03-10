@@ -1,7 +1,7 @@
 <?php
 $query = (isset($_GET['query']) ? htmlspecialchars($_GET['query']) : null);
 $searchRecordTypes = get_search_record_types();
-$title = __('Search %s', rl_item_label('plural'));
+$title = __('Search %s', rl_item_label(true));
 $bodyclass ='browse advanced-search'.(current_user() ? ' logged-in' : null);
 $maptype='none';
 
@@ -20,7 +20,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'search','bodyclas
             </nav>
 
             <div id="helper-links">
-                <span><?php echo rl_icon('information-circle').'&nbsp;'.__('Use the form below to search for %s. For other record types, use <a href="/search">Sitewide Search</a>.', rl_item_label('plural'));?></span>
+                <span><?php echo rl_icon('information-circle').'&nbsp;'.__('Use the form below to search for %s. For other record types, use <a href="/search">Sitewide Search</a>.', rl_item_label(true));?></span>
             </div>
         </div>
 
@@ -182,7 +182,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'search','bodyclas
                     <div>
                         <?php
                         if (!isset($buttonText)) {
-                            $buttonText = __('Submit %s Search', rl_item_label('singular'));
+                            $buttonText = __('Submit %s Search', rl_item_label(false));
                         } ?>
                         <input type="submit" class="submit button button-primary" name="submit_search" id="submit_search_advanced" value="<?php echo $buttonText ?>">
                     </div>

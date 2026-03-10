@@ -226,8 +226,9 @@ if (secondary_nav_actives.length) {
 }
 // DARK MODE USER SETTINGS MANAGEMENT
 const dark_browsercompatible = CSS.supports("color-scheme", "dark"); // @todo: browser compat!!!
+const darkdisabled = document.querySelector('html').classList.contains('darkdisabled_admin');
 const html = document.querySelector("html");
-if (dark_browsercompatible) {
+if (!darkdisabled && dark_browsercompatible) {
   // set initial cookie?
   if (getCookie("neverdarkmode") == null) {
     document.querySelector("html").classList.add("darkallowed");

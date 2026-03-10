@@ -19,7 +19,7 @@ echo head(array('maptype'=>$maptype,'title'=>$title,'bodyid'=>'search','bodyclas
             </nav>
 
             <div id="helper-links">
-                <span><?php echo rl_icon('information-circle').'&nbsp;'.__('Use the form below to search for the selected record types. Or use advanced options to <a href="/items/search">Search %s</a>.', rl_item_label('plural'));?></span>
+                <span><?php echo rl_icon('information-circle').'&nbsp;'.__('Use the form below to search for the selected record types. Or use advanced options to <a href="/items/search">Search %s</a>.', rl_item_label(true));?></span>
             </div>
         </div>
 

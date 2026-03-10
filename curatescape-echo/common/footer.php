@@ -6,7 +6,7 @@
 	        <div id="footer-search-container">
 	            <?php echo rl_simple_search('footer-search', array('id'=>'footer-search-form','class'=>'capsule'), __('Search - Footer'));?>
 	            <div class="search-options">
-	                <?php echo '<a href="'.url('items/search').'">'.__('Advanced %s Search', rl_item_label()).' &#9656;</a>';?><br>
+	                <?php echo '<a href="'.url('items/search').'">'.__('Advanced %s Search', rl_item_label(false)).' &#9656;</a>';?><br>
 	                <?php echo '<a href="'.url('search').'">'.__('Sitewide Search').' &#9656;</a>';?>
 	            </div>
 	        </div>
@@ -23,7 +23,7 @@
 	        </nav>
 
 	        <div class="footer-random">
-	            <?php echo  random_item_link(rl_icon("dice").__("View a Random %s",rl_item_label('singular')), 'random-button button');?>
+	            <?php echo  random_item_link(rl_icon("dice").__("View a Random %s",rl_item_label(false)), 'random-button button');?>
 	        </div>
 
 	        <div id="project-meta">

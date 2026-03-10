@@ -5,31 +5,36 @@ $subj = ((isset($_GET['advanced'][0]['element_id']) && $_GET['advanced'][0]['ele
 $auth= ((isset($_GET['advanced'][0]['element_id']) && $_GET['advanced'][0]['element_id'] == 39) ? htmlspecialchars($_GET['advanced'][0]['terms']) : null);
 $collection = (isset($_GET['collection']) ? htmlspecialchars($_GET['collection']) : null);
 $query = (isset($_GET['search']) ? htmlspecialchars($_GET['search']) : null);
+$type = (isset($_GET['type']) ? htmlspecialchars($_GET['type']) : null);
 $other = (isset($_GET['advanced'][0]['element_id']) ? true : false);
 $bodyclass='browse';
 $maptype='focusarea';
-$scroll_to = (($query || $tag || $tags || $subj || $auth || $collection || $other) && $total_results) ? 'content' : null;
+$scroll_to = (($query || $tag || $tags || $subj || $auth || $collection || $type || $other ) && $total_results) ? 'content' : null;
 if (($tag || $tags) && !($query)) {
     $the_tag=($tag ? $tag : $tags);
-    $title = __('%1$s tagged "%2$s"', rl_item_label('plural'), $the_tag);
+    $title = __('%1$s tagged "%2$s"', rl_item_label(true), $the_tag);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif (!empty($auth)) {
-    $title = __('%1$s by author %2$s', rl_item_label('plural'), $auth);
+    $title = __('%1$s by author %2$s', rl_item_label(true), $auth);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif (!empty($subj)) {
     $title = __('Results for subject term "%s"', $subj);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
+} elseif (!empty($type) && !rl_skipStoryTypeLabel($type)) {
+    $title = __('%1s with type "%2s"', rl_item_label(true), get_record_by_id('Item Type', $type)->name);
+    $bodyclass .=' queryresults';
+    $maptype='queryresults';
 } elseif (!empty($collection)) {
     $c=get_record_by_id('collection', $collection);
     $collection_title=metadata($c, array('Dublin Core','Title'));
-    $title = __('%1s in "%2s"', rl_item_label('plural'), $collection_title);
+    $title = __('%1s in "%2s"', rl_item_label(true), $collection_title);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif (isset($_GET['featured']) && $_GET['featured'] == 1) {
-    $title = __('Featured %s', rl_item_label('plural'));
+    $title = __('Featured %s', rl_item_label(true));
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } elseif ($query) {
@@ -41,7 +46,7 @@ if (($tag || $tags) && !($query)) {
     $bodyclass .=' queryresults';
     $maptype='queryresults';
 } else {
-    $title = __('All %s', rl_item_label('plural'));
+    $title = __('All %s', rl_item_label(true));
     $bodyclass .=' items stories';
 }
 echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bodyid'=>'items','bodyclass'=>$bodyclass));
@@ -67,7 +72,7 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
         </div>
 
         <div id="primary" class="browse">
-            <section id="results" aria-label="<?php echo rl_item_label('plural');?>">
+            <section id="results" aria-label="<?php echo rl_item_label(true);?>">
 
                 <div class="browse-items <?php echo $total_results ? '' : 'empty';?>">
                     <?php
@@ -97,7 +102,7 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
                             <?php echo rl_filed_under($item);?>
                             <?php echo rl_the_title_expanded($item); ?>
                             <?php echo rl_the_byline($item, false);?>
-                            <?php echo link_to_item(__('View %s', rl_item_label('singular')),array('class'=>'readmore')).($has_location && $item->public ? ' <span class="sep-bar" aria-hidden="true">&mdash;</span> <a role="button" data-id="'.$item->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>' : null);?>
+                            <?php echo link_to_item(__('View %s', rl_item_label(false)),array('class'=>'readmore')).($has_location && $item->public ? ' <span class="sep-bar" aria-hidden="true">&mdash;</span> <a role="button" data-item-id="'.$item->id.'" class="readmore showonmap" href="javascript:void(0)">'.__('Show on Map').'</a>' : null);?>
                         </div>
 
                     </article>
@@ -105,7 +110,7 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
 
                     <?php if ($query && !$total_results) {?>
                     <div id="no-results">
-                        <p><?php echo ($query) ? '<em>'.__('Your query returned <strong>no results.</strong>').'</em><br><span class="caption">'.rl_icon('information-circle').__('Try using <a href="%1$s">Advanced %2$s Search</a> or <a href="%3$s">Sitewide Search</a>.',url('items/search'),rl_item_label(),url('search')).'</span>' : null;?></p>
+                        <p><?php echo ($query) ? '<em>'.__('Your query returned <strong>no results.</strong>').'</em><br><span class="caption">'.rl_icon('information-circle').__('Try using <a href="%1$s">Advanced %2$s Search</a> or <a href="%3$s">Sitewide Search</a>.',url('items/search'),rl_item_label(false),url('search')).'</span>' : null;?></p>
                     </div>
                     <?php }else{ ?>
                     <article class="item-result" style="visibility:hidden"></article>
@@ -123,6 +128,5 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
             
     </article>
 </div> <!-- end content -->
-
 
 <?php echo foot(); ?>
