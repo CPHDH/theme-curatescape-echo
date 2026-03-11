@@ -2048,7 +2048,7 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
     $customheader=get_theme_option('tour_header');
     if ($scope=='random') {
       shuffle($tours);
-      $heading = $customheader ? $customheader : __('Take a').' '.rl_tour_label(true);
+      $heading = $customheader ? $customheader : __('Take a').' '.rl_tour_label();
     } else {
       $heading = $customheader ? $customheader : ucfirst($scope).' '.rl_tour_label(true);
     }
