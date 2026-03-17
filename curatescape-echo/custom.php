@@ -2147,7 +2147,8 @@ function rl_item_files_by_type($item=null, $output=null)
             switch ($mime) {
                case strpos($mime, 'image') !== false:
                $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP'), '.jpg', $file->filename);
-               $size=getimagesize($_SERVER["DOCUMENT_ROOT"].'/files/fullsize/'.$src);
+               $fullsizePath = $_SERVER["DOCUMENT_ROOT"].'/files/fullsize/'.$src;
+               $size = file_exists($fullsizePath) ? getimagesize($fullsizePath) : false;
                $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
                array_push(
                   $output['images'],
