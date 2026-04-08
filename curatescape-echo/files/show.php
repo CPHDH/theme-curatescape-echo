@@ -1,7 +1,7 @@
 <?php
     $fileTitle = strlen(metadata('file', array('Dublin Core', 'Title'))) ? strip_formatting(metadata('file', array('Dublin Core', 'Title'))) : __('Untitled');
     $record=get_record_by_id('Item', $file->item_id);
-    $itemTitle = $record && $record->display_title ? strip_tags($itemTitle) : null;
+    $itemTitle = $record ? strip_tags(metadata($record, array('Dublin Core', 'Title'), array('no_filter' => true))) : null;
 
     echo head(array('file'=>$file, 'maptype'=>'none','bodyid'=>'file','bodyclass'=>'show item-file','title' => $fileTitle ));
 ?>
