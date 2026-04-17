@@ -114,7 +114,7 @@ function rl_search_form_default_record_types()
    $recordTypes=array();
    $recordTypes[]='Item';
    if (plugin_is_active('Curatescape') && get_theme_option('default_tour_search')) {
-      $recordTypes[]='Tour';
+      $recordTypes[]='CuratescapeTour';
    }
    if (plugin_is_active('SimplePages') && get_theme_option('default_page_search')) {
       $recordTypes[]='SimplePagesPage';
