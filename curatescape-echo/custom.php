@@ -205,6 +205,7 @@ function rl_subhead_by_type($type=null, $record=null)
 }
 /*
 ** Icons names by content type
+** ported 2.0
 */
 function rl_icon_name_by_type($type=null, $mime=null)
 {
@@ -232,7 +233,7 @@ function rl_icon_name_by_type($type=null, $mime=null)
          }
          $i = 'document-text';
          break;
-      case 'Tour':
+      case 'CuratescapeTour':
          $i = 'compass';
          break;
       case 'Collection':
@@ -246,6 +247,7 @@ function rl_icon_name_by_type($type=null, $mime=null)
 }
 /*
 ** Sitewide Search Result Text
+** ported 2.0
 */
 function rl_search_text($type=null, $record=null)
 {
@@ -254,9 +256,8 @@ function rl_search_text($type=null, $record=null)
          return rl_the_text($record);
       case 'File':
          return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));
-      case 'Tour':
-         $tour = $record;
-         return tour('Description');
+      case 'CuratescapeTour':
+         return metadata($record, 'description', array('no_escape' => true));
       case 'SimplePagesPage':
          return strip_tags(metadata($record, 'text', array('no_escape' => true)));
       case 'Collection':
@@ -279,18 +280,21 @@ function rl_clean_mime($mime=null)
 }
 /*
 ** Normalize Record Type Names
+** ported 2.0
 */
 function rl_relabel_type($type=null)
 {
    switch ($type) {
       case 'Item':
          return rl_item_label(false);
+      case 'CuratescapeTour':
+        return rl_tour_label(false);
       case 'SimplePagesPage':
-         return __('Page');
+        return __('Page');
       case 'ExhibitPage':
-         return __('Exhibit Page');
+        return __('Exhibit Page');
       default:
-         return $type;
+        return $type;
    }
 }
 
