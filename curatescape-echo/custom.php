@@ -1282,7 +1282,7 @@ function rl_get_first_image_src($item, $size='fullsize')
       $results = $q->fetchAll();
       if ($results) {
          // first image file
-         $sanitized_filename = str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP'), '.jpg', $results[0]['filename']);
+         $sanitized_filename = str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP','.tiff','.TIFF','.tif','.TIF'), '.jpg', $results[0]['filename']);
          return WEB_ROOT.'/files/'.$size.'/'.$sanitized_filename;
       } else {
          return null;
@@ -2150,7 +2150,7 @@ function rl_item_files_by_type($item=null, $output=null)
             $mime = $file->mime_type;
             switch ($mime) {
                case strpos($mime, 'image') !== false:
-               $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP'), '.jpg', $file->filename);
+               $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP','.tiff','.TIFF','.tif','.TIF'), '.jpg', $file->filename);
                $fullsizePath = $_SERVER["DOCUMENT_ROOT"].'/files/fullsize/'.$src;
                $size = file_exists($fullsizePath) ? getimagesize($fullsizePath) : false;
                $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';

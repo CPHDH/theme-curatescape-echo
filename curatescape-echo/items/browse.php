@@ -82,13 +82,15 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
                 $location = get_db()->getTable('Location')->findLocationByItem($item, true);
                 $has_location = (isset($location) && $location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
                 if ($item_image = rl_get_first_image_src($item)) {
-                    $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
+                    $fs_path = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+                    $size = file_exists($fs_path) ? getimagesize($fs_path) : false;
                     $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
                 } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
                     $img = item_image('fullsize');
                     preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
                     $item_image = array_pop($result);
-                    $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
+                    $fs_path = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+                    $size = file_exists($fs_path) ? getimagesize($fs_path) : false;
                     $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
                 }else{
                     $item_image=null;
