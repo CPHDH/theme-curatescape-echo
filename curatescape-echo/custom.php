@@ -809,6 +809,30 @@ function rl_global_header($html=null)
     </div>
     <?php
 }
+
+/*
+** Get Geolocation Data
+** Navigate various plugin versions
+*/
+function rl_get_geolocation_data($item = null){
+  if(!isset($item)) return null;
+  if(plugin_is_active('Curatescape') && function_exists('getLocationData')){
+      if($locationData = getLocationData($item)){
+          return keyLocationOnly($locationData);
+      }
+  }
+  if(plugin_is_active('Geolocation')){
+      $locationTable = get_db()->getTable('Location');
+      if (method_exists($locationTable, 'findLocationByItem')) {
+          return $locationTable->findLocationByItem($item, $single);
+      }
+      if (method_exists($locationTable, 'findLocationsByItem')) {
+          return $locationTable->findLocationsByItem($item);
+      }
+  }
+  return null;
+}
+
 /*
 ** Get Subject Terms
 */

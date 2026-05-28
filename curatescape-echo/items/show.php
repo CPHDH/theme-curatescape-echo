@@ -23,7 +23,7 @@ $has_audio_count = isset($filesforitem['audio'][0]) ? count($filesforitem['audio
 $has_video_count = isset($filesforitem['video'][0]) ? count($filesforitem['video']) : 0;
 $has_other_count = isset($filesforitem['other'][0]) ? count($filesforitem['other']) : 0;
 $the_lede = rl_the_lede();
-$location = get_db()->getTable('Location')->findLocationByItem($item, true);
+$location = rl_get_geolocation_data($item);
 $address = (element_exists('Item Type Metadata', 'Street Address'))
 ? metadata($item, array( 'Item Type Metadata','Street Address' ))
 : null;

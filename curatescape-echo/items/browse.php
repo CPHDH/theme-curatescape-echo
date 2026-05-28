@@ -79,7 +79,7 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
             foreach (loop('Items') as $item):
                 $tags=tag_string(get_current_record('item'), url('items/browse'));
                 $hasImage=metadata($item, 'has thumbnail');
-                $location = get_db()->getTable('Location')->findLocationByItem($item, true);
+                $location = rl_get_geolocation_data($item);
                 $has_location = (isset($location) && $location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
                 if ($item_image = rl_get_first_image_src($item)) {
                     $fs_path = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
