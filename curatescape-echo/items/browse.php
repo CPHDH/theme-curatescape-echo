@@ -80,7 +80,7 @@ echo head(array('maptype'=>$maptype,'title'=>htmlspecialchars_decode($title),'bo
                 $tags=tag_string(get_current_record('item'), url('items/browse'));
                 $hasImage=metadata($item, 'has thumbnail');
                 $location = rl_get_geolocation_data($item);
-                $has_location = (isset($location) && $location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
+                $has_location = (isset($location) && isset($location[ 'latitude' ]) && isset($location[ 'longitude' ])) ? true : false;
                 if ($item_image = rl_get_first_image_src($item)) {
                     $fs_path = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
                     $size = file_exists($fs_path) ? getimagesize($fs_path) : false;

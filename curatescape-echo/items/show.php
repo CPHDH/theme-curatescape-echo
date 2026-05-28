@@ -27,7 +27,7 @@ $location = rl_get_geolocation_data($item);
 $address = (element_exists('Item Type Metadata', 'Street Address'))
 ? metadata($item, array( 'Item Type Metadata','Street Address' ))
 : null;
-$has_location = (isset($location) && $location[ 'latitude' ] && $location[ 'longitude' ]) ? true : false;
+$has_location = (isset($location) && isset($location[ 'latitude' ]) && isset($location[ 'longitude' ])) ? true : false;
 echo head(array(
     'item'=>$item,
     'maptype'=>$maptype,
