@@ -824,7 +824,7 @@ function rl_get_geolocation_data($item = null){
   if(plugin_is_active('Geolocation')){
       $locationTable = get_db()->getTable('Location');
       if (method_exists($locationTable, 'findLocationByItem')) {
-          return $locationTable->findLocationByItem($item, $single);
+          return $locationTable->findLocationByItem($item, true);
       }
       if (method_exists($locationTable, 'findLocationsByItem')) {
           return $locationTable->findLocationsByItem($item);
@@ -1856,13 +1856,15 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
           set_current_record('item', $item);
           if($index == 1){
             if ($item_image = rl_get_first_image_src($item)) {
-              $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
+              $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+              $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
             } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
               $img = item_image('fullsize');
               preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
               $item_image = array_pop($result);
-              $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
+              $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+              $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
             }else{
               $orientation=null;
@@ -1935,13 +1937,15 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
           $tags=tag_string(get_current_record('item'), url('items/browse'));
           $hasImage=metadata($item, 'has thumbnail');
           if ($item_image = rl_get_first_image_src($item)) {
-            $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
+            $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+            $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
           } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
             $img = item_image('fullsize');
             preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
             $item_image = array_pop($result);
-            $size=getimagesize(str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image));
+            $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+            $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
           }else{
             $orientation=null;
