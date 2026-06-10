@@ -414,11 +414,11 @@ function rl_seo_sitedesc()
 
 /*
 ** SEO Page Title
+** ported 2.0
 */
 function rl_seo_pagetitle($title, $item, $appendSiteTitle=true)
 {
-   $subtitle=$item ? (rl_the_subtitle($item) ? ' - '.rl_the_subtitle($item) : null) : null;
-   $pt = $title ? $title.$subtitle.($appendSiteTitle ? ' | '.option('site_title') : null) : option('site_title');
+   $pt = $title ? $title.($appendSiteTitle ? ' | '.option('site_title') : null) : option('site_title');
    return strip_tags($pt);
 }
 
