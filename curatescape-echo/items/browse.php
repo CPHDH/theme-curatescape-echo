@@ -23,12 +23,11 @@ if (($tag || $tags) && !($query)) {
     $title = __('Results for subject term "%s"', $subj);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
-} elseif (!empty($type) && !rl_skipStoryTypeLabel($type)) {
-    $title = __('%1s with type "%2s"', rl_item_label(true), get_record_by_id('Item Type', $type)->name);
+} elseif (!empty($type) && !rl_skipStoryTypeLabel($type) && ($it = get_record_by_id('Item Type', $type))) {
+    $title = __('%1s with type "%2s"', rl_item_label(true), $it->name);
     $bodyclass .=' queryresults';
     $maptype='queryresults';
-} elseif (!empty($collection)) {
-    $c=get_record_by_id('collection', $collection);
+} elseif (!empty($collection) && ($c = get_record_by_id('collection', $collection))) {
     $collection_title=metadata($c, array('Dublin Core','Title'));
     $title = __('%1s in "%2s"', rl_item_label(true), $collection_title);
     $bodyclass .=' queryresults';

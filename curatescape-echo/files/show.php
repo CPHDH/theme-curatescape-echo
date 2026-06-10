@@ -35,7 +35,7 @@
                 ?>
             </figure>
             
-            <a class="button" href="<?php echo file_display_url($file,'original');?>" download="<?php echo $file->id.'-'.$fileTitle;?>"><?php echo __('Download Original File');?></a>
+            <a class="button" href="<?php echo file_display_url($file,'original');?>" download="<?php echo html_escape($file->id.'-'.$fileTitle);?>"><?php echo __('Download Original File');?></a>
 
             <?php if($m=rl_file_metadata_additional()){
                 echo '<div class="separator"></div><div class="additional_file_metadata">'. rl_file_metadata_additional().'</div>';

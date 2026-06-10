@@ -47,8 +47,9 @@ if(!function_exists('tour')){
 function rl_skipStoryTypeLabel($typeid){
   if(
     rl_item_label() == 'Story' &&
-    plugin_is_active('Curatescape') && 
-    get_record_by_id('Item Type', $typeid)->name == 'Curatescape Story'
+    plugin_is_active('Curatescape') &&
+    ($type = get_record_by_id('Item Type', $typeid)) &&
+    $type->name == 'Curatescape Story'
   ){
     return true;
   }
@@ -166,8 +167,8 @@ function rl_search_result_card($searchText=null, $type=null, $class=null)
    if ($type == 'Item') {
       if ($src = rl_get_first_image_src($record)) {
          $itemimg = '<img src="'.$src.'"/>';
-      } elseif (metadata($record, 'has thumbnail') && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
-         $itemimg = item_image('square_thumbnail');
+      } elseif (metadata($record, 'has thumbnail') && ($img = item_image('square_thumbnail')) && (!stripos($img, 'ionicons') && !stripos($img, 'fallback'))) {
+         $itemimg = $img;
       } else {
          $itemimg = '<img src="'.img('ionicons/custom/blank.svg').'"/>';
       }
@@ -215,7 +216,7 @@ function rl_icon_name_by_type($type=null, $mime=null)
       break;
       case 'File':
          if ($mime) {
-            switch ($mime) {
+            switch (true) {
                case substr($mime, 0, 5) === 'audio':
                   $i = 'headset';
                   break;
@@ -261,7 +262,7 @@ function rl_search_text($type=null, $record=null)
       case 'SimplePagesPage':
          return strip_tags(metadata($record, 'text', array('no_escape' => true)));
       case 'Collection':
-         return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));;
+         return metadata($record, array('Dublin Core', 'Description'), array('no_escape' => true));
       case 'Exhibit':
          return metadata($record, 'description', array('no_escape' => true));
       case 'ExhibitPage':
@@ -301,23 +302,23 @@ function rl_relabel_type($type=null)
 function rl_jQueryConditional($current_url=null, $whitelist=array())
 { 
   $current_url = $current_url ? $current_url : current_url();
+  // jQuery-dependent plugin output (Omeka lightgallery via CuratescapeGalleries
+  // slides mode; Geolocation map.js) can appear on items/show, the homepage,
+  // and items/map, so load jQuery sitewide when one of these scenarios applies
   if(
-    plugin_is_active('CuratescapeGalleries') && 
-    get_option('curatescapegalleries_gallery_style') == 'gallery-slides' &&
-    strpos($current_url, '/items/show/') == '0'
+    plugin_is_active('CuratescapeGalleries') &&
+    get_option('curatescapegalleries_gallery_style') == 'gallery-slides'
   ){
     return true;
   }
   if(
-    plugin_is_active('Curatescape') && 
-    get_option('curatescape_map_mirror_geolocation') == true &&
-    strpos($current_url, '/items/show/') == '0'
+    plugin_is_active('Curatescape') &&
+    get_option('curatescape_map_mirror_geolocation') == true
   ){
     return true;
   }
   if(
-    !plugin_is_active('Curatescape') && 
-    strpos($current_url, '/items/show/') == '0'
+    !plugin_is_active('Curatescape')
   ){
     return true;
   }
@@ -734,7 +735,7 @@ function rl_priority_nav_links($links=array()){
             if($details = parseLink($link)){
               if( isset($details['href']) && isset($details['text']) ){
                 $target = isset($details['target']) ? 'target="'.$details['target'].'" ' : null;
-                $links[] = '<a class="button transparent '.((is_current_url($target)) ? 'active' : null).'" '.$target.'href="'.$details['href'].'">'.rl_icon("bookmark").$details['text'].'</a>';
+                $links[] = '<a class="button transparent '.((is_current_url($details['href'])) ? 'active' : null).'" '.$target.'href="'.$details['href'].'">'.rl_icon("bookmark").$details['text'].'</a>';
                 $custom++;
               }
             }
@@ -1028,7 +1029,7 @@ function rl_appstore_downloads()
             $apps[]='<a class="button appstore android" href="'.$href.'" target="_blank" rel="noopener">'.
                      rl_icon('logo-google-playstore', null).__('Google Play').'</a>';
         }
-        if (count($apps) > 1) {
+        if (count($apps) > 0) {
             return implode(' ', $apps);
         }
     }
@@ -1255,7 +1256,7 @@ function rl_tags($item)
 */
 function rl_collection($item)
 {
-  if ($collection = get_collection_for_item() && isset($collection) && $collection->public) {
+  if (($collection = get_collection_for_item()) && $collection->public) {
       return '<div id="collection">'.link_to_collection_for_item(null, array('class'=>'tag tag-alt','title'=>__('Collection')), 'show').'</div>';
   }
 }
@@ -1408,7 +1409,7 @@ function rl_factoid($item='item', $html=null)
             $html.='<div class="factoid caption">'.rl_icon('information-circle').'<span>'.$factoid.'</span></div>';
          }
          if ($html) {
-            return '<aside id="factoid" artia-label="'.__('Factoids').'">'.$html.'</aside>';
+            return '<aside id="factoid" aria-label="'.__('Factoids').'">'.$html.'</aside>';
          }
       }
    }
@@ -1554,8 +1555,6 @@ function rl_streaming_files($filesArray=null, $type=null, $openFirst=false)
 {
    $html=null;
    $index=0;
-   $videoTypes = array('video/mp4','video/mpeg','video/quicktime'); // @todo: in_array($file['mime'],$videoTypes)
-   $audioTypes = array('audio/mp3'); // @todo: in_array($file['mime'],$videoTypes)
    foreach ($filesArray as $file) {
       $index++;
       $html.='<div itemscope itemtype="http://schema.org/'.ucfirst($type).'Object">';
@@ -1566,7 +1565,7 @@ function rl_streaming_files($filesArray=null, $type=null, $openFirst=false)
             <source src="'.WEB_ROOT.'/files/original/'.$file['src'].'" type="audio/mp3">
             <p class="media-no-support">'.__('Your web browser does not support HTML5 audio').'</p>
         </audio>';
-      } elseif ($type="video") {
+      } elseif ($type == "video") {
         $thumb = WEB_PUBLIC_THEME.'/'.Theme::getCurrentThemeName().'/images/ionicons/film-sharp.svg';
         $html.='<video itemprop="associatedMedia" playsinline controls preload="auto">
             <source src="'.WEB_ROOT.'/files/original/'.$file['src'].'" type="video/mp4">
@@ -1606,14 +1605,14 @@ function rl_document_files($files=array())
         $title = $file['title'] ? $file['title'] : $file['filename'];
 
         $html .= '<tr>';
-        $html .= '<td class="title"><a title="'.__('View File Details').'" href="/files/show/'.$file['id'].'">'.$title.'</a></td>';
+        $html .= '<td class="title"><a title="'.__('View File Details').'" href="'.url('files/show/').$file['id'].'">'.$title.'</a></td>';
         $html .= '<td class="info"><span>'.$extension.'</span> / '.$size.'</td>';
-        $html .= '<td class="download"><a class="button" target="_blank" href="'.$src.'"><i class="fa fa-download" aria-hidden="true"></i><span>Download</span></a></td>';
+        $html .= '<td class="download"><a class="button" target="_blank" href="'.$src.'"><i class="fa fa-download" aria-hidden="true"></i><span>'.__('Download').'</span></a></td>';
         $html .= '</tr>';
     }
     if ($html) {
         echo '<figure id="item-documents">';
-        echo '<table><tbody><tr><th>Name</th><th>Info</th><th>Actions</th></tr>'.$html.'</tbody></table>';
+        echo '<table><thead><tr><th>'.__('Name').'</th><th>'.__('Info').'</th><th>'.__('Actions').'</th></tr></thead><tbody>'.$html.'</tbody></table>';
         echo '</figure>';
     }
 }
@@ -1645,11 +1644,9 @@ function rl_single_file_show($file=null)
 
     // SINGLE VIDEO FILE
     } elseif (array_search($mime, $videoTypes) !== false) {
-        $videoTypes = array('video/mp4','video/mpeg','video/quicktime');
         $videoFile = file_display_url($file, 'original');
         $videoTitle = metadata($file, array('Dublin Core', 'Title'));
         $videoDesc = rl_file_caption($file, false);
-        $videoTitle = metadata($file, array('Dublin Core','Title'));
         $embeddable=embeddableVersion($file, $videoTitle, $videoDesc, array('Dublin Core','Relation'), false);
         if ($embeddable) {
             // If a video has an embeddable streaming version, use it.
@@ -1859,7 +1856,7 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
               $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
               $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
-            } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
+            } elseif (metadata($item, 'has thumbnail') && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
               $img = item_image('fullsize');
               preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
               $item_image = array_pop($result);
@@ -1916,17 +1913,18 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
   if(get_theme_option("random_or_recent") !== "none"){
     $mode = get_theme_option("random_or_recent");
     switch ($mode) {
-      case 'recent':
-        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
-        $param=__("Recent");
-        break;
       case 'random':
-        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);;
+        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'random', 'sort_dir' => 'd','public'=>true), $num);
         $param=__("Discover");
         break;
       case 'modified':
         $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'modified', 'sort_dir' => 'd','public'=>true), $num);
         $param=__("Discover");
+        break;
+      case 'recent':
+      default:
+        $items=get_records('Item', array('featured'=>false,'hasImage'=>true,'sort_field' => 'added', 'sort_dir' => 'd','public'=>true), $num);
+        $param=__("Recent");
         break;
     }
     if(count($items)){
@@ -2065,7 +2063,6 @@ function rl_homepage_tours($html=null, $num=4, $scope='featured')
     $table = $db->getTable('CuratescapeTour');
     $select = $table->getSelect();
     $select->where('public = 1');
-    $public = $table->fetchObjects($select);
     switch ($scope) {
       case 'random':
         $select->from(array(), 'RAND() as rand');
@@ -2176,7 +2173,7 @@ function rl_item_files_by_type($item=null, $output=null)
     if (metadata($item, 'has files')) {
         foreach (loop('files', $item->Files) as $file) {
             $mime = $file->mime_type;
-            switch ($mime) {
+            switch (true) {
                case strpos($mime, 'image') !== false:
                $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP','.tiff','.TIFF','.tif','.TIF'), '.jpg', $file->filename);
                $fullsizePath = $_SERVER["DOCUMENT_ROOT"].'/files/fullsize/'.$src;
@@ -2306,26 +2303,26 @@ function rl_social_array($max=5)
   ($email=get_theme_option('contact_email') ? get_theme_option('contact_email') : get_option('administrator_email')) ? array_push($services, '<a target="_blank" rel="noopener" title="email" href="mailto:'.$email.'" class="button social icon-round email">'.rl_icon("mail").'</a>') : null;
   ($facebook=get_theme_option('facebook_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="facebook" href="'.$facebook.'" class="button social icon-round facebook">'.rl_icon("logo-facebook", null).'</a>') : null;
   if($twitter=get_theme_option('twitter_username')){ // legacy username support
-    $url = str_starts_with($twitter, 'http') ? $twitter : 'https://twitter.com/'.$twitter;
+    $url = strpos($twitter, 'http') === 0 ? $twitter : 'https://twitter.com/'.$twitter;
     array_push($services, '<a target="_blank" rel="noopener" title="twitter/x" href="'.$url.'" class="button social icon-round twitter">'.rl_icon("logo-x", null).'</a>');
   }
   if($youtube=get_theme_option('youtube_username')) { // legacy username support
-    $url = str_starts_with($youtube, 'http') ? $youtube : 'https://www.youtube.com/user/'.$youtube;
+    $url = strpos($youtube, 'http') === 0 ? $youtube : 'https://www.youtube.com/user/'.$youtube;
     array_push($services, '<a target="_blank" rel="noopener" title="youtube" href="'.$url.'" class="button social icon-round youtube">'.rl_icon("logo-youtube", null).'</a>');
   }
   if($instagram=get_theme_option('instagram_username')) { // legacy username support
-    $url = str_starts_with($instagram, 'http') ? $instagram : 'https://www.instagram.com/'.$instagram;
+    $url = strpos($instagram, 'http') === 0 ? $instagram : 'https://www.instagram.com/'.$instagram;
     array_push($services, '<a target="_blank" rel="noopener" title="instagram" href="'.$url.'" class="button social icon-round instagram">'.rl_icon("logo-instagram", null).'</a>');
   }
   if($threads=get_theme_option('threads_username')) { // legacy username support
-    $url = str_starts_with($threads, 'http') ? $threads : 'https://www.threads.net/'.$threads;
+    $url = strpos($threads, 'http') === 0 ? $threads : 'https://www.threads.net/'.$threads;
     array_push($services, '<a target="_blank" rel="noopener" title="threads" href="'.$url.'" class="button social icon-round threads">'.rl_icon("logo-threads", null).'</a>');
   }
   ($bsky=get_theme_option('bsky_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="bluesky" href="'.$bsky.'" class="button social icon-round bluesky">'.rl_icon("logo-bluesky", null).'</a>') : null;
   ($mastodon=get_theme_option('mastodon_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="mastodon" href="'.$mastodon.'" class="button social icon-round mastodon">'.rl_icon("logo-mastodon", null).'</a>') : null;
   ($tiktok=get_theme_option('tiktok_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="tiktok" href="'.$tiktok.'" class="button social icon-round tiktok">'.rl_icon("logo-tiktok", null).'</a>') : null;
   if($pinterest=get_theme_option('pinterest_username')) { // legacy username support
-    $url = str_starts_with($pinterest, 'http') ? $pinterest : 'https://www.pinterest.com/'.$pinterest;
+    $url = strpos($pinterest, 'http') === 0 ? $pinterest : 'https://www.pinterest.com/'.$pinterest;
     array_push($services, '<a target="_blank" rel="noopener" title="pinterest" href="'.$url.'" class="button social icon-round pinterest">'.rl_icon("logo-pinterest", null).'</a>');
   }
   ($tumblr=get_theme_option('tumblr_link')) ? array_push($services, '<a target="_blank" rel="noopener" title="tumblr" href="'.$tumblr.'" class="button social icon-round tumblr">'.rl_icon("logo-tumblr", null).'</a>') : null;
@@ -2581,10 +2578,10 @@ function rl_license()
              'intl'=>'International',
              'ca'=>'Canada',
              'au'=>'Australia',
-             'uk'=>'United Kingdom (England and Whales)',
+             'uk'=>'United Kingdom (England and Wales)',
              'us'=>'United States'
       );
-    if ($cc_license != 'none') {
+    if ($cc_license && $cc_license != 'none' && isset($cc_readable[$cc_license], $cc_readable[$cc_version], $cc_jurisdiction_readable[$cc_jurisdiction])) {
         return __('This work is licensed by '.rl_owner_link().' under a <a rel="license" href="http://creativecommons.org/licenses/'.$cc_license.'/'.$cc_readable[$cc_version].'/'.($cc_jurisdiction !== 'intl' ? $cc_jurisdiction : null).'">Creative Commons '.$cc_readable[$cc_license].' '.$cc_readable[$cc_version].' '.$cc_jurisdiction_readable[$cc_jurisdiction].' License</a>.');
     } else {
         return __('&copy; %1$s %2$s', date('Y'), rl_owner_link());

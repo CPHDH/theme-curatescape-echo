@@ -57,7 +57,7 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
     <?php elseif(is_current_url('/') || is_current_url('/items/map')):?>
         <link rel="preconnect" href="/items/browse?output=mobile-json">
     <?php elseif(is_current_url('/items/browse') && $_SERVER['QUERY_STRING']):?>
-        <link rel="preconnect" href="?<?php echo $_SERVER['QUERY_STRING'];?>&output=mobile-json">
+        <link rel="preconnect" href="?<?php echo html_escape($_SERVER['QUERY_STRING']);?>&output=mobile-json">
     <?php elseif(is_current_url('/items/browse')):?>
         <link rel="preconnect" href="?output=mobile-json">
     <?php endif;?>
