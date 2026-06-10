@@ -148,13 +148,8 @@ if(isset($_COOKIE['neverdarkmode']) && $_COOKIE['neverdarkmode']=="1"){
         'admin-bar',
         'family=Arvo:400',
     );
-    if(plugin_is_active('Curatescape')){
-        if(!option('curatescape_map_mirror_geolocation')){
-            array_merge($blacklistAssets, array(
-                '/plugins/Geolocation',
-            ));
-        }
-    }
+    // Geolocation assets are stripped by the Curatescape plugin itself
+    // (HookPublicHead) when not mirroring, so the theme doesn't repeat it here.
     rl_removeHeadAssets($this, $blacklistAssets);
     rl_theme_css();
     echo head_css();
