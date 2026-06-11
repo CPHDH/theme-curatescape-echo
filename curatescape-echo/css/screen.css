@@ -1936,7 +1936,8 @@ header.primary nav #nav-interactive a > i {
   background: var(--site-header-bg-color-2);
 }
 
-#home-cta .cta-main a {
+#home-about-main p a,
+#home-cta p a {
   color: var(--text-base-on-dark);
 }
 
