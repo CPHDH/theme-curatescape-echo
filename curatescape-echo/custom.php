@@ -1853,14 +1853,14 @@ function rl_homepage_featured($num=4,$html=null,$index=1)
           set_current_record('item', $item);
           if($index == 1){
             if ($item_image = rl_get_first_image_src($item)) {
-              $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+              $localPath = FILES_DIR . '/fullsize/' . basename($item_image);
               $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
             } elseif (metadata($item, 'has thumbnail') && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
               $img = item_image('fullsize');
               preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
               $item_image = array_pop($result);
-              $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+              $localPath = FILES_DIR . '/fullsize/' . basename($item_image);
               $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
               $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
             }else{
@@ -1935,14 +1935,14 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
           $tags=tag_string(get_current_record('item'), url('items/browse'));
           $hasImage=metadata($item, 'has thumbnail');
           if ($item_image = rl_get_first_image_src($item)) {
-            $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+            $localPath = FILES_DIR . '/fullsize/' . basename($item_image);
             $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
           } elseif ($hasImage && !preg_match('/ionicons|fallback/i', item_image('fullsize'))) {
             $img = item_image('fullsize');
             preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $img, $result);
             $item_image = array_pop($result);
-            $localPath = str_replace(WEB_ROOT, $_SERVER["DOCUMENT_ROOT"], $item_image);
+            $localPath = FILES_DIR . '/fullsize/' . basename($item_image);
             $size = (is_string($localPath) && $localPath !== '' && file_exists($localPath)) ? getimagesize($localPath) : false;
             $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
           }else{
@@ -2176,7 +2176,7 @@ function rl_item_files_by_type($item=null, $output=null)
             switch (true) {
                case strpos($mime, 'image') !== false:
                $src=str_ireplace(array('.JPG','.jpeg','.JPEG','.png','.PNG','.gif','.GIF', '.bmp','.BMP','.tiff','.TIFF','.tif','.TIF'), '.jpg', $file->filename);
-               $fullsizePath = $_SERVER["DOCUMENT_ROOT"].'/files/fullsize/'.$src;
+               $fullsizePath = FILES_DIR . '/fullsize/' . $src;
                $size = file_exists($fullsizePath) ? getimagesize($fullsizePath) : false;
                $orientation = $size && ($size[0] > $size[1]) ? 'landscape' : 'portrait';
                array_push(
