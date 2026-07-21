@@ -676,6 +676,27 @@ function rl_stories_url(){
 }
 
 /*
+** Parse HTML Link
+** e.g. <a href="url" target="_blank">Text</a>
+*/
+function parseLink($html) {
+  if (!$html) return null;
+  $dom = new DOMDocument();
+  libxml_use_internal_errors(true);
+  $dom->loadHTML($html);
+  libxml_clear_errors();
+  $links = $dom->getElementsByTagName('a');
+  foreach ($links as $link) {
+    return array(
+      'href' => $link->getAttribute('href'),
+      'target' => $link->getAttribute('target') ?: null,
+      'text' => trim($link->textContent)
+    );
+  }
+  return null;
+}
+
+/*
 ** Priority Links
 ** added 2.0
 */
