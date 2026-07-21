@@ -330,6 +330,7 @@ function rl_jQueryConditional($current_url=null, $whitelist=array())
     '/exhibits/',
     '/neatline/',
     '/users/login',
+    '/timeline', // show template and simple pages with slug ^= timeline
   );
   foreach($whitelist as $allowed){
     if(0 === strpos($current_url, $allowed)) return true;

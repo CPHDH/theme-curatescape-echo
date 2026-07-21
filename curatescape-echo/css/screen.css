@@ -3225,6 +3225,24 @@ ul.pagination .button {
   }
 }
 
+/* TIMELINES */
+#page-content .tl-timeline a{
+  color: var(--link-text);
+}
+#page-content .tl-timeline a:hover{
+  color: var(--link-text-hover);
+}
+button[class^="tl"],
+button[class^="tl"]:hover,
+button[class^="tl"]:active,
+button[class^="tl"]:focus,
+button[class^="tl"]:focus-within {
+  box-shadow: unset;
+  border-radius: unset;
+  margin: unset;
+  transition: unset;
+}
+
 
 /* EXHIBITS */
 #exhibit-pages .inner {
