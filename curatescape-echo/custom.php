@@ -2001,20 +2001,39 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
 /*
 ** Homepage Timeline
 */
-function rl_homepage_timeline(){
+function rl_homepage_timeline($items = array()){
   if(get_theme_option("homepage_timeline") == "1"){
-    $timelines=get_records('Timeline', array('featured' => true, 'sort_field' => 'modified', 'sort_dir' => 'd'), 1);
-    if(!count($timelines)) return null;
-    if (isset($timelines[0]->query)) {
-        $items = get_db()->getTable('Item')->findBy(unserialize($timelines[0]->query), null);
+    $allTimelines = get_records('Timeline', array('sort_field' => 'modified', 'sort_dir' => 'd'));
+    $timelineCount = count($allTimelines);
+    if(!$timelineCount) return null;
+    $timeline = array_filter($allTimelines, function($t) {
+        return $t->featured == true;
+    });
+    $timeline = reset($timeline); // first in array or false
+    if(!$timeline) return null;
+    if(
+      $timelineCount == 1
+    ) {
+      $link = array(
+        'url' => url($timeline->getRecordUrl()),
+        'text' => __('View Timeline Page')
+      );
     } else {
-        $items = [];
+      $link = array(
+        'url' => url('timeline'),
+        'text' => __('Browse Timelines')
+      );
+    }
+    if (isset($timeline->query)) {
+        $items = get_db()->getTable('Item')->findBy(unserialize($timeline->query), null);
+    } else {
+      return null;
     }
     $html = '<h2 class="query-header">'.__('Featured Timeline').'</h2>';
     $html .= '<div>';
-    $html .= get_view()->partial('timelines/_timelinejs.php', array('items' => $items, 'timelinejs' => $timelines[0])); 
+    $html .= get_view()->partial('timelines/_timelinejs.php', array('items' => $items, 'timelinejs' => $timeline)); 
     $html .= '</div>';
-    $html .= '<div class="view-more-link"><a class="button" href="'.url('timeline').'">'.__('Browse All Timelines').'</a></div>';
+    $html .= '<div class="view-more-link"><a class="button" href="'.$link['url'].'">'.$link['text'].'</a></div>';
     ?>
     <script>
     // Timeline plugin default rendering script as of July 2026
@@ -2026,7 +2045,7 @@ function rl_homepage_timeline(){
               $(this).addClass('truncateContentContainerAfter');
           }
         }
-        <?php if (metadata($timelines[0], 'truncate')): ?>
+        <?php if (metadata($timeline, 'truncate')): ?>
           $('.tl-text').addClass('truncateText');
           $('.tl-media').addClass('truncateMedia');
           $('.tl-text-content-container').addClass('truncateContentContainer');
