@@ -318,6 +318,14 @@ function rl_jQueryConditional($current_url=null, $whitelist=array())
     return true;
   }
   if(
+    plugin_is_active('Timeline') &&
+    $current_url == '/' &&
+    get_theme_option("homepage_timeline") == "1" &&
+    count(get_records('Timeline'))
+  ){
+    return true;
+  }
+  if(
     !plugin_is_active('Curatescape')
   ){
     return true;
@@ -1988,6 +1996,52 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
       return rl_admin_message('home-recent-random',array('admin','super'));
     }
   }     
+}
+
+/*
+** Homepage Timeline
+*/
+function rl_homepage_timeline(){
+  if(get_theme_option("homepage_timeline") == "1"){
+    $timelines=get_records('Timeline', array('featured' => true, 'sort_field' => 'modified', 'sort_dir' => 'd'), 1);
+    if(!count($timelines)) return null;
+    if (isset($timelines[0]->query)) {
+        $items = get_db()->getTable('Item')->findBy(unserialize($timelines[0]->query), null);
+    } else {
+        $items = [];
+    }
+    $html = '<h2 class="query-header">'.__('Featured Timeline').'</h2>';
+    $html .= '<div>';
+    $html .= get_view()->partial('timelines/_timelinejs.php', array('items' => $items, 'timelinejs' => $timelines[0])); 
+    $html .= '</div>';
+    $html .= '<div class="view-more-link"><a class="button" href="'.url('timeline').'">'.__('Browse All Timelines').'</a></div>';
+    ?>
+    <script>
+    // Timeline plugin default rendering script as of July 2026
+    jQuery(document).ready(function($) {
+        function fadeOut() {
+          if ($(this).find('.tl-text-content').height() +
+            $(this).find('.tl-headline-date').height() +
+            $(this).find('.tl-headline').height() > 320) {
+              $(this).addClass('truncateContentContainerAfter');
+          }
+        }
+        <?php if (metadata($timelines[0], 'truncate')): ?>
+          $('.tl-text').addClass('truncateText');
+          $('.tl-media').addClass('truncateMedia');
+          $('.tl-text-content-container').addClass('truncateContentContainer');
+          $('.tl-headline a').addClass('truncateHeadlineLink');
+          $('.tl-timeline p').addClass('truncateTimelineParagraph');
+          $('.tl-text-content-container').each(fadeOut);
+          $(window).on('load', function () {
+            $('.tl-text-content-container').each(fadeOut);
+          });
+        <?php endif; ?>
+      });
+    </script>
+    <?php
+    return '<section id="home-timeline" class="inner-padding">'.$html.'</section>';  
+  }
 }
 
 /*
