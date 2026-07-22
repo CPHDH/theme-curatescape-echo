@@ -3039,7 +3039,8 @@ ul.pagination .button {
   }
 }
 .item-result.tour,
-.item-result.collection {
+.item-result.collection,
+.item-result.timeline {
   width: 100%;
 }
 .item-result .tour-snip,
