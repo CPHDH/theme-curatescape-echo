@@ -2281,6 +2281,7 @@ function rl_item_files_by_type($item=null, $output=null)
                   'id'=>$file->id,
                   'src'=>$src,
                   'caption'=>rl_file_caption($file),
+                  'alt'=>metadata($file, 'alt_text'),
                   'size'=>isset($size[1]) ? array($size[0],$size[1]) : array(null,null),
                   'orientation'=>$orientation)
                );
@@ -2307,8 +2308,9 @@ function rl_gallery_figure($image=null, $class=null, $hrefOverride=null)
     if (isset($image) && $image['src']) {
         $src = WEB_ROOT.'/files/fullsize/'.$image['src'];
         $url = WEB_ROOT.'/files/show/'.$image['id'];
+        $alt = $image['alt'] ?: $image['title'];
         $html = '<figure class="image-figure '.$class.'" itemscope itemtype="http://schema.org/ImageObject">';
-            $html .= '<a itemprop="associatedMedia" aria-label="Image: '.$image['title'].'" href="'.($hrefOverride ? $hrefOverride : $src).'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"><img width="'.$image['size'][0].'" height="'.$image['size'][1].'" alt="'.$image['title'].'" loading="lazy" src="'.$src.'"></a>';
+            $html .= '<a itemprop="associatedMedia" aria-label="Image: '.$image['title'].'" href="'.($hrefOverride ? $hrefOverride : $src).'" class="gallery-image '.$image['orientation'].' file-'.$image['id'].'" data-pswp-width="'.$image['size'][0].'" data-pswp-height="'.$image['size'][1].'"><img width="'.$image['size'][0].'" height="'.$image['size'][1].'" alt="'.$alt.'" loading="lazy" src="'.$src.'"></a>';
           $html .= '<figcaption>'.$image['caption'].'</figcaption>';
         $html .= '</figure>';
         return $html;
