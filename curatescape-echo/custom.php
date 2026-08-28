@@ -318,9 +318,10 @@ function rl_jQueryConditional($current_url=null, $whitelist=array())
     return true;
   }
   if(
-    plugin_is_active('Timeline') &&
     $current_url == '/' &&
     get_theme_option("homepage_timeline") == "1" &&
+    plugin_is_active('Timeline') &&
+    plugin_is_active('ExhibitBuilder') && /*https://github.com/omeka/plugin-Timeline/pull/17*/
     count(get_records('Timeline'))
   ){
     return true;
@@ -2002,7 +2003,11 @@ function rl_homepage_recent_random($num=3,$html=null,$index=1)
 ** Homepage Timeline
 */
 function rl_homepage_timeline($items = array()){
-  if(get_theme_option("homepage_timeline") == "1"){
+  if(
+    get_theme_option("homepage_timeline") == "1" && 
+    plugin_is_active('Timeline') && 
+    plugin_is_active('ExhibitBuilder') /* https://github.com/omeka/plugin-Timeline/pull/17 */
+  ){
     $allTimelines = get_records('Timeline', array('sort_field' => 'modified', 'sort_dir' => 'd'));
     $timelineCount = count($allTimelines);
     if(!$timelineCount) return null;
